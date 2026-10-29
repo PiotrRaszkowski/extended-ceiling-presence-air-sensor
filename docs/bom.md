@@ -24,9 +24,11 @@ You can leave out the PIR. The firmware then runs presence on the radar alone, a
 | Part | Qty | Notes |
 |---|---|---|
 | Electrolytic capacitor 220 µF, ≥10 V | 1 | On the S09 output |
-| Stranded wire AWG 26-28 | ~1 m | Silicone wire is easiest to route |
-| Stripboard 2.54 mm | ~18 × 20 mm | Junction for 5V / GND / SDA / SCL / 3V3, one strip per net |
-| Heat shrink tube 1.5-3 mm | a few cm | Insulating the stripboard and wire joints |
+| Perfboard 2.54 mm (any universal PCB, e.g. 30 × 70 mm) | a 6 × 5-hole piece | The [Dupont hub](wiring.md#dupont-hub) |
+| Male pin headers 2.54 mm, straight | 17 pins | Headers on the hub |
+| Female-female Dupont jumpers, 10 cm | ~22 | Modules to hub and to the ESP; for the radar, solder thin wires to its pads and crimp or solder a Dupont end on them |
+| Stranded wire AWG 26-28 | ~0.5 m | Radar wires, S09 input |
+| Heat shrink tube 1.5-3 mm | a few cm | Wire joints |
 | Wago 221 or JST connector | 1 | 12 V input inside the box, with strain relief |
 | Hot glue | | A dot on the board ends if a seat ever loosens |
 | Foam strip ~1 mm | ~25 cm | Optional, on the housing rim against the ceiling |

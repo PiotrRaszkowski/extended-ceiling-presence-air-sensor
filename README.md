@@ -20,8 +20,8 @@ Parts cost about 100 zł (~€24) from AliExpress or about 160 zł (~€38) from
 |---|---|
 | Firmware | Validates and compiles with ESPHome 2026.10.0. Not yet confirmed on a finished unit. |
 | Electronics | Wiring designed around these modules. Do the bench test from [assembly](docs/assembly.md) before closing the box. |
-| Enclosure Ø100 (v12, [`hardware/d100/`](hardware/d100/)) | v9 was printed in PETG and test-fitted. It showed a loose ESP, PIR and chamber lid; those fixes and the taller chamber are in, but the current files haven't been reprinted. |
-| Enclosure Ø80 (v13, current) | v12 was printed in PETG and every module went into its seat (photos below). The BH1750 seat was a bit loose, so v13 tightens it by 0.05 mm. Print `11_seat_test_fit.stl` first anyway, since fit depends on your printer. |
+| Enclosure Ø100 (v14, [`hardware/d100/`](hardware/d100/)) | v12 was printed in PETG and the seats fit. v14 adds the same Dupont hub seat and pass-through change as Ø80. |
+| Enclosure Ø80 (v14, current) | v12 was printed in PETG and every module went into its seat (photos below). v13 tightens the BH1750 seat by 0.05 mm; v14 adds a seat for the [Dupont hub](docs/wiring.md#dupont-hub) and moves the ENS160 pass-through. Print `11_seat_test_fit.stl` first anyway, since fit depends on your printer. |
 
 Issues and photos of your build are welcome.
 

@@ -33,6 +33,8 @@ History:
   v12 - both sizes from one file; ENS160 chamber 10 mm taller (CH_TOP 13 -> 23) for pin headers with push-on jumper wires;
         above the base ring the outer chamber wall steps in (45 deg) to clear the ring.
   v13 - Ø80: BH1750 seat +0.05 mm interference (printed loose; Ø100 fit fine).
+  v14 - seat for a Dupont "hub" (perfboard with male headers, one row per net) standing on the
+        outside of the chamber inner wall; ENS160 cable pass-through moved to the +y side wall.
 """
 import math
 import os
@@ -125,12 +127,20 @@ CH_X = 12.0 if SIZE == 80 else 21.0   # inner chamber wall (x)
 CH_TOP = 23.0         # top of the chamber walls = underside of the lid (room for headers + jumper plugs)
 LID_T = 1.5
 WIRE_W, WIRE_D = 5.0, 2.5   # I2C cable pass-through (width x depth from the wall top)
+WIRE_SIDE = 1               # pass-through in the +y (1) or -y (-1) chamber side wall, next to the inner wall
+WIRE_XC = CH_X + T + 3.5    # its centre along x
 PLUG_H = 2.0          # lid plug that goes into the chamber
 # The base ring reaches RING_DEPTH into the housing along the outer wall. If the chamber
 # is taller than that, its outer wall steps in (45 deg) to R_UP above Z_STEP.
 Z_STEP = H - RING_DEPTH - 0.5          # highest point of the chamber next to the housing wall
 R_UP = R_IN - 0.4 - RING_T - 0.5       # outer face of the chamber wall above Z_STEP (ring inner radius - 0.5)
 TALL = CH_TOP > Z_STEP
+
+# Dupont hub: a piece of 2.54 mm perfboard standing upright against the outside of the
+# chamber inner wall, male headers pointing into the housing (-x), jumper plugs horizontal.
+# cols x rows = holes of the cut board; the outer column on each side stays empty and is
+# what the two side channels grip, so only cols-2 columns carry pins.
+HUB = dict(cols=6, rows=5, t=1.6, back_gap=3.5, slack=0.8, plug_len=16.5, z_min=9.2)
 
 
 # ----------------------------------------------------------------------------
@@ -363,8 +373,9 @@ def chamber_body(c):
         upper = ring(R_UP - T, R_UP, Z_STEP - 0.01, CH_TOP - Z_STEP + 0.01)
         walls = walls.union(step.union(upper).intersect(foot))
     c = c.union(walls.intersect(clip))
-    # cable pass-through (middle of the inner wall, from the top): 4 wires AWG 26-28
-    c = c.cut(box(CH_X + T / 2, 0, CH_TOP - WIRE_D, T + 2, WIRE_W, WIRE_D + 0.5))
+    # cable pass-through (side wall next to the inner wall, from the top): 4 wires AWG 26-28.
+    # Not in the inner wall: the Dupont hub stands in front of it.
+    c = c.cut(box(WIRE_XC, WIRE_SIDE * (hy + T / 2), CH_TOP - WIRE_D, WIRE_W, T + 2, WIRE_D + 0.5))
     # rails under the flat board underside (clear of the pin row and the edges)
     for dx in ENS["rails"]:
         c = c.union(box(ENS_X0 + dx, 0, FACE - 0.01, 1.5, 2 * hy - 1.0, ENS["rail_h"] + 0.01))
@@ -389,6 +400,54 @@ def chamber_body(c):
     return c, hy
 
 
+def hub_geometry():
+    """Positions of the Dupont hub (board planes, heights) shared by the seat and the dummies."""
+    m = HUB
+    w, h = m["cols"] * 2.54, m["rows"] * 2.54          # board size (cut through hole centres)
+    y_pins = (m["cols"] - 2) * 2.54 / 2                # header plastic / plugs reach +-y_pins
+    xb = CH_X - m["back_gap"]                          # board back face (solder side)
+    xf = xb - m["t"]                                   # board front face (header side)
+    # anything lower in the way of the channels or the plugs: the radar seat
+    rx_hi = RADAR["cx"] + (RADAR["x"] + CLR) / 2 + T
+    ry_lo = RADAR["cy"] - (RADAR["y"] + CLR) / 2 - T
+    ry_hi = RADAR["cy"] + (RADAR["y"] + CLR) / 2 + T
+    r_top = RADAR_SEAT_Z + POST_H
+    y_out = w / 2 + m["slack"] + T
+    x_lo = xf - 0.3 - 1.2
+    wedge = rx_hi > x_lo and ry_hi > -y_out and ry_lo < y_out
+    z0 = m["z_min"]
+    if wedge:   # the channel floor above the radar seat is a 45 deg overhang; the slot must sit above it
+        z0 = max(z0, r_top + 0.4 + (rx_hi + 0.3 - (xf - 0.3)) + 0.6)
+    assert z0 + h <= H - BASE_PLATE_T - 0.5, "hub too tall for the housing"
+    return dict(w=w, h=h, y_pins=y_pins, xb=xb, xf=xf, z0=z0, x_lo=x_lo, y_out=y_out,
+                wedge=wedge, rx_hi=rx_hi, r_top=r_top)
+
+
+def seat_hub(c):
+    """Two vertical channels on the outside of the chamber inner wall that hold the hub
+    board by its empty outer columns; the board stands on the channel floors."""
+    m, g = HUB, hub_geometry()
+    w, h, xb, xf, z0 = g["w"], g["h"], g["xb"], g["xf"], g["z0"]
+    y_in = g["y_pins"] + 0.25                          # channels start just outside the header plastic
+    for sy in (-1, 1):
+        y0, y1 = sorted((sy * y_in, sy * g["y_out"]))
+        ch = box((g["x_lo"] + CH_X - 0.3) / 2, (y0 + y1) / 2, FACE - 0.01, CH_X - 0.3 - g["x_lo"], y1 - y0, z0 + h - FACE + 0.01)
+        ch = ch.union(box(CH_X - 0.15, (y0 + y1) / 2, FACE - 0.01, 0.32, y1 - y0, CH_TOP - FACE))   # tie to the wall
+        if g["wedge"]:   # clear the radar seat with a printable 45 deg overhang
+            xr = g["rx_hi"] + 0.3
+            zr = g["r_top"] + 0.4
+            x_far = g["x_lo"] - 1.0
+            pts = [(x_far, -1.0), (xr, -1.0), (xr, zr), (x_far, zr + (xr - x_far))]
+            wedge = cq.Workplane("XZ", origin=(0, y1 + 1.0, 0)).polyline(pts).close().extrude(y1 - y0 + 2.0)
+            ch = ch.cut(wedge)
+        ys0, ys1 = sorted((sy * (y_in - 1.0), sy * (w / 2 + m["slack"])))
+        ch = ch.cut(box((xf - 0.3 + xb + 0.3) / 2, (ys0 + ys1) / 2, z0, xb - xf + 0.6, ys1 - ys0, h + 1.0))   # slot
+        # crush rib on the front face of the slot, pressing the board against the back face
+        ch = ch.union(rib(xf - 0.3, sy * (y_in + (w / 2 - y_in) / 2), 1, 0, z0 + 2.0, h=h - 4.0, p=0.3 + RIB_INTERF, w=1.4))
+        c = c.union(ch)
+    return c
+
+
 # ----------------------------------------------------------------------------
 # 2. HOUSING
 # ----------------------------------------------------------------------------
@@ -402,6 +461,7 @@ def make_housing():
     c = seat_esp(c)
     c = seat_buck(c)
     c, _ = chamber_body(c)
+    c = seat_hub(c)
     c = seat_pir(c)          # last: cuts the hole through the face
 
     # electronics ventilation: side wall opposite the chamber
@@ -429,11 +489,12 @@ def make_lid():
     plug = box((CH_X + T + 0.25 + 49) / 2, 0, LID_T - 0.01, 49 - (CH_X + T + 0.25), 2 * (hy - 0.25), PLUG_H + 0.01)
     plug = plug.intersect(cyl(r_plug, -1, 10))
     plug = plug.cut(box((CH_X + T + 0.25 + 49) / 2, 0, LID_T - 1, 49, 2 * (hy - 0.25 - 1.2), PLUG_H + 3))  # hollow plug
-    plug = plug.cut(box(CH_X + T + 2, 0, LID_T - 1, 6, WIRE_W + 0.5, PLUG_H + 3))   # notch above the wall pass-through
+    # notch above the pass-through (the lid is flipped about x when installed, so y changes sign)
+    plug = plug.cut(box(WIRE_XC, -WIRE_SIDE * (hy - 0.25 - 0.6), LID_T - 1, WIRE_W + 0.5, 3.0, PLUG_H + 3))
     lid = plate.union(plug)
     # crush ribs on the outside of the plug (press against the chamber side walls)
     for sy in (-1, 1):
-        for xx in ((CH_X + 6.0, CH_X + 15.0) if TALL else (CH_X + 8.0, CH_X + 20.0)):
+        for xx in ((CH_X + 9.0, CH_X + 17.0) if TALL else (CH_X + 8.0, CH_X + 20.0)):
             lid = lid.union(rib(xx, sy * (hy - 0.25), 0, sy, LID_T - 0.01, h=PLUG_H, p=0.25 + RIB_INTERF))
     return lid
 
@@ -595,6 +656,17 @@ def dummies():
     d["ens160"] = box(ENS_X0 + ENS["x"] / 2, 0, ENS_SEAT_Z, ENS["x"], ENS["y"], 1.6).union(
         box(ENS_X0 + ENS["x"] / 2, 0, ENS_SEAT_Z + 1.6, ENS["x"] - 2, ENS["y"] - 2, 1.5))
     d["ens160_parts"] = box(ENS_X0 + 1.3, 0, ENS_SEAT_Z - 2.5, 1.8, ENS["y"] - 2, 2.5)
+    # Dupont hub: board, header plastic + horizontal plugs (front), pin stubs + solder (back)
+    g = hub_geometry()
+    d["hub"] = box((g["xf"] + g["xb"]) / 2, 0, g["z0"], HUB["t"], g["w"], g["h"])
+    d["hub_parts"] = box(g["xf"] - HUB["plug_len"] / 2, 0, g["z0"], HUB["plug_len"], 2 * g["y_pins"], g["h"]).union(
+        box(g["xb"] + 1.5, 0, g["z0"] + 0.5, 3.0, 2 * (g["y_pins"] - 0.8), g["h"] - 1.0))
+    # Dupont plugs standing on the ESP headers (both long edges), for clearance checks
+    pr = None
+    for sy in (-1, 1):
+        b2 = box(e["cx"], e["cy"] + sy * (e["y"] / 2 - 1.27), ESP_SEAT_Z + 1.0, e["x"] - 1, 2.54, 2.5 + 14.0)
+        pr = b2 if pr is None else pr.union(b2)
+    d["esp_plugs"] = pr
     # tongue around the AHT21 (8.5-16.2 mm from the pins): nothing may support it
     d["ens160_tongue"] = box(ENS_X0 + 12.35, 0, ENS_SEAT_Z - 2.9, 7.7, ENS["y"] - 2, 2.9)
     return d

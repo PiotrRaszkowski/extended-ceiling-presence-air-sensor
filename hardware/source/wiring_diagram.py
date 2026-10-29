@@ -165,7 +165,7 @@ notes = [
     ("•", "Radar: 5 V only. Some listings say 5-12 V; the datasheet says 5 V. Its UART is 3.3 V logic, no level shifter needed."),
     ("•", "I2C: the modules have their own pull-ups (check that SDA/SCL idle at 3.3 V). Addresses: BH1750 0x23, AHT21 0x38, ENS160 0x53."),
     ("•", "220 µF on the S09 output (Wi-Fi peaks ~0.5 A, the module is rated 0.6 A). All grounds are common."),
-    ("•", "Wire: stranded AWG 26-28. The radar has 1.27 mm pitch, solder straight to the pads. Splices: a small stripboard, one strip per net."),
+    ("•", "Wire: stranded AWG 26-28. The radar has 1.27 mm pitch, solder straight to the pads. Splices: the Dupont hub (docs/wiring.md)."),
 ]
 ny = 620
 e(f'<rect x="300" y="{ny}" width="1100" height="{len(notes) * 26 + 46}" rx="10" fill="#f5f7f8" stroke="#cfd8dc"/>')

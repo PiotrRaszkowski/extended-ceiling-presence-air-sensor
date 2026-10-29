@@ -14,14 +14,14 @@ Once the housing is closed the USB-C port is out of reach, so this is the moment
 
 ## 1. Modules into their seats
 
-A real Ø80 print with all modules in place (ceiling side; in the first photo the ENS160 chamber is at the bottom, so the picture is turned 90° compared with the render below):
+A real Ø80 print (v12, before the hub seat was added) with all modules in place (ceiling side; in the first photo the ENS160 chamber is at the bottom, so the picture is turned 90° compared with the render below):
 
 | | |
 |---|---|
 | ![All modules seated in a printed Ø80 housing, top view](images/photos/d80-modules-top.jpg) | ![The same housing from an angle](images/photos/d80-modules-angle.jpg) |
 
 
-Seen from the ceiling side (the open side of the housing), the layout is: ENS160 chamber along the right wall, the long radar board running top to bottom just left of the chamber, ESP32-S3-Zero and the S09 converter on the left next to the side vents, BH1750 top left, PIR top right.
+Seen from the ceiling side (the open side of the housing), the layout is: ENS160 chamber along the right wall, the long radar board running top to bottom just left of the chamber, ESP32-S3-Zero and the S09 converter on the left next to the side vents, BH1750 top left, PIR top right. The Dupont hub stands upright against the outside of the chamber's inner wall, above the radar.
 
 Each board sits on ledges and is gripped by small crush ribs. Push it in straight with a thumb; it should stay put without glue. If one ever works loose, a dot of hot glue on the board end fixes it.
 
@@ -30,11 +30,12 @@ Each board sits on ledges and is gripped by small crush ribs. Push it in straigh
 | 1 | LD2410B radar | Antenna side down, towards the face (the side with the gold antenna patches). The board rests on its long edges on the ledges, and the chip, LED and solder joints hang over the recess between them. Never put glue on the antenna. |
 | 2 | HC-SR602 PIR | Lens into the round hole, the two flats of the board onto the two keys, header pointing left (towards the BH1750) over the recess in the ring. |
 | 3 | BH1750 (GY-302) | Components down, pins towards the open side of the seat (towards the ESP), mounting holes the other way. The chip lines up with the small window in the face. |
-| 4 | ENS160+AHT21 | **Components up**, flat underside on the two ledges, pin row towards the cable pass-through (5). |
-| 5 | Cable pass-through | 5 × 2.5 mm slot at the top of the chamber wall for the four ENS160 wires (VIN, GND, SCL, SDA). The chamber is 23 mm tall, so a straight pin header with push-on (Dupont) jumper plugs fits standing up; soldered wires work too. |
+| 4 | ENS160+AHT21 | **Components up**, flat underside on the two ledges, pin row along the chamber's inner wall. |
+| 5 | Cable pass-through | 5 × 2.5 mm slot at the top of the chamber side wall, in the corner next to the inner wall, for the four ENS160 wires (VIN, GND, SCL, SDA). The chamber is 23 mm tall, so a straight pin header with push-on (Dupont) jumper plugs fits standing up; soldered wires work too. |
 | 6 | ESP32-S3-Zero | Bottom side down, between the four corner posts. |
 | 7 | S09 converter | Bottom side down, between the posts, wires at the corners. The 220 µF capacitor goes next to it. |
 | 8 | Chamber lid | Collar down, the notch in the collar over the pass-through, then press it in. To remove it, pry the edge up with a thin blade; it has no holes on purpose. |
+| 9 | Dupont hub | Last, after all jumpers are plugged into the modules. Slide the perfboard down into the two channels on the chamber wall, header pins facing into the housing, solder side towards the wall, until it sits on the channel floors. Then plug in the jumpers. See [wiring](wiring.md#dupont-hub). |
 
 After the lid is on, seal the pass-through around the wires with a bit of plasticine or putty so warm air from the electronics doesn't leak into the chamber.
 
@@ -54,7 +55,11 @@ Close-ups of the seats:
 
 ## 2. Wires
 
-Route the wires flat along the face. Keep the top 10 mm along the outer wall free: that's where the ring of the ceiling base slides in. Gather the cables towards the centre, where the 12 V cable comes through the base.
+With Dupont jumpers, every module gets one jumper per net to the hub, plus one jumper from the ESP 3V3 pin straight to BH1750 VCC and the signal jumpers (GP4/GP5 to the radar, GP6 to the PIR) straight from the ESP. The ENS160 jumpers leave the chamber through the pass-through and go over the channel to the front of the hub.
+
+![Hub seat](images/hub-seat.png)
+
+Otherwise route the wires flat along the face. Keep the top 10 mm along the outer wall free: that's where the ring of the ceiling base slides in. Gather the cables towards the centre, where the 12 V cable comes through the base.
 
 ![Inside with modules](images/inside-with-modules.png)
 

@@ -27,4 +27,6 @@ Generate these files with `python enclosure.py 100` (see [enclosure source](../.
 
 Print settings and assembly are the same as for Ø80, see [printing](../../docs/printing.md) and [assembly](../../docs/assembly.md).
 
-History: v9 of this size was printed in PETG and test-fitted. Everything that print showed (loose ESP, PIR and chamber lid, buck seat slightly loose) was fixed in v10, and v12 added the taller chamber. The current files haven't been reprinted yet.
+History: v9 of this size was printed in PETG and test-fitted. Everything that print showed (loose ESP, PIR and chamber lid, buck seat slightly loose) was fixed in v10, v12 added the taller chamber (printed, seats fit) and v14 the Dupont hub seat on the chamber wall.
+
+![Ø100 hub seat](../../docs/images/d100-hub-seat.png)
