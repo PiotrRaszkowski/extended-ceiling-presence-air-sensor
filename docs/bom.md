@@ -23,12 +23,10 @@ You can leave out the PIR. The firmware then runs presence on the radar alone, a
 
 | Part | Qty | Notes |
 |---|---|---|
-| Schottky diode SS14 (SMD) or 1N5819 | 1 | In front of the ESP 5V pin, see [wiring](wiring.md). Not optional. |
-| Resistor 100 Ω | 1 | PIR supply filter |
-| Electrolytic capacitor 47 µF, ≥10 V | 1 | PIR supply filter |
 | Electrolytic capacitor 220 µF, ≥10 V | 1 | On the S09 output |
 | Stranded wire AWG 26-28 | ~1 m | Silicone wire is easiest to route |
-| Heat shrink tube 1.5-3 mm | a few cm | For the diode / resistor soldered in-line |
+| Stripboard 2.54 mm | ~18 × 20 mm | Junction for 5V / GND / SDA / SCL / 3V3, one strip per net |
+| Heat shrink tube 1.5-3 mm | a few cm | Insulating the stripboard and wire joints |
 | Wago 221 or JST connector | 1 | 12 V input inside the box, with strain relief |
 | Hot glue | | A dot on the board ends if a seat ever loosens |
 | Foam strip ~1 mm | ~25 cm | Optional, on the housing rim against the ceiling |

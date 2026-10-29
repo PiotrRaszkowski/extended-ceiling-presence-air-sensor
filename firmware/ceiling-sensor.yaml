@@ -41,7 +41,7 @@ ota:
 wifi:
   ssid: !secret wifi_ssid
   password: !secret wifi_password
-  # If the PIR fires on its own because of 2.4 GHz noise (even with the RC filter):
+  # If the PIR fires on its own because of 2.4 GHz noise:
   # output_power: 8.5dB
   ap:
     ssid: ${name}            # fallback hotspot if Wi-Fi is unreachable (max 32 chars)

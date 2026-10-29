@@ -23,7 +23,7 @@ For a second room, copy the file and change only the substitutions.
 
 ## 3. First flash over USB
 
-Do this on the bench, before the board goes into the housing.
+Do this on the bench, before the ESP's 5V wire is connected to the S09. The 5V pin is tied straight to USB, so never have USB and 12 V connected at the same time (see [wiring](wiring.md)).
 
 1. Connect the ESP32-S3-Zero to your computer with a USB-C **data** cable. It doesn't need the 12 V supply for this.
 2. In the Device Builder: **Install → Plug into this computer** (needs Chrome or Edge, it uses Web Serial). Alternatively **Install → Manual download → Factory format** and flash the `.bin` with [web.esphome.io](https://web.esphome.io).

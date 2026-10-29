@@ -140,10 +140,7 @@ def cap_between(xa, xb, y, lbl, col_a, col_b):
     dot(xa, y, col_a); dot(xb, y, col_b)
     text(xb + 9, y + 4, lbl, 11.5, anchor="start", weight="700")
 xe = pinpos[("esp", "5V")]
-diode_down(xe, 262, "SS14")
 xp, xpg = pinpos[("pir", "+")], pinpos[("pir", "−")]
-resistor(xp, 255, "100 Ω")
-cap_between(xp, xpg, 280, "47 µF", C["v5"], C["gnd"])
 xo, xog = pinpos[("buck", "OUT+")], pinpos[("buck", "OUT−")]
 cap_between(xo, xog, 262, "220 µF", C["v5"], C["gnd"])
 
@@ -161,14 +158,14 @@ text(xgnd + 8, 560, "GND", 12, anchor="start", weight="600", col=C["gnd"])
 
 # ---------------------------------------------------------------- notes
 notes = [
-    ("⚠", "SS14 (or 1N5819) diode in front of the board 5V pin: protects the S09 when USB-C is plugged in. Radar and ENS160 take 5 V before the diode."),
+    ("⚠", "Never plug USB-C into the ESP while 12 V is connected: its 5V pin is tied straight to USB VBUS. Flash over USB before wiring, then use OTA."),
     ("⚠", "ENS160+AHT21: power goes to VIN (5 V). The 3V3 pin of this board is the OUTPUT of its regulator, leave it unconnected."),
-    ("⚠", "PIR runs from 5 V through a 100 Ω + 47 µF filter (mini PIRs pick up Wi-Fi noise). MEASURE OUT before wiring it to GPIO6:"),
+    ("⚠", "PIR runs from 5 V. MEASURE its OUT (while it detects motion) before wiring it to GPIO6:"),
     (" ", "it should be ~3.3 V. Above 3.4 V, power the PIR from the board 3V3 instead (the ESP32-S3 is not 5 V tolerant)."),
     ("•", "Radar: 5 V only. Some listings say 5-12 V; the datasheet says 5 V. Its UART is 3.3 V logic, no level shifter needed."),
     ("•", "I2C: the modules have their own pull-ups (check that SDA/SCL idle at 3.3 V). Addresses: BH1750 0x23, AHT21 0x38, ENS160 0x53."),
     ("•", "220 µF on the S09 output (Wi-Fi peaks ~0.5 A, the module is rated 0.6 A). All grounds are common."),
-    ("•", "Wire: stranded AWG 26-28. The radar has 1.27 mm pitch, solder straight to the pads. 12 V through a Wago/JST connector with strain relief."),
+    ("•", "Wire: stranded AWG 26-28. The radar has 1.27 mm pitch, solder straight to the pads. Splices: a small stripboard, one strip per net."),
 ]
 ny = 620
 e(f'<rect x="300" y="{ny}" width="1100" height="{len(notes) * 26 + 46}" rx="10" fill="#f5f7f8" stroke="#cfd8dc"/>')

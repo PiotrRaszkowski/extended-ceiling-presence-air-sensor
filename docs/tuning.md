@@ -23,7 +23,7 @@ To calibrate it, put a reference thermometer at about 1.5 m for a day, compare t
 
 ## PIR false triggers
 
-Mini PIRs are sensitive to the ESP's own 2.4 GHz transmissions. The 100 Ω + 47 µF filter on the PIR supply is there to stop that. If `PIR motion` still fires in an empty room, uncomment `output_power: 8.5dB` in the `wifi:` block.
+Mini PIRs are sensitive to the ESP's own 2.4 GHz transmissions. If `PIR motion` fires in an empty room, uncomment `output_power: 8.5dB` in the `wifi:` block. If that isn't enough, add the optional 100 Ω + 47 µF filter from [wiring](wiring.md#optional-parts).
 
 ## Status LED
 
