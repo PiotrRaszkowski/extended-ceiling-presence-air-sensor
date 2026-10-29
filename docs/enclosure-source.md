@@ -11,7 +11,7 @@ pip install cadquery
 cd hardware/source
 python enclosure.py          # Ø80, ~40 s, writes STL + STEP into ./out
 python enclosure.py 100      # Ø100, same files with a _d100 suffix
-cp out/[0-9]*[0-9a-z].stl ../stl/ ; cp out/*_d100.stl ../d100/stl/   # and the same for .step
+# copy out/0*.stl and out/1*.stl to ../stl/ (Ø80) or ../d100/stl/ (_d100 files), same for .step
 ```
 
 Besides the printable parts, `out/` also gets `_dummy_*.stl` (simple blocks the size of each module, for checking clearances) and `_section_*.stl` (quarter cuts used for the section image). They aren't meant for printing.
