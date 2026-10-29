@@ -1,0 +1,249 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1560" height="1000" viewBox="0 0 1560 1000" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif">
+<rect width="1560" height="1000" fill="#ffffff"/>
+<text x="780.0" y="42" font-size="22" text-anchor="middle" font-weight="700" fill="#263238">Extended ceiling presence + air sensor: wiring diagram</text>
+<text x="780.0" y="66" font-size="12.5" text-anchor="middle" font-weight="400" fill="#607d8b">all logic signals are 3.3 V · numbers on the ESP = GPIO (as printed on the board) · dot = connection, crossing without a dot = no connection</text>
+<line x1="117.0" y1="110" x2="1246.0" y2="110" stroke="#ef6c00" stroke-width="3.2" stroke-linecap="round"/>
+<text x="1425" y="114.5" font-size="12.5" text-anchor="start" font-weight="600" fill="#ef6c00">5 V (from S09)</text>
+<line x1="415.0" y1="140" x2="1018.5" y2="140" stroke="#c2185b" stroke-width="3.2" stroke-linecap="round"/>
+<text x="1425" y="144.5" font-size="12.5" text-anchor="start" font-weight="600" fill="#c2185b">3.3 V (from ESP)</text>
+<line x1="153.0" y1="170" x2="1282.0" y2="170" stroke="#212121" stroke-width="3.2" stroke-linecap="round"/>
+<text x="1425" y="174.5" font-size="12.5" text-anchor="start" font-weight="600" fill="#212121">GND</text>
+<line x1="451.0" y1="205" x2="1354.0" y2="205" stroke="#1565c0" stroke-width="3.2" stroke-linecap="round"/>
+<text x="1425" y="209.5" font-size="12.5" text-anchor="start" font-weight="600" fill="#1565c0">I2C SDA</text>
+<line x1="487.0" y1="235" x2="1318.0" y2="235" stroke="#b8860b" stroke-width="3.2" stroke-linecap="round"/>
+<text x="1425" y="239.5" font-size="12.5" text-anchor="start" font-weight="600" fill="#b8860b">I2C SCL</text>
+<line x1="117.0" y1="290" x2="117.0" y2="110" stroke="#ef6c00" stroke-width="2.4" stroke-linecap="round"/>
+<circle cx="117.0" cy="110" r="4.2" fill="#ef6c00"/>
+<text x="117.0" y="306" font-size="11.5" text-anchor="middle" font-weight="700" fill="#263238">OUT+</text>
+<line x1="153.0" y1="290" x2="153.0" y2="170" stroke="#212121" stroke-width="2.4" stroke-linecap="round"/>
+<circle cx="153.0" cy="170" r="4.2" fill="#212121"/>
+<text x="153.0" y="306" font-size="11.5" text-anchor="middle" font-weight="700" fill="#263238">OUT−</text>
+<line x1="343.0" y1="290" x2="343.0" y2="110" stroke="#ef6c00" stroke-width="2.4" stroke-linecap="round"/>
+<circle cx="343.0" cy="110" r="4.2" fill="#ef6c00"/>
+<text x="343.0" y="306" font-size="11.5" text-anchor="middle" font-weight="700" fill="#263238">5V</text>
+<line x1="379.0" y1="290" x2="379.0" y2="170" stroke="#212121" stroke-width="2.4" stroke-linecap="round"/>
+<circle cx="379.0" cy="170" r="4.2" fill="#212121"/>
+<text x="379.0" y="306" font-size="11.5" text-anchor="middle" font-weight="700" fill="#263238">GND</text>
+<line x1="415.0" y1="290" x2="415.0" y2="140" stroke="#c2185b" stroke-width="2.4" stroke-linecap="round"/>
+<circle cx="415.0" cy="140" r="4.2" fill="#c2185b"/>
+<text x="415.0" y="306" font-size="11.5" text-anchor="middle" font-weight="700" fill="#263238">3V3</text>
+<line x1="451.0" y1="290" x2="451.0" y2="205" stroke="#1565c0" stroke-width="2.4" stroke-linecap="round"/>
+<circle cx="451.0" cy="205" r="4.2" fill="#1565c0"/>
+<text x="451.0" y="306" font-size="11.5" text-anchor="middle" font-weight="700" fill="#263238">1</text>
+<line x1="487.0" y1="290" x2="487.0" y2="235" stroke="#b8860b" stroke-width="2.4" stroke-linecap="round"/>
+<circle cx="487.0" cy="235" r="4.2" fill="#b8860b"/>
+<text x="487.0" y="306" font-size="11.5" text-anchor="middle" font-weight="700" fill="#263238">2</text>
+<line x1="657.0" y1="290" x2="657.0" y2="110" stroke="#ef6c00" stroke-width="2.4" stroke-linecap="round"/>
+<circle cx="657.0" cy="110" r="4.2" fill="#ef6c00"/>
+<text x="657.0" y="306" font-size="11.5" text-anchor="middle" font-weight="700" fill="#263238">VCC</text>
+<line x1="693.0" y1="290" x2="693.0" y2="170" stroke="#212121" stroke-width="2.4" stroke-linecap="round"/>
+<circle cx="693.0" cy="170" r="4.2" fill="#212121"/>
+<text x="693.0" y="306" font-size="11.5" text-anchor="middle" font-weight="700" fill="#263238">GND</text>
+<line x1="852.0" y1="290" x2="852.0" y2="110" stroke="#ef6c00" stroke-width="2.4" stroke-linecap="round"/>
+<circle cx="852.0" cy="110" r="4.2" fill="#ef6c00"/>
+<text x="852.0" y="306" font-size="11.5" text-anchor="middle" font-weight="700" fill="#263238">+</text>
+<line x1="888.0" y1="290" x2="888.0" y2="170" stroke="#212121" stroke-width="2.4" stroke-linecap="round"/>
+<circle cx="888.0" cy="170" r="4.2" fill="#212121"/>
+<text x="888.0" y="306" font-size="11.5" text-anchor="middle" font-weight="700" fill="#263238">−</text>
+<line x1="1018.5" y1="290" x2="1018.5" y2="140" stroke="#c2185b" stroke-width="2.4" stroke-linecap="round"/>
+<circle cx="1018.5" cy="140" r="4.2" fill="#c2185b"/>
+<text x="1018.5" y="306" font-size="11.5" text-anchor="middle" font-weight="700" fill="#263238">VCC</text>
+<line x1="1054.5" y1="290" x2="1054.5" y2="170" stroke="#212121" stroke-width="2.4" stroke-linecap="round"/>
+<circle cx="1054.5" cy="170" r="4.2" fill="#212121"/>
+<text x="1054.5" y="306" font-size="11.5" text-anchor="middle" font-weight="700" fill="#263238">GND</text>
+<line x1="1090.5" y1="290" x2="1090.5" y2="235" stroke="#b8860b" stroke-width="2.4" stroke-linecap="round"/>
+<circle cx="1090.5" cy="235" r="4.2" fill="#b8860b"/>
+<text x="1090.5" y="306" font-size="11.5" text-anchor="middle" font-weight="700" fill="#263238">SCL</text>
+<line x1="1126.5" y1="290" x2="1126.5" y2="205" stroke="#1565c0" stroke-width="2.4" stroke-linecap="round"/>
+<circle cx="1126.5" cy="205" r="4.2" fill="#1565c0"/>
+<text x="1126.5" y="306" font-size="11.5" text-anchor="middle" font-weight="700" fill="#263238">SDA</text>
+<line x1="1246.0" y1="290" x2="1246.0" y2="110" stroke="#ef6c00" stroke-width="2.4" stroke-linecap="round"/>
+<circle cx="1246.0" cy="110" r="4.2" fill="#ef6c00"/>
+<text x="1246.0" y="306" font-size="11.5" text-anchor="middle" font-weight="700" fill="#263238">VIN</text>
+<line x1="1282.0" y1="290" x2="1282.0" y2="170" stroke="#212121" stroke-width="2.4" stroke-linecap="round"/>
+<circle cx="1282.0" cy="170" r="4.2" fill="#212121"/>
+<text x="1282.0" y="306" font-size="11.5" text-anchor="middle" font-weight="700" fill="#263238">GND</text>
+<line x1="1318.0" y1="290" x2="1318.0" y2="235" stroke="#b8860b" stroke-width="2.4" stroke-linecap="round"/>
+<circle cx="1318.0" cy="235" r="4.2" fill="#b8860b"/>
+<text x="1318.0" y="306" font-size="11.5" text-anchor="middle" font-weight="700" fill="#263238">SCL</text>
+<line x1="1354.0" y1="290" x2="1354.0" y2="205" stroke="#1565c0" stroke-width="2.4" stroke-linecap="round"/>
+<circle cx="1354.0" cy="205" r="4.2" fill="#1565c0"/>
+<text x="1354.0" y="306" font-size="11.5" text-anchor="middle" font-weight="700" fill="#263238">SDA</text>
+<text x="379.0" y="433" font-size="11.5" text-anchor="middle" font-weight="700" fill="#263238">4</text>
+<line x1="379.0" y1="440" x2="379.0" y2="505" stroke="#2e7d32" stroke-width="2.4" stroke-linecap="round"/>
+<text x="415.0" y="433" font-size="11.5" text-anchor="middle" font-weight="700" fill="#263238">5</text>
+<line x1="415.0" y1="440" x2="415.0" y2="530" stroke="#6a1b9a" stroke-width="2.4" stroke-linecap="round"/>
+<text x="451.0" y="433" font-size="11.5" text-anchor="middle" font-weight="700" fill="#263238">6</text>
+<line x1="451.0" y1="440" x2="451.0" y2="555" stroke="#795548" stroke-width="2.4" stroke-linecap="round"/>
+<text x="639.0" y="433" font-size="11.5" text-anchor="middle" font-weight="700" fill="#263238">RX</text>
+<line x1="639.0" y1="440" x2="639.0" y2="505" stroke="#2e7d32" stroke-width="2.4" stroke-linecap="round"/>
+<text x="675.0" y="433" font-size="11.5" text-anchor="middle" font-weight="700" fill="#263238">TX</text>
+<line x1="675.0" y1="440" x2="675.0" y2="530" stroke="#6a1b9a" stroke-width="2.4" stroke-linecap="round"/>
+<text x="711.0" y="433" font-size="11.5" text-anchor="middle" font-weight="700" fill="#263238">OUT</text>
+<line x1="711.0" y1="440" x2="711.0" y2="462" stroke="#9e9e9e" stroke-width="2" stroke-linecap="round" stroke-dasharray="3 3"/>
+<text x="711.0" y="476" font-size="11" text-anchor="middle" font-weight="400" fill="#9e9e9e" font-style="italic">n.c.</text>
+<text x="870.0" y="433" font-size="11.5" text-anchor="middle" font-weight="700" fill="#263238">OUT</text>
+<line x1="870.0" y1="440" x2="870.0" y2="555" stroke="#795548" stroke-width="2.4" stroke-linecap="round"/>
+<line x1="379.0" y1="505" x2="639.0" y2="505" stroke="#2e7d32" stroke-width="2.4" stroke-linecap="round"/>
+<circle cx="379.0" cy="505" r="4.2" fill="#2e7d32"/>
+<circle cx="639.0" cy="505" r="4.2" fill="#2e7d32"/>
+<text x="900" y="509.5" font-size="12" text-anchor="start" font-weight="600" fill="#2e7d32">UART: GPIO4 (TX) → radar RX</text>
+<line x1="415.0" y1="530" x2="675.0" y2="530" stroke="#6a1b9a" stroke-width="2.4" stroke-linecap="round"/>
+<circle cx="415.0" cy="530" r="4.2" fill="#6a1b9a"/>
+<circle cx="675.0" cy="530" r="4.2" fill="#6a1b9a"/>
+<text x="900" y="534.5" font-size="12" text-anchor="start" font-weight="600" fill="#6a1b9a">UART: radar TX → GPIO5 (RX), 256000 baud</text>
+<line x1="451.0" y1="555" x2="870.0" y2="555" stroke="#795548" stroke-width="2.4" stroke-linecap="round"/>
+<circle cx="451.0" cy="555" r="4.2" fill="#795548"/>
+<circle cx="870.0" cy="555" r="4.2" fill="#795548"/>
+<text x="900" y="559.5" font-size="12" text-anchor="start" font-weight="600" fill="#795548">PIR OUT → GPIO6</text>
+<rect x="300" y="290" width="230" height="150" rx="10" fill="#fafafa" stroke="#455a64" stroke-width="1.6"/>
+<text x="415.0" y="367.0" font-size="15" text-anchor="middle" font-weight="700" fill="#263238">ESP32-S3-Zero</text>
+<text x="415.0" y="387.0" font-size="11.5" text-anchor="middle" font-weight="400" fill="#546e7a">Waveshare</text>
+<text x="415.0" y="403.0" font-size="11.5" text-anchor="middle" font-weight="400" fill="#546e7a">RGB LED: GPIO21 (on board)</text>
+<rect x="590" y="290" width="170" height="150" rx="10" fill="#fafafa" stroke="#455a64" stroke-width="1.6"/>
+<text x="675.0" y="367.0" font-size="15" text-anchor="middle" font-weight="700" fill="#263238">HLK-LD2410B</text>
+<text x="675.0" y="387.0" font-size="11.5" text-anchor="middle" font-weight="400" fill="#546e7a">radar 24 GHz</text>
+<text x="675.0" y="403.0" font-size="11.5" text-anchor="middle" font-weight="400" fill="#546e7a">antennas face down</text>
+<rect x="800" y="290" width="140" height="150" rx="10" fill="#fafafa" stroke="#455a64" stroke-width="1.6"/>
+<text x="870.0" y="367.0" font-size="15" text-anchor="middle" font-weight="700" fill="#263238">HC-SR602</text>
+<text x="870.0" y="387.0" font-size="11.5" text-anchor="middle" font-weight="400" fill="#546e7a">PIR mini</text>
+<text x="870.0" y="403.0" font-size="11.5" text-anchor="middle" font-weight="400" fill="#546e7a">OUT = 3.3 V (measure!)</text>
+<rect x="985" y="290" width="175" height="150" rx="10" fill="#fafafa" stroke="#455a64" stroke-width="1.6"/>
+<text x="1072.5" y="367.0" font-size="15" text-anchor="middle" font-weight="700" fill="#263238">BH1750</text>
+<text x="1072.5" y="387.0" font-size="11.5" text-anchor="middle" font-weight="400" fill="#546e7a">GY-302</text>
+<text x="1072.5" y="403.0" font-size="11.5" text-anchor="middle" font-weight="400" fill="#546e7a">address 0x23</text>
+<rect x="1200" y="290" width="200" height="150" rx="10" fill="#fafafa" stroke="#455a64" stroke-width="1.6"/>
+<text x="1300.0" y="367.0" font-size="15" text-anchor="middle" font-weight="700" fill="#263238">ENS160 + AHT21</text>
+<text x="1300.0" y="387.0" font-size="11.5" text-anchor="middle" font-weight="400" fill="#546e7a">0x53 / 0x38</text>
+<text x="1300.0" y="403.0" font-size="11.5" text-anchor="middle" font-weight="400" fill="#546e7a">3V3·ADD·CS·INT: leave open</text>
+<rect x="50" y="290" width="170" height="150" rx="10" fill="#fff8e1" stroke="#455a64" stroke-width="1.6"/>
+<text x="135.0" y="367.0" font-size="15" text-anchor="middle" font-weight="700" fill="#263238">S09 converter</text>
+<text x="135.0" y="387.0" font-size="11.5" text-anchor="middle" font-weight="400" fill="#546e7a">12 V → 5 V fixed</text>
+<text x="135.0" y="403.0" font-size="11.5" text-anchor="middle" font-weight="400" fill="#546e7a">EN bridged to IN+</text>
+<circle cx="117.0" cy="290" r="4.2" fill="#ef6c00"/>
+<text x="117.0" y="306" font-size="11.5" text-anchor="middle" font-weight="700" fill="#263238">OUT+</text>
+<circle cx="153.0" cy="290" r="4.2" fill="#212121"/>
+<text x="153.0" y="306" font-size="11.5" text-anchor="middle" font-weight="700" fill="#263238">OUT−</text>
+<circle cx="343.0" cy="290" r="4.2" fill="#ef6c00"/>
+<text x="343.0" y="306" font-size="11.5" text-anchor="middle" font-weight="700" fill="#263238">5V</text>
+<circle cx="379.0" cy="290" r="4.2" fill="#212121"/>
+<text x="379.0" y="306" font-size="11.5" text-anchor="middle" font-weight="700" fill="#263238">GND</text>
+<circle cx="415.0" cy="290" r="4.2" fill="#c2185b"/>
+<text x="415.0" y="306" font-size="11.5" text-anchor="middle" font-weight="700" fill="#263238">3V3</text>
+<circle cx="451.0" cy="290" r="4.2" fill="#1565c0"/>
+<text x="451.0" y="306" font-size="11.5" text-anchor="middle" font-weight="700" fill="#263238">1</text>
+<circle cx="487.0" cy="290" r="4.2" fill="#b8860b"/>
+<text x="487.0" y="306" font-size="11.5" text-anchor="middle" font-weight="700" fill="#263238">2</text>
+<circle cx="657.0" cy="290" r="4.2" fill="#ef6c00"/>
+<text x="657.0" y="306" font-size="11.5" text-anchor="middle" font-weight="700" fill="#263238">VCC</text>
+<circle cx="693.0" cy="290" r="4.2" fill="#212121"/>
+<text x="693.0" y="306" font-size="11.5" text-anchor="middle" font-weight="700" fill="#263238">GND</text>
+<circle cx="852.0" cy="290" r="4.2" fill="#ef6c00"/>
+<text x="852.0" y="306" font-size="11.5" text-anchor="middle" font-weight="700" fill="#263238">+</text>
+<circle cx="888.0" cy="290" r="4.2" fill="#212121"/>
+<text x="888.0" y="306" font-size="11.5" text-anchor="middle" font-weight="700" fill="#263238">−</text>
+<circle cx="1018.5" cy="290" r="4.2" fill="#c2185b"/>
+<text x="1018.5" y="306" font-size="11.5" text-anchor="middle" font-weight="700" fill="#263238">VCC</text>
+<circle cx="1054.5" cy="290" r="4.2" fill="#212121"/>
+<text x="1054.5" y="306" font-size="11.5" text-anchor="middle" font-weight="700" fill="#263238">GND</text>
+<circle cx="1090.5" cy="290" r="4.2" fill="#b8860b"/>
+<text x="1090.5" y="306" font-size="11.5" text-anchor="middle" font-weight="700" fill="#263238">SCL</text>
+<circle cx="1126.5" cy="290" r="4.2" fill="#1565c0"/>
+<text x="1126.5" y="306" font-size="11.5" text-anchor="middle" font-weight="700" fill="#263238">SDA</text>
+<circle cx="1246.0" cy="290" r="4.2" fill="#ef6c00"/>
+<text x="1246.0" y="306" font-size="11.5" text-anchor="middle" font-weight="700" fill="#263238">VIN</text>
+<circle cx="1282.0" cy="290" r="4.2" fill="#212121"/>
+<text x="1282.0" y="306" font-size="11.5" text-anchor="middle" font-weight="700" fill="#263238">GND</text>
+<circle cx="1318.0" cy="290" r="4.2" fill="#b8860b"/>
+<text x="1318.0" y="306" font-size="11.5" text-anchor="middle" font-weight="700" fill="#263238">SCL</text>
+<circle cx="1354.0" cy="290" r="4.2" fill="#1565c0"/>
+<text x="1354.0" y="306" font-size="11.5" text-anchor="middle" font-weight="700" fill="#263238">SDA</text>
+<circle cx="379.0" cy="440" r="4.2" fill="#2e7d32"/>
+<text x="379.0" y="433" font-size="11.5" text-anchor="middle" font-weight="700" fill="#263238">4</text>
+<circle cx="415.0" cy="440" r="4.2" fill="#6a1b9a"/>
+<text x="415.0" y="433" font-size="11.5" text-anchor="middle" font-weight="700" fill="#263238">5</text>
+<circle cx="451.0" cy="440" r="4.2" fill="#795548"/>
+<text x="451.0" y="433" font-size="11.5" text-anchor="middle" font-weight="700" fill="#263238">6</text>
+<circle cx="639.0" cy="440" r="4.2" fill="#2e7d32"/>
+<text x="639.0" y="433" font-size="11.5" text-anchor="middle" font-weight="700" fill="#263238">RX</text>
+<circle cx="675.0" cy="440" r="4.2" fill="#6a1b9a"/>
+<text x="675.0" y="433" font-size="11.5" text-anchor="middle" font-weight="700" fill="#263238">TX</text>
+<circle cx="711.0" cy="440" r="4.2" fill="#9e9e9e"/>
+<text x="711.0" y="433" font-size="11.5" text-anchor="middle" font-weight="700" fill="#263238">OUT</text>
+<circle cx="870.0" cy="440" r="4.2" fill="#795548"/>
+<text x="870.0" y="433" font-size="11.5" text-anchor="middle" font-weight="700" fill="#263238">OUT</text>
+<rect x="336.0" y="248" width="14" height="28" fill="#ffffff"/>
+<line x1="343.0" y1="246" x2="343.0" y2="253" stroke="#ef6c00" stroke-width="2.4" stroke-linecap="round"/>
+<line x1="343.0" y1="271" x2="343.0" y2="278" stroke="#ef6c00" stroke-width="2.4" stroke-linecap="round"/>
+<polygon points="335.0,254 351.0,254 343.0,269" fill="#ef6c00"/>
+<line x1="334.0" y1="270" x2="352.0" y2="270" stroke="#ef6c00" stroke-width="2.6" stroke-linecap="round"/>
+<text x="330.0" y="267" font-size="11.5" text-anchor="end" font-weight="700" fill="#ef6c00">SS14</text>
+<rect x="845.0" y="241" width="14" height="28" fill="#ffffff"/>
+<line x1="852.0" y1="239" x2="852.0" y2="244" stroke="#ef6c00" stroke-width="2.4" stroke-linecap="round"/>
+<line x1="852.0" y1="266" x2="852.0" y2="271" stroke="#ef6c00" stroke-width="2.4" stroke-linecap="round"/>
+<rect x="847.0" y="244" width="10" height="22" fill="#fff" stroke="#ef6c00" stroke-width="2"/>
+<text x="842.0" y="259" font-size="11.5" text-anchor="end" font-weight="700" fill="#ef6c00">100 Ω</text>
+<line x1="852.0" y1="280" x2="866.5" y2="280" stroke="#ef6c00" stroke-width="2" stroke-linecap="round"/>
+<line x1="873.5" y1="280" x2="888.0" y2="280" stroke="#212121" stroke-width="2" stroke-linecap="round"/>
+<line x1="866.5" y1="272" x2="866.5" y2="288" stroke="#263238" stroke-width="2.4" stroke-linecap="round"/>
+<line x1="873.5" y1="272" x2="873.5" y2="288" stroke="#263238" stroke-width="2.4" stroke-linecap="round"/>
+<circle cx="852.0" cy="280" r="4.2" fill="#ef6c00"/>
+<circle cx="888.0" cy="280" r="4.2" fill="#212121"/>
+<text x="897.0" y="284" font-size="11.5" text-anchor="start" font-weight="700" fill="#263238">47 µF</text>
+<line x1="117.0" y1="262" x2="131.5" y2="262" stroke="#ef6c00" stroke-width="2" stroke-linecap="round"/>
+<line x1="138.5" y1="262" x2="153.0" y2="262" stroke="#212121" stroke-width="2" stroke-linecap="round"/>
+<line x1="131.5" y1="254" x2="131.5" y2="270" stroke="#263238" stroke-width="2.4" stroke-linecap="round"/>
+<line x1="138.5" y1="254" x2="138.5" y2="270" stroke="#263238" stroke-width="2.4" stroke-linecap="round"/>
+<circle cx="117.0" cy="262" r="4.2" fill="#ef6c00"/>
+<circle cx="153.0" cy="262" r="4.2" fill="#212121"/>
+<text x="162.0" y="266" font-size="11.5" text-anchor="start" font-weight="700" fill="#263238">220 µF</text>
+<rect x="50" y="640" width="170" height="80" rx="10" fill="#ffebee" stroke="#d32f2f" stroke-width="1.6"/>
+<text x="135.0" y="676" font-size="15" text-anchor="middle" font-weight="700" fill="#263238">12 V DC supply</text>
+<text x="135.0" y="696" font-size="11.5" text-anchor="middle" font-weight="400" fill="#546e7a">≥ 0.5 A (~0.15 A estimated)</text>
+<line x1="105.0" y1="440" x2="105.0" y2="640" stroke="#d32f2f" stroke-width="3" stroke-linecap="round"/>
+<line x1="165.0" y1="440" x2="165.0" y2="640" stroke="#212121" stroke-width="3" stroke-linecap="round"/>
+<circle cx="105.0" cy="440" r="4.2" fill="#d32f2f"/>
+<circle cx="165.0" cy="440" r="4.2" fill="#212121"/>
+<text x="105.0" y="433" font-size="11.5" text-anchor="middle" font-weight="700" fill="#263238">IN+</text>
+<text x="165.0" y="433" font-size="11.5" text-anchor="middle" font-weight="700" fill="#263238">IN−</text>
+<text x="97.0" y="560" font-size="12" text-anchor="end" font-weight="600" fill="#d32f2f">+12 V</text>
+<text x="173.0" y="560" font-size="12" text-anchor="start" font-weight="600" fill="#212121">GND</text>
+<rect x="300" y="620" width="1100" height="254" rx="10" fill="#f5f7f8" stroke="#cfd8dc"/>
+<text x="320" y="646" font-size="15" text-anchor="start" font-weight="700" fill="#263238">Notes</text>
+<text x="322" y="672" font-size="14" text-anchor="start" font-weight="700" fill="#d32f2f">⚠</text>
+<text x="345" y="672" font-size="13" text-anchor="start" font-weight="400" fill="#263238">SS14 (or 1N5819) diode in front of the board 5V pin: protects the S09 when USB-C is plugged in. Radar and ENS160 take 5 V before the diode.</text>
+<text x="322" y="698" font-size="14" text-anchor="start" font-weight="700" fill="#d32f2f">⚠</text>
+<text x="345" y="698" font-size="13" text-anchor="start" font-weight="400" fill="#263238">ENS160+AHT21: power goes to VIN (5 V). The 3V3 pin of this board is the OUTPUT of its regulator, leave it unconnected.</text>
+<text x="322" y="724" font-size="14" text-anchor="start" font-weight="700" fill="#d32f2f">⚠</text>
+<text x="345" y="724" font-size="13" text-anchor="start" font-weight="400" fill="#263238">PIR runs from 5 V through a 100 Ω + 47 µF filter (mini PIRs pick up Wi-Fi noise). MEASURE OUT before wiring it to GPIO6:</text>
+<text x="322" y="750" font-size="14" text-anchor="start" font-weight="700" fill="#263238"> </text>
+<text x="345" y="750" font-size="13" text-anchor="start" font-weight="400" fill="#263238">it should be ~3.3 V. Above 3.4 V, power the PIR from the board 3V3 instead (the ESP32-S3 is not 5 V tolerant).</text>
+<text x="322" y="776" font-size="14" text-anchor="start" font-weight="700" fill="#263238">•</text>
+<text x="345" y="776" font-size="13" text-anchor="start" font-weight="400" fill="#263238">Radar: 5 V only. Some listings say 5-12 V; the datasheet says 5 V. Its UART is 3.3 V logic, no level shifter needed.</text>
+<text x="322" y="802" font-size="14" text-anchor="start" font-weight="700" fill="#263238">•</text>
+<text x="345" y="802" font-size="13" text-anchor="start" font-weight="400" fill="#263238">I2C: the modules have their own pull-ups (check that SDA/SCL idle at 3.3 V). Addresses: BH1750 0x23, AHT21 0x38, ENS160 0x53.</text>
+<text x="322" y="828" font-size="14" text-anchor="start" font-weight="700" fill="#263238">•</text>
+<text x="345" y="828" font-size="13" text-anchor="start" font-weight="400" fill="#263238">220 µF on the S09 output (Wi-Fi peaks ~0.5 A, the module is rated 0.6 A). All grounds are common.</text>
+<text x="322" y="854" font-size="14" text-anchor="start" font-weight="700" fill="#263238">•</text>
+<text x="345" y="854" font-size="13" text-anchor="start" font-weight="400" fill="#263238">Wire: stranded AWG 26-28. The radar has 1.27 mm pitch, solder straight to the pads. 12 V through a Wago/JST connector with strain relief.</text>
+<text x="50" y="920" font-size="13" text-anchor="start" font-weight="700" fill="#263238">Suggested wire colours:</text>
+<line x1="260" y1="915.5" x2="286" y2="915.5" stroke="#d32f2f" stroke-width="4" stroke-linecap="round"/>
+<text x="292" y="920" font-size="12.5" text-anchor="start" font-weight="400" fill="#263238">12 V</text>
+<line x1="339.6" y1="915.5" x2="365.6" y2="915.5" stroke="#ef6c00" stroke-width="4" stroke-linecap="round"/>
+<text x="371.6" y="920" font-size="12.5" text-anchor="start" font-weight="400" fill="#263238">5 V</text>
+<line x1="411.8" y1="915.5" x2="437.8" y2="915.5" stroke="#c2185b" stroke-width="4" stroke-linecap="round"/>
+<text x="443.8" y="920" font-size="12.5" text-anchor="start" font-weight="400" fill="#263238">3.3 V</text>
+<line x1="498.8" y1="915.5" x2="524.8" y2="915.5" stroke="#212121" stroke-width="4" stroke-linecap="round"/>
+<text x="530.8" y="920" font-size="12.5" text-anchor="start" font-weight="400" fill="#263238">GND</text>
+<line x1="571.0" y1="915.5" x2="597.0" y2="915.5" stroke="#1565c0" stroke-width="4" stroke-linecap="round"/>
+<text x="603.0" y="920" font-size="12.5" text-anchor="start" font-weight="400" fill="#263238">SDA</text>
+<line x1="643.2" y1="915.5" x2="669.2" y2="915.5" stroke="#b8860b" stroke-width="4" stroke-linecap="round"/>
+<text x="675.2" y="920" font-size="12.5" text-anchor="start" font-weight="400" fill="#263238">SCL</text>
+<line x1="715.4000000000001" y1="915.5" x2="741.4000000000001" y2="915.5" stroke="#2e7d32" stroke-width="4" stroke-linecap="round"/>
+<text x="747.4000000000001" y="920" font-size="12.5" text-anchor="start" font-weight="400" fill="#263238">ESP TX → radar</text>
+<line x1="869.0000000000001" y1="915.5" x2="895.0000000000001" y2="915.5" stroke="#6a1b9a" stroke-width="4" stroke-linecap="round"/>
+<text x="901.0000000000001" y="920" font-size="12.5" text-anchor="start" font-weight="400" fill="#263238">radar → ESP RX</text>
+<line x1="1022.6000000000001" y1="915.5" x2="1048.6000000000001" y2="915.5" stroke="#795548" stroke-width="4" stroke-linecap="round"/>
+<text x="1054.6000000000001" y="920" font-size="12.5" text-anchor="start" font-weight="400" fill="#263238">PIR</text>
+<text x="50" y="954" font-size="12" text-anchor="start" font-weight="400" fill="#78909c">Firmware: firmware/ceiling-sensor.yaml · enclosure: hardware/</text>
+</svg>

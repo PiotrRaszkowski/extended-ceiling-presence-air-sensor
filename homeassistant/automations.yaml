@@ -1,0 +1,65 @@
+# Example Home Assistant automations for one sensor.
+# Paste into automations.yaml (or recreate in the UI) and replace the entity IDs.
+
+- alias: Living room - lights follow presence
+  description: Turn the lights on when someone is in the room and it is dark, off when the room is empty.
+  mode: restart
+  triggers:
+    - trigger: state
+      entity_id: binary_sensor.living_room_sensor_occupancy
+  actions:
+    - choose:
+        - conditions:
+            - condition: state
+              entity_id: binary_sensor.living_room_sensor_occupancy
+              state: "on"
+            - condition: numeric_state
+              entity_id: sensor.living_room_sensor_illuminance
+              below: 30
+          sequence:
+            - action: light.turn_on
+              target:
+                entity_id: light.living_room
+        - conditions:
+            - condition: state
+              entity_id: binary_sensor.living_room_sensor_occupancy
+              state: "off"
+          sequence:
+            - action: light.turn_off
+              target:
+                entity_id: light.living_room
+
+- alias: Living room - ventilation boost on high eCO2
+  description: Boost the ventilation when eCO2 stays high for 10 minutes while someone is in the room.
+  mode: single
+  triggers:
+    - trigger: numeric_state
+      entity_id: sensor.living_room_sensor_eco2
+      above: 1100
+      for: "00:10:00"
+  conditions:
+    - condition: state
+      entity_id: binary_sensor.living_room_sensor_occupancy
+      state: "on"
+  actions:
+    - action: fan.set_preset_mode
+      target:
+        entity_id: fan.ventilation
+      data:
+        preset_mode: boost
+
+- alias: Living room - air quality notification
+  description: Send a phone notification when the air quality index reaches 4 (poor).
+  mode: single
+  triggers:
+    - trigger: numeric_state
+      entity_id: sensor.living_room_sensor_aqi
+      above: 3.5
+      for: "00:05:00"
+  actions:
+    - action: notify.notify
+      data:
+        title: Living room
+        message: >-
+          Air quality is {{ states('sensor.living_room_sensor_air_quality') }}
+          (eCO2 {{ states('sensor.living_room_sensor_eco2') }} ppm). Time to open a window.
