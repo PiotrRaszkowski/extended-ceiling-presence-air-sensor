@@ -9,8 +9,9 @@ python -m venv .venv
 . .venv/bin/activate
 pip install cadquery
 cd hardware/source
-python enclosure.py          # ~40 s, writes STL + STEP into ./out
-cp out/[0-9]*.stl ../stl/ && cp out/[0-9]*.step ../step/
+python enclosure.py          # Ø80, ~40 s, writes STL + STEP into ./out
+python enclosure.py 100      # Ø100, same files with a _d100 suffix
+cp out/[0-9]*[0-9a-z].stl ../stl/ ; cp out/*_d100.stl ../d100/stl/   # and the same for .step
 ```
 
 Besides the printable parts, `out/` also gets `_dummy_*.stl` (simple blocks the size of each module, for checking clearances) and `_section_*.stl` (quarter cuts used for the section image). They aren't meant for printing.
@@ -37,7 +38,7 @@ All values in millimetres.
 | `RIB_INTERF` | 0.1 | How far each crush rib reaches into the board outline. Set it from the result of `10_press_fit_calibration`. |
 | `CLR` | 0.8 | Total gap between the seat walls/posts and the board. |
 | `RIB_W`, `RIB_TOP`, `RIB_H` | 2.4, 0.8, 2.0 | Crush rib base width, flat-top width and height. |
-| `R_OUT`, `H`, `FACE` | 40, 30, 1.6 | Outer radius, height, face thickness. Changing `R_OUT` means re-placing the modules (`cx`/`cy` below). |
+| `SIZE`, `H`, `FACE` | 80, 30, 1.6 | Housing diameter (80 or 100, from the command line), height, face thickness. Each size has its own module positions (`cx`/`cy` below); another diameter needs a new layout. |
 | `SCREW_SPACING`, `CSK_D` | 60, 8.6 | Base screw spacing and countersink diameter. |
 | `LOCK_ANGLE`, `PIN_ANGLES` | 25, (60, 180, 300) | Bayonet twist and pin positions. |
 | `CH_X`, `CH_TOP` | 12, 23 | Inner wall of the ENS160 chamber and its height (= underside of the lid). Above `Z_STEP` the outer wall steps in to `R_UP` to clear the base ring; `CH_TOP` can go up to about 25: the lid has to stay below the base plate, which sits 2.5 mm inside the housing rim. |
@@ -72,4 +73,4 @@ These are the caliper measurements the seats are built on. If your boards differ
 
 ## Version history
 
-The header of `enclosure.py` lists every revision. In short: v2-v5 got the bayonet and module sizes right, v6-v8 moved to printable crush ribs calibrated at 0.1 mm, v9 was printed in full in PETG, and v10 fixed what that print showed (loose ESP, PIR and chamber lid, buck seat slightly loose), v11 shrank the housing from Ø100 to Ø80 with the same seats, and v12 made the ENS160 chamber 10 mm taller for pin headers with jumper plugs. The last Ø100 version is in [`hardware/legacy-d100/`](../hardware/legacy-d100/).
+The header of `enclosure.py` lists every revision. In short: v2-v5 got the bayonet and module sizes right, v6-v8 moved to printable crush ribs calibrated at 0.1 mm, v9 was printed in full in PETG, and v10 fixed what that print showed (loose ESP, PIR and chamber lid, buck seat slightly loose), v11 shrank the housing from Ø100 to Ø80 with the same seats, and v12 made the ENS160 chamber 10 mm taller for pin headers with jumper plugs. v12 also generates both sizes from one file: the Ø100 layout is selected with `python enclosure.py 100` and lives in [`hardware/d100/`](../hardware/d100/).

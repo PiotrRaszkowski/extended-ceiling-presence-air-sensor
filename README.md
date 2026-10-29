@@ -1,6 +1,6 @@
 # Extended ceiling presence + air sensor
 
-A small ceiling-mounted sensor for Home Assistant, about the size of a smoke detector (Ø80 × 30 mm). One per room. It tells you whether someone is in the room, even if they're sitting still, and how the air is doing.
+A small ceiling-mounted sensor for Home Assistant, about the size of a smoke detector (Ø80 × 30 mm, or Ø100 if you want more room inside). One per room. It tells you whether someone is in the room, even if they're sitting still, and how the air is doing.
 
 ![Housing](docs/images/hero.png)
 
@@ -20,7 +20,7 @@ Parts cost about 100 zł (~€24) from AliExpress or about 160 zł (~€38) from
 |---|---|
 | Firmware | Validates and compiles with ESPHome 2026.10.0. Not yet confirmed on a finished unit. |
 | Electronics | Wiring designed around these modules. Do the bench test from [assembly](docs/assembly.md) before closing the box. |
-| Enclosure Ø100 | v9 was printed in PETG and test-fitted. It showed a loose ESP, PIR and chamber lid; v10 (in `hardware/legacy-d100/`) has the fixes but hasn't been reprinted. |
+| Enclosure Ø100 (v12, [`hardware/d100/`](hardware/d100/)) | v9 was printed in PETG and test-fitted. It showed a loose ESP, PIR and chamber lid; those fixes and the taller chamber are in, but the current files haven't been reprinted. |
 | Enclosure Ø80 (v12, current) | Includes the fixes from that print and keeps the same calibrated seats. v12 makes the ENS160 chamber 10 mm taller so pin headers with push-on jumper wires fit. **The full housing hasn't been printed yet**, so print `11_seat_test_fit.stl` first. |
 
 Issues and photos of your build are welcome.
@@ -51,10 +51,10 @@ Issues and photos of your build are welcome.
 
 ```
 firmware/        ESPHome config + secrets template
-hardware/stl/    printable parts (current Ø80 version)
+hardware/stl/    printable parts, Ø80
 hardware/step/   the same parts as STEP
 hardware/source/ CadQuery model and the wiring diagram generator
-hardware/legacy-d100/  previous Ø100 version (STL only)
+hardware/d100/   printable parts, Ø100 (STL + STEP)
 homeassistant/   example automations
 docs/            documentation and images
 ```

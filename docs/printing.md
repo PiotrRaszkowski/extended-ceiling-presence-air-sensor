@@ -1,6 +1,6 @@
 # Printing
 
-All parts print without supports. The files are in [`hardware/stl/`](../hardware/stl/); STEP versions of the same parts are in [`hardware/step/`](../hardware/step/).
+All parts print without supports. The Ø80 files are in [`hardware/stl/`](../hardware/stl/) (STEP in [`hardware/step/`](../hardware/step/)); the Ø100 set is in [`hardware/d100/`](../hardware/d100/) with a `_d100` suffix. Calibration and radar window prints are shared by both sizes.
 
 ## Filament
 

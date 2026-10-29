@@ -5,12 +5,16 @@ Parametric CadQuery model -> STEP + STL.
 Parts:
   1. ceiling base    - screwed to the ceiling (60 mm screw spacing = standard Ø60
                        junction box), ring with 3 bayonet grooves
-  2. housing         - Ø80 x 30 mm "can": face towards the room, module seats,
+  2. housing         - Ø80 (or Ø100) x 30 mm "can": face towards the room, module seats,
                        closed ENS160+AHT21 air chamber with its own vents, 3 bayonet pins
   3. chamber lid     - press-fit into the ENS160 chamber from above
   4. radar window samples (0.8 / 1.6 / 3.7 mm)
   5. seat test fit   - bottom 9 mm of the housing: quick print to test-fit the modules
   6. press-fit calibration - ESP32 seats with different crush-rib interference
+
+Two sizes share this file: Ø80 (default) and Ø100, with different module layouts.
+    python enclosure.py        -> Ø80,  files in out/
+    python enclosure.py 100    -> Ø100, files in out/ with a _d100 suffix
 
 Housing coordinates: z = 0 is the face (room side), z = H is the edge at the
 ceiling. "Inside view" = looking down from the ceiling onto the face.
@@ -26,22 +30,26 @@ History:
   v9  - lid without through pry slot; smaller I2C cable pass-through (5 x 2.5 mm), lid notch above it.
   v10 - after full print: ESP ribs 3 mm from rounded corners, taller posts, 3 PIR ribs, lid ribs outside the plug, buck +0.05 mm.
   v11 - Ø80 mm (was Ø100): new interior layout; seats, ribs and interference unchanged.
-  v12 - ENS160 chamber 10 mm taller (CH_TOP 13 -> 23) for pin headers with push-on jumper wires;
+  v12 - both sizes from one file; ENS160 chamber 10 mm taller (CH_TOP 13 -> 23) for pin headers with push-on jumper wires;
         above the base ring the outer chamber wall steps in (45 deg) to clear the ring.
 """
 import math
 import os
+import sys
 
 import cadquery as cq
 
 OUT_DIR = "out"   # export directory, relative to the current working directory
+SIZE = int(sys.argv[1]) if len(sys.argv) > 1 and sys.argv[1].isdigit() else 80   # housing Ø: 80 or 100
+assert SIZE in (80, 100), "size must be 80 or 100"
+SUFFIX = "" if SIZE == 80 else "_d100"
 
 # ----------------------------------------------------------------------------
 # GENERAL PARAMETERS
 # ----------------------------------------------------------------------------
-R_OUT = 40.0          # outer radius (Ø80)
+R_OUT = SIZE / 2      # outer radius (40 for Ø80, 50 for Ø100)
 WALL = 2.0            # side wall thickness
-R_IN = R_OUT - WALL   # 38
+R_IN = R_OUT - WALL   # 38 / 48
 H = 30.0              # housing height (face to ceiling)
 FACE = 1.6            # face thickness
 EDGE_CHAMFER = 1.5    # chamfer on the face edge
@@ -83,7 +91,7 @@ CABLE_HOLE_D = 12.0
 # HLK-LD2410B: 35.06 x 7.0. The antenna side (towards the face) carries the radar IC,
 # LED and pin solder joints, so the board rests on two ledges along its long edges
 # over a recess (gap). win_t of plastic stays in front of the antenna (half wave).
-RADAR = dict(x=7.0, y=35.06, cx=4.6, cy=-5.0, win_t=3.7, gap=2.0, ledge=0.7,
+RADAR = dict(x=7.0, y=35.06, cx=4.6 if SIZE == 80 else 0.0, cy=-5.0 if SIZE == 80 else 4.0, win_t=3.7, gap=2.0, ledge=0.7,
              # ledge segments [from, to] in mm from the end WITHOUT the connector (-y); components at the edges elsewhere
              ledge_segments=((1.0, 15.0), (25.0, 30.0)))
 # HC-SR602: round board Ø15.89, two opposite notches (13.65 across), 3-pin header
@@ -91,17 +99,19 @@ RADAR = dict(x=7.0, y=35.06, cx=4.6, cy=-5.0, win_t=3.7, gap=2.0, ledge=0.7,
 # The board rests on a ring around the lens (standoff above the face), the notches sit on
 # keys, the header points to hdr_angle over a recess in the ring.
 PIR = dict(cx=15.0, cy=24.0, d=15.89, notch_w=13.65, key_w=1.6, standoff=2.2,
-           lens_d=10.3, cone=3.2, hdr_angle=180.0, hdr_gap=70.0)   # lens_d = lens Ø + 0.3; header towards -x
+           lens_d=10.3, cone=3.2, hdr_angle=180.0, hdr_gap=70.0) if SIZE == 80 else \
+      dict(cx=-22.0, cy=18.0, d=15.89, notch_w=13.65, key_w=1.6, standoff=2.2,
+           lens_d=10.3, cone=3.2, hdr_angle=270.0, hdr_gap=70.0)   # lens_d = lens Ø + 0.3; header towards -x
 # GY-302 (BH1750): 14.05 x 18.53, components towards the face -> ledges along the long
 # edges; pins on the -y edge (open side of the seat), mounting holes on +y.
-BH = dict(x=14.05, y=18.53, cx=-9.93, cy=22.27, standoff=2.5, ledge=0.8,
+BH = dict(x=14.05, y=18.53, cx=-9.93 if SIZE == 80 else -26.0, cy=22.27 if SIZE == 80 else -8.5, standoff=2.5, ledge=0.8,
           chip_dy=2.5, win_x=4.0, win_y=6.0)          # chip_dy: sensor IC offset from board center towards the holes
 # Waveshare ESP32-S3-Zero: 23.69 x 17.98, pads/pins along the long edges and the left short edge.
 # Rails under the middle of the board, clear of the pin rows; rail_h clears the pin ends (<= 2.5 mm).
-ESP = dict(x=23.69, y=17.98, cx=-14.75, cy=0.0, rail_h=3.0, rail_y=4.0,
+ESP = dict(x=23.69, y=17.98, cx=-14.75 if SIZE == 80 else -8.0, cy=0.0 if SIZE == 80 else -31.0, rail_h=3.0, rail_y=4.0,
            post_leg=4.4, rib_in=3.0)   # board corners are rounded: ribs 3 mm in from the corners
 # S09 buck converter: 18.75 x 13.95, pads in the corners of the short edges.
-BUCK = dict(x=18.75, y=13.95, cx=-12.28, cy=-19.98, rail_h=3.0, rail_y=3.5, rail_len=10.0,
+BUCK = dict(x=18.75, y=13.95, cx=-12.28 if SIZE == 80 else 2.0, cy=-19.98 if SIZE == 80 else 34.0, rail_h=3.0, rail_y=3.5, rail_len=10.0,
             rib_extra=0.05)   # slightly tighter than the rest (0.15 interference)
 # ENS160+AHT21: 19.29 (x) x 24.20 (y), COMPONENTS UP, flat underside on rails,
 # pin row next to the inner chamber wall (cable pass-through side).
@@ -109,7 +119,7 @@ ENS = dict(x=19.29, y=24.20, rail_h=3.0,
            rails=(4.5, 18.0))   # rail positions [mm from the pin edge]; AHT21 cutout spans ~8.5-16.2
 
 # ENS160 chamber (closed box against the side wall, +x axis)
-CH_X = 12.0           # inner chamber wall (x)
+CH_X = 12.0 if SIZE == 80 else 21.0   # inner chamber wall (x)
 CH_TOP = 23.0         # top of the chamber walls = underside of the lid (room for headers + jumper plugs)
 LID_T = 1.5
 WIRE_W, WIRE_D = 5.0, 2.5   # I2C cable pass-through (width x depth from the wall top)
@@ -529,7 +539,7 @@ def make_fit_test(housing=None, z_cut=9.0):
 # 0. PRINT PLATE: housing + ceiling base + chamber lid laid out side by side
 # ----------------------------------------------------------------------------
 def make_print_plate(housing, base, lid):
-    return housing.union(base.translate((86.0, 0, 0))).union(lid.translate((25.0, 62.0, 0)))
+    return housing.union(base.translate((R_OUT + RING_R_OUT + 8.4, 0, 0))).union(lid.translate((25.0, R_OUT + 22.0, 0)))
 
 
 def section(shape):
@@ -597,14 +607,14 @@ if __name__ == "__main__":
              "10_press_fit_calibration": make_rib_test(), "11_seat_test_fit": make_fit_test(housing),
              "12_radar_window_samples": make_radar_test()}
     for name, p in parts.items():
-        cq.exporters.export(p, os.path.join(OUT_DIR, f"{name}.stl"), tolerance=0.02, angularTolerance=0.15)
-        cq.exporters.export(p, os.path.join(OUT_DIR, f"{name}.step"))
+        cq.exporters.export(p, os.path.join(OUT_DIR, f"{name}{SUFFIX}.stl"), tolerance=0.02, angularTolerance=0.15)
+        cq.exporters.export(p, os.path.join(OUT_DIR, f"{name}{SUFFIX}.step"))
         bb = p.val().BoundingBox()
         print(f"{name}: {bb.xlen:.1f} x {bb.ylen:.1f} x {bb.zlen:.1f} mm, vol {p.val().Volume()/1000:.1f} cm3, valid={p.val().isValid()}")
     dm = dummies()
     for name, p in dm.items():
-        cq.exporters.export(p, os.path.join(OUT_DIR, f"_dummy_{name}.stl"))
+        cq.exporters.export(p, os.path.join(OUT_DIR, f"_dummy_{name}{SUFFIX}.stl"))
     # quarter sections of the chamber area (preview only)
     sections = {"housing": section(housing), "lid": section(lid_in_housing(lid)), "ens160": section(dm["ens160"])}
     for name, p in sections.items():
-        cq.exporters.export(p, os.path.join(OUT_DIR, f"_section_{name}.stl"))
+        cq.exporters.export(p, os.path.join(OUT_DIR, f"_section_{name}{SUFFIX}.stl"))
