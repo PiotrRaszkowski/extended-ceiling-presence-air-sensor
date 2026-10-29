@@ -56,6 +56,7 @@ Each module has a dict with its measured size (`x`, `y`) and its position in the
 | `BH["chip_dy"]` | 2.5 | Offset of the BH1750 chip from the board centre, towards the mounting holes. The light window follows it. |
 | `ESP["rib_in"]` | 3.0 | Rib distance from the corners. The ESP32-S3-Zero has rounded corners, so ribs too close to them grip nothing. |
 | `BUCK["rib_extra"]` | 0.05 | Extra interference for the S09 converter on top of `RIB_INTERF`. |
+| `BH["rib_extra"]` | 0.05 (Ø80), 0 (Ø100) | Extra interference for the BH1750. The Ø80 seat printed loose while the identical Ø100 seat was fine. |
 | `ENS["rails"]` | (4.5, 18.0) | Ledge positions measured from the pin edge, chosen to stay clear of the AHT21 slot. |
 
 ## Measured module sizes
@@ -73,4 +74,4 @@ These are the caliper measurements the seats are built on. If your boards differ
 
 ## Version history
 
-The header of `enclosure.py` lists every revision. In short: v2-v5 got the bayonet and module sizes right, v6-v8 moved to printable crush ribs calibrated at 0.1 mm, v9 was printed in full in PETG, and v10 fixed what that print showed (loose ESP, PIR and chamber lid, buck seat slightly loose), v11 shrank the housing from Ø100 to Ø80 with the same seats, and v12 made the ENS160 chamber 10 mm taller for pin headers with jumper plugs. v12 also generates both sizes from one file: the Ø100 layout is selected with `python enclosure.py 100` and lives in [`hardware/d100/`](../hardware/d100/).
+The header of `enclosure.py` lists every revision. In short: v2-v5 got the bayonet and module sizes right, v6-v8 moved to printable crush ribs calibrated at 0.1 mm, v9 was printed in full in PETG, and v10 fixed what that print showed (loose ESP, PIR and chamber lid, buck seat slightly loose), v11 shrank the housing from Ø100 to Ø80 with the same seats, v12 made the ENS160 chamber 10 mm taller for pin headers with jumper plugs, and v13 tightened the Ø80 BH1750 seat by 0.05 mm. v12 also generates both sizes from one file: the Ø100 layout is selected with `python enclosure.py 100` and lives in [`hardware/d100/`](../hardware/d100/).

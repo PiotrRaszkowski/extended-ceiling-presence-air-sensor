@@ -32,6 +32,7 @@ History:
   v11 - Ø80 mm (was Ø100): new interior layout; seats, ribs and interference unchanged.
   v12 - both sizes from one file; ENS160 chamber 10 mm taller (CH_TOP 13 -> 23) for pin headers with push-on jumper wires;
         above the base ring the outer chamber wall steps in (45 deg) to clear the ring.
+  v13 - Ø80: BH1750 seat +0.05 mm interference (printed loose; Ø100 fit fine).
 """
 import math
 import os
@@ -105,7 +106,8 @@ PIR = dict(cx=15.0, cy=24.0, d=15.89, notch_w=13.65, key_w=1.6, standoff=2.2,
 # GY-302 (BH1750): 14.05 x 18.53, components towards the face -> ledges along the long
 # edges; pins on the -y edge (open side of the seat), mounting holes on +y.
 BH = dict(x=14.05, y=18.53, cx=-9.93 if SIZE == 80 else -26.0, cy=22.27 if SIZE == 80 else -8.5, standoff=2.5, ledge=0.8,
-          chip_dy=2.5, win_x=4.0, win_y=6.0)          # chip_dy: sensor IC offset from board center towards the holes
+          chip_dy=2.5, win_x=4.0, win_y=6.0,          # chip_dy: sensor IC offset from board center towards the holes
+          rib_extra=0.05 if SIZE == 80 else 0.0)      # Ø80 print came out loose (Ø100 fine): +0.05 interference
 # Waveshare ESP32-S3-Zero: 23.69 x 17.98, pads/pins along the long edges and the left short edge.
 # Rails under the middle of the board, clear of the pin rows; rail_h clears the pin ends (<= 2.5 mm).
 ESP = dict(x=23.69, y=17.98, cx=-14.75 if SIZE == 80 else -8.0, cy=0.0 if SIZE == 80 else -31.0, rail_h=3.0, rail_y=4.0,
@@ -303,7 +305,8 @@ def seat_bh(c):
     walls = rect_walls(m["cx"], m["cy"], ix, iy, FACE - 0.01, m["standoff"] + POST_H + 0.01)
     walls = open_side(walls, m["cx"], m["cy"], ix, iy, FACE, m["standoff"] + POST_H, "-y")   # pins
     c = c.union(walls)
-    c = c.union(ribs_rect(m["cx"], m["cy"], ix, iy, BH_SEAT_Z, xs=(0.0,), ys=(-5.0, 5.0), ends_y=(1,)))
+    c = c.union(ribs_rect(m["cx"], m["cy"], ix, iy, BH_SEAT_Z, xs=(0.0,), ys=(-5.0, 5.0), ends_y=(1,),
+                          p=CLR / 2 + RIB_INTERF + m["rib_extra"]))
     c = c.cut(box(m["cx"], m["cy"] + m["chip_dy"], -1, m["win_x"], m["win_y"], FACE + 2))
     return c
 
