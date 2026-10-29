@@ -1,5 +1,5 @@
 // Ceiling-mounted enclosure for an ESP32 presence + air-quality sensor.
-// OpenSCAD port of hardware/source/enclosure.py (CadQuery, v13). One file, two sizes (Ø80 / Ø100).
+// OpenSCAD port of hardware/source/enclosure.py (CadQuery, v14). One file, two sizes (Ø80 / Ø100).
 //
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2026 Piotr Raszkowski
@@ -12,7 +12,8 @@
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
 //
 // Parts:
-//   housing               - Ø80/Ø100 x 30 mm "can": face, module seats, ENS160 chamber, bayonet pins
+//   housing               - Ø80/Ø100 x 30 mm "can": face, module seats, ENS160 chamber,
+//                           Dupont hub channels, bayonet pins
 //   ceiling_base          - screwed to the ceiling, ring with 3 blind bayonet grooves + detents
 //   chamber_lid           - press-fit into the ENS160 chamber (printed plate down, plug up)
 //   print_plate           - housing + ceiling base + chamber lid side by side
@@ -111,6 +112,10 @@ ch_top = 23.0;
 wire_w = 5.0;
 // I2C cable pass-through depth from the wall top (mm)
 wire_d = 2.5;
+// Chamber side wall that carries the pass-through: +y (1) or -y (-1)
+wire_side = 1; // [-1, 1]
+// Pass-through centre along x, measured from the chamber side of the inner wall (mm)
+wire_xc_offset = 3.5;
 // Lid plate thickness (mm)
 lid_t = 1.5;
 // Lid plug height (mm)
@@ -119,6 +124,22 @@ plug_h = 2.0;
 lid_plug_clr = 0.25;
 // Gap kept between the chamber top part and the base ring, radial and axial (mm)
 step_clr = 0.5;
+
+/* [Dupont hub] */
+// Add the two channels that hold the perfboard hub outside the chamber inner wall
+hub_enabled = true;
+// Hub board columns (2.54 mm holes, along y); the outer column on each side is gripped, cols-2 carry pins
+hub_cols = 6;
+// Hub board rows (2.54 mm holes, along z)
+hub_rows = 5;
+// Hub board thickness (mm)
+hub_t = 1.6;
+// Gap between the board back face and the chamber inner wall (mm)
+hub_back_gap = 3.5;
+// Slot clearance beyond the board edge, per side (mm)
+hub_slack = 0.8;
+// Lowest board underside above the face (mm); raised automatically to clear the radar seat
+hub_z_min = 9.2;
 
 /* [Radar (LD2410B)] */
 // Board size x, short side (mm)
@@ -316,6 +337,23 @@ ens_seat_z = face + ens_rail_h;
 ens_hy = (ens_y + clr) / 2 + 0.05;             // half of the chamber interior along y
 
 lid_far = 49.0;                                // lid stock reaches past any chamber radius
+wire_xc = ch_x + seat_t + wire_xc_offset;      // pass-through centre along x
+
+// Dupont hub geometry (Python hub_geometry())
+hub_w = hub_cols * 2.54;                       // board size (cut through hole centres)
+hub_h = hub_rows * 2.54;
+hub_y_pins = (hub_cols - 2) * 2.54 / 2;        // header plastic / plugs reach +-hub_y_pins
+hub_xb = ch_x - hub_back_gap;                  // board back face (solder side)
+hub_xf = hub_xb - hub_t;                       // board front face (header side)
+hub_rx_hi = radar_pos[0] + (radar_x + clr) / 2 + seat_t;   // radar seat extent (may lie under the channels)
+hub_ry_lo = radar_pos[1] - (radar_y + clr) / 2 - seat_t;
+hub_ry_hi = radar_pos[1] + (radar_y + clr) / 2 + seat_t;
+hub_r_top = radar_seat_z + post_h;
+hub_y_out = hub_w / 2 + hub_slack + seat_t;
+hub_x_lo = hub_xf - 0.3 - 1.2;
+hub_wedge = hub_rx_hi > hub_x_lo && hub_ry_hi > -hub_y_out && hub_ry_lo < hub_y_out;
+// over the radar seat the channel floor is a 45 deg overhang; the slot must sit above it
+hub_z0 = hub_wedge ? max(hub_z_min, hub_r_top + 0.4 + (hub_rx_hi + 0.3 - (hub_xf - 0.3)) + 0.6) : hub_z_min;
 
 // ---------------------------------------------------------------------------------------------
 // Helpers (same semantics as the Python helpers)
@@ -541,8 +579,9 @@ module chamber_body() {
             union() {
                 difference() {
                     union() { children(); chamber_walls(); }
-                    // cable pass-through (middle of the inner wall, from the top)
-                    box(ch_x + seat_t / 2, 0, ch_top - wire_d, seat_t + 2, wire_w, wire_d + 0.5);
+                    // cable pass-through (side wall next to the inner wall, from the top); not in the
+                    // inner wall: the Dupont hub stands in front of it
+                    box(wire_xc, wire_side * (hy + seat_t / 2), ch_top - wire_d, wire_w, seat_t + 2, wire_d + 0.5);
                 }
                 // rails under the flat board underside
                 for (dx = ens_rails) box(ens_x0 + dx, 0, face - eps, rail_w, 2 * hy - 1.0, ens_rail_h + eps);
@@ -564,6 +603,37 @@ module chamber_body() {
     }
 }
 
+// Dupont hub: two vertical channels on the outside of the chamber inner wall hold the perfboard
+// by its empty outer columns; the board stands on the channel floors.
+module hub_channel(sy) {
+    y_in = hub_y_pins + 0.25;                       // channels start just outside the header plastic
+    y0 = min(sy * y_in, sy * hub_y_out); y1 = max(sy * y_in, sy * hub_y_out);
+    ys0 = min(sy * (y_in - 1.0), sy * (hub_w / 2 + hub_slack)); ys1 = max(sy * (y_in - 1.0), sy * (hub_w / 2 + hub_slack));
+    xr = hub_rx_hi + 0.3; zr = hub_r_top + 0.4; x_far = hub_x_lo - 1.0;
+    union() {
+        difference() {
+            union() {
+                box((hub_x_lo + ch_x - 0.3) / 2, (y0 + y1) / 2, face - eps, ch_x - 0.3 - hub_x_lo, y1 - y0, hub_z0 + hub_h - face + eps);
+                box(ch_x - 0.15, (y0 + y1) / 2, face - eps, 0.32, y1 - y0, ch_top - face);   // tie to the wall
+            }
+            // clear the radar seat with a printable 45 deg overhang (profile in x/z, extruded along -y)
+            if (hub_wedge) translate([0, y1 + 1.0, 0]) rotate([90, 0, 0]) linear_extrude(y1 - y0 + 2.0)
+                polygon([[x_far, -1.0], [xr, -1.0], [xr, zr], [x_far, zr + (xr - x_far)]]);
+            box((hub_xf - 0.3 + hub_xb + 0.3) / 2, (ys0 + ys1) / 2, hub_z0, hub_xb - hub_xf + 0.6, ys1 - ys0, hub_h + 1.0);   // slot
+        }
+        // crush rib on the front face of the slot, pressing the board against the back face
+        rib(hub_xf - 0.3, sy * (y_in + (hub_w / 2 - y_in) / 2), 1, 0, hub_z0 + 2.0, hh = hub_h - 4.0, p = 0.3 + rib_interf, w = 1.4);
+    }
+}
+
+module seat_hub() {
+    assert(!hub_enabled || hub_z0 + hub_h <= h - base_plate_t - 0.5, "hub too tall for the housing");
+    union() {
+        children();
+        if (hub_enabled) for (sy = [-1, 1]) hub_channel(sy);
+    }
+}
+
 // ---------------------------------------------------------------------------------------------
 // Housing
 // ---------------------------------------------------------------------------------------------
@@ -579,7 +649,7 @@ module housing() {
     difference() {
         union() {
             difference() {
-                seat_pir() chamber_body() seat_buck() seat_esp() seat_bh() seat_radar() housing_shell();
+                seat_pir() seat_hub() chamber_body() seat_buck() seat_esp() seat_bh() seat_radar() housing_shell();
                 // electronics ventilation: side wall opposite the chamber
                 radial_slots([148:8:212], 3.5, 5.0);    // inlet (low)
                 radial_slots([148:8:212], 12.5, 5.5);   // outlet (high)
@@ -613,10 +683,11 @@ module chamber_lid() {
                 cyl(r_plug, -1, 10);
             }
             box((x_plug + lid_far) / 2, 0, lid_t - 1, lid_far, 2 * (hy - c - 1.2), plug_h + 3);   // hollow plug
-            box(ch_x + seat_t + 2, 0, lid_t - 1, 6, wire_w + 0.5, plug_h + 3);   // notch above the pass-through
+            // notch above the pass-through (the lid is flipped about x when installed: y changes sign)
+            box(wire_xc, -wire_side * (hy - c - 0.6), lid_t - 1, wire_w + 0.5, 3.0, plug_h + 3);
         }
         // crush ribs on the outside of the plug (press against the chamber side walls)
-        for (sy = [-1, 1], xx = tall ? [ch_x + 6.0, ch_x + 15.0] : [ch_x + 8.0, ch_x + 20.0])
+        for (sy = [-1, 1], xx = tall ? [ch_x + 9.0, ch_x + 17.0] : [ch_x + 8.0, ch_x + 20.0])
             rib(xx, sy * (hy - c), 0, sy, lid_t - eps, hh = plug_h, p = c + rib_interf);
     }
 }

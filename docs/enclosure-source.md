@@ -8,8 +8,9 @@ The enclosure is a parametric [CadQuery](https://cadquery.readthedocs.io) script
 
 1. Open it in [OpenSCAD](https://openscad.org) (2021.01 or newer; a recent development snapshot with the Manifold backend renders in well under a second instead of ~10-25 s).
 2. Window → Customizer. Pick `size` (80 or 100) and `part` (housing, ceiling_base, chamber_lid, print_plate, seat_test_fit, press_fit_calibration, radar_window_samples).
-3. Each module has its own tab: Radar, PIR, BH1750, ESP32-S3-Zero, Buck (S09), ENS160+AHT21. Type in the caliper size of your board (and for the PIR the diameter, the width across the notches and the lens diameter). Walls, crush ribs, ledges and windows follow automatically. `*_rib_extra` tightens one seat without touching the others, and `*_pos_80` / `*_pos_100` move a seat if a bigger board no longer fits where it was.
-4. Render (F6) and export STL (F7).
+3. The Dupont hub has its own tab too (board size in holes, gap behind it, on/off), and the ENS160 chamber tab sets which side wall the cable pass-through is in.
+4. Each module has its own tab: Radar, PIR, BH1750, ESP32-S3-Zero, Buck (S09), ENS160+AHT21. Type in the caliper size of your board (and for the PIR the diameter, the width across the notches and the lens diameter). Walls, crush ribs, ledges and windows follow automatically. `*_rib_extra` tightens one seat without touching the others, and `*_pos_80` / `*_pos_100` move a seat if a bigger board no longer fits where it was.
+5. Render (F6) and export STL (F7).
 
 With the default values it produces the same parts as the CadQuery script: the difference is only how finely the curves are faceted (under 0.7 % of the volume at the default resolution, falling to ~0.03 % at resolution 512).
 
