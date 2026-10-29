@@ -14,6 +14,13 @@ Once the housing is closed the USB-C port is out of reach, so this is the moment
 
 ## 1. Modules into their seats
 
+A real Ø80 print with all modules in place (ceiling side; in the first photo the ENS160 chamber is at the bottom, so the picture is turned 90° compared with the render below):
+
+| | |
+|---|---|
+| ![All modules seated in a printed Ø80 housing, top view](images/photos/d80-modules-top.jpg) | ![The same housing from an angle](images/photos/d80-modules-angle.jpg) |
+
+
 Seen from the ceiling side (the open side of the housing), the layout is: ENS160 chamber along the right wall, the long radar board running top to bottom just left of the chamber, ESP32-S3-Zero and the S09 converter on the left next to the side vents, BH1750 top left, PIR top right.
 
 Each board sits on ledges and is gripped by small crush ribs. Push it in straight with a thumb; it should stay put without glue. If one ever works loose, a dot of hot glue on the board end fixes it.

@@ -21,7 +21,7 @@ Parts cost about 100 zł (~€24) from AliExpress or about 160 zł (~€38) from
 | Firmware | Validates and compiles with ESPHome 2026.10.0. Not yet confirmed on a finished unit. |
 | Electronics | Wiring designed around these modules. Do the bench test from [assembly](docs/assembly.md) before closing the box. |
 | Enclosure Ø100 (v12, [`hardware/d100/`](hardware/d100/)) | v9 was printed in PETG and test-fitted. It showed a loose ESP, PIR and chamber lid; those fixes and the taller chamber are in, but the current files haven't been reprinted. |
-| Enclosure Ø80 (v12, current) | Includes the fixes from that print and keeps the same calibrated seats. v12 makes the ENS160 chamber 10 mm taller so pin headers with push-on jumper wires fit. **The full housing hasn't been printed yet**, so print `11_seat_test_fit.stl` first. |
+| Enclosure Ø80 (v13, current) | v12 was printed in PETG and every module went into its seat (photos below). The BH1750 seat was a bit loose, so v13 tightens it by 0.05 mm. Print `11_seat_test_fit.stl` first anyway, since fit depends on your printer. |
 
 Issues and photos of your build are welcome.
 
@@ -42,6 +42,12 @@ Issues and photos of your build are welcome.
 3. Flash [`firmware/ceiling-sensor.yaml`](firmware/ceiling-sensor.yaml) over USB and wire everything on the bench.
 4. Check in Home Assistant that every sensor reports, then assemble and mount it.
 5. Tune the radar range and the temperature offset.
+
+A printed Ø80 housing (v12) with every module pressed into its seat, seen from the ceiling side:
+
+| | |
+|---|---|
+| ![All modules seated in a printed Ø80 housing, top view](docs/images/photos/d80-modules-top.jpg) | ![The same housing from an angle](docs/images/photos/d80-modules-angle.jpg) |
 
 ![What goes where](docs/images/what-goes-where.png)
 
