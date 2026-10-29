@@ -21,7 +21,7 @@ Parts cost about 100 zł (~€24) from AliExpress or about 160 zł (~€38) from
 | Firmware | Validates and compiles with ESPHome 2026.10.0. Not yet confirmed on a finished unit. |
 | Electronics | Wiring designed around these modules. Do the bench test from [assembly](docs/assembly.md) before closing the box. |
 | Enclosure Ø100 | v9 was printed in PETG and test-fitted. It showed a loose ESP, PIR and chamber lid; v10 (in `hardware/legacy-d100/`) has the fixes but hasn't been reprinted. |
-| Enclosure Ø80 (v11, current) | Includes the fixes from that print and keeps the same calibrated seats. **It hasn't been printed yet**, so print `11_seat_test_fit.stl` before the full housing. |
+| Enclosure Ø80 (v12, current) | Includes the fixes from that print and keeps the same calibrated seats. v12 makes the ENS160 chamber 10 mm taller so pin headers with push-on jumper wires fit. **The full housing hasn't been printed yet**, so print `11_seat_test_fit.stl` first. |
 
 Issues and photos of your build are welcome.
 

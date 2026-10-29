@@ -24,7 +24,7 @@ The STEP files open in FreeCAD, Fusion and most other CAD tools if you prefer to
 - Housing: Ø80 × 30 mm. The face (towards the room) is 1.6 mm thick, 3.7 mm in front of the radar. It prints face down without supports.
 - Ceiling base with a 10 mm ring and three blind bayonet grooves. The housing has three pins at 60°, 180° and 300°, placed so that none of them sits over the air chamber. Twist 25° to lock; a small triangular detent stops it from turning back.
 - Seats: every board rests on ledges, so pin stubs and components underneath have room. Seat walls and posts stand 0.4 mm away from the board on each side; only the trapezoid crush ribs touch it. The ribs are 2.4 mm wide at the base with a 0.8 mm flat top, large enough that a 0.4 mm nozzle actually prints them. In an earlier version they were 1.0 × 0.35 mm and the slicer simply dropped them.
-- ENS160 chamber: a closed box along one wall with its own face grille (inlet) and slots near the top (outlet), a press-fit lid with crush ribs on the outside of its plug, and a 5 × 2.5 mm pass-through for the four I2C/power wires. It keeps the warm air from the ESP and the S09 converter away from the temperature and VOC sensors.
+- ENS160 chamber: a closed box along one wall with its own face grille (inlet) and slots above the board (outlet), a press-fit lid with crush ribs on the outside of its plug, and a 5 × 2.5 mm pass-through for the four I2C/power wires. It is 23 mm tall so jumper plugs on a pin header fit. Above 19.5 mm its outer wall steps in at 45° (prints without support) to stay clear of the ceiling base ring. It keeps the warm air from the ESP and the S09 converter away from the temperature and VOC sensors.
 
 ![Housing inside](images/inside-empty.png)
 
@@ -40,7 +40,7 @@ All values in millimetres.
 | `R_OUT`, `H`, `FACE` | 40, 30, 1.6 | Outer radius, height, face thickness. Changing `R_OUT` means re-placing the modules (`cx`/`cy` below). |
 | `SCREW_SPACING`, `CSK_D` | 60, 8.6 | Base screw spacing and countersink diameter. |
 | `LOCK_ANGLE`, `PIN_ANGLES` | 25, (60, 180, 300) | Bayonet twist and pin positions. |
-| `CH_X`, `CH_TOP` | 12, 13 | Inner wall of the ENS160 chamber and its height (= underside of the lid). |
+| `CH_X`, `CH_TOP` | 12, 23 | Inner wall of the ENS160 chamber and its height (= underside of the lid). Above `Z_STEP` the outer wall steps in to `R_UP` to clear the base ring; `CH_TOP` can go up to about 25: the lid has to stay below the base plate, which sits 2.5 mm inside the housing rim. |
 | `WIRE_W`, `WIRE_D` | 5.0, 2.5 | Chamber cable pass-through. |
 | `CAL_VALUES` | (0.1, 0.2, 0.3, 0.4) | Interference values on the calibration print. |
 
@@ -72,4 +72,4 @@ These are the caliper measurements the seats are built on. If your boards differ
 
 ## Version history
 
-The header of `enclosure.py` lists every revision. In short: v2-v5 got the bayonet and module sizes right, v6-v8 moved to printable crush ribs calibrated at 0.1 mm, v9 was printed in full in PETG, and v10 fixed what that print showed (loose ESP, PIR and chamber lid, buck seat slightly loose), and v11 shrank the housing from Ø100 to Ø80 with the same seats. The last Ø100 version is in [`hardware/legacy-d100/`](../hardware/legacy-d100/).
+The header of `enclosure.py` lists every revision. In short: v2-v5 got the bayonet and module sizes right, v6-v8 moved to printable crush ribs calibrated at 0.1 mm, v9 was printed in full in PETG, and v10 fixed what that print showed (loose ESP, PIR and chamber lid, buck seat slightly loose), v11 shrank the housing from Ø100 to Ø80 with the same seats, and v12 made the ENS160 chamber 10 mm taller for pin headers with jumper plugs. The last Ø100 version is in [`hardware/legacy-d100/`](../hardware/legacy-d100/).

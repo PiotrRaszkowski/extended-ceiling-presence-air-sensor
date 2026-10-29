@@ -26,6 +26,8 @@ History:
   v9  - lid without through pry slot; smaller I2C cable pass-through (5 x 2.5 mm), lid notch above it.
   v10 - after full print: ESP ribs 3 mm from rounded corners, taller posts, 3 PIR ribs, lid ribs outside the plug, buck +0.05 mm.
   v11 - Ø80 mm (was Ø100): new interior layout; seats, ribs and interference unchanged.
+  v12 - ENS160 chamber 10 mm taller (CH_TOP 13 -> 23) for pin headers with push-on jumper wires;
+        above the base ring the outer chamber wall steps in (45 deg) to clear the ring.
 """
 import math
 import os
@@ -108,10 +110,15 @@ ENS = dict(x=19.29, y=24.20, rail_h=3.0,
 
 # ENS160 chamber (closed box against the side wall, +x axis)
 CH_X = 12.0           # inner chamber wall (x)
-CH_TOP = 13.0         # top of the chamber walls = underside of the lid
+CH_TOP = 23.0         # top of the chamber walls = underside of the lid (room for headers + jumper plugs)
 LID_T = 1.5
 WIRE_W, WIRE_D = 5.0, 2.5   # I2C cable pass-through (width x depth from the wall top)
 PLUG_H = 2.0          # lid plug that goes into the chamber
+# The base ring reaches RING_DEPTH into the housing along the outer wall. If the chamber
+# is taller than that, its outer wall steps in (45 deg) to R_UP above Z_STEP.
+Z_STEP = H - RING_DEPTH - 0.5          # highest point of the chamber next to the housing wall
+R_UP = R_IN - 0.4 - RING_T - 0.5       # outer face of the chamber wall above Z_STEP (ring inner radius - 0.5)
+TALL = CH_TOP > Z_STEP
 
 
 # ----------------------------------------------------------------------------
@@ -329,9 +336,19 @@ def chamber_body(c):
     """Closed ENS160 chamber: inner wall + two side walls + the housing wall."""
     hy = (ENS["y"] + CLR) / 2 + 0.05          # half of the interior along y
     clip = cyl(R_IN + 0.5, 0, H)
+    if TALL:   # above Z_STEP the chamber must stay inside the base ring
+        clip = cyl(R_IN + 0.5, 0, Z_STEP).union(cyl(R_UP, Z_STEP - 0.01, H - Z_STEP + 0.01))
     walls = box(CH_X + T / 2, 0, FACE - 0.01, T, 2 * (hy + T), CH_TOP - FACE + 0.01)
     for sy in (-1, 1):
         walls = walls.union(box((CH_X + R_IN + 1) / 2, sy * (hy + T / 2), FACE - 0.01, R_IN + 1 - CH_X, T, CH_TOP - FACE + 0.01))
+    if TALL:
+        foot = box((CH_X + R_IN + 1) / 2, 0, 0, R_IN + 1 - CH_X, 2 * (hy + T), H)   # chamber footprint
+        # 45 deg step from the housing wall in to the upper wall (prints without support)
+        dz = R_IN + 0.2 - (R_UP - T)
+        step = cq.Workplane("XY").add(cq.Solid.makeCone(R_IN + 0.2, R_UP - T, dz, pnt=cq.Vector(0, 0, Z_STEP - dz)))
+        step = cyl(R_IN + 0.5, Z_STEP - dz, dz).cut(step)
+        upper = ring(R_UP - T, R_UP, Z_STEP - 0.01, CH_TOP - Z_STEP + 0.01)
+        walls = walls.union(step.union(upper).intersect(foot))
     c = c.union(walls.intersect(clip))
     # cable pass-through (middle of the inner wall, from the top): 4 wires AWG 26-28
     c = c.cut(box(CH_X + T / 2, 0, CH_TOP - WIRE_D, T + 2, WIRE_W, WIRE_D + 0.5))
@@ -394,15 +411,16 @@ def make_housing():
 # ----------------------------------------------------------------------------
 def make_lid():
     hy = (ENS["y"] + CLR) / 2 + 0.05
-    plate = box((CH_X + 49) / 2, 0, 0, 49 - CH_X, 2 * (hy + T), LID_T).intersect(cyl(R_IN - 0.4, -1, 10))
+    r_plate, r_plug = (R_UP, R_UP - T - 0.25) if TALL else (R_IN - 0.4, R_IN - 0.45)
+    plate = box((CH_X + 49) / 2, 0, 0, 49 - CH_X, 2 * (hy + T), LID_T).intersect(cyl(r_plate, -1, 10))
     plug = box((CH_X + T + 0.25 + 49) / 2, 0, LID_T - 0.01, 49 - (CH_X + T + 0.25), 2 * (hy - 0.25), PLUG_H + 0.01)
-    plug = plug.intersect(cyl(R_IN - 0.45, -1, 10))
+    plug = plug.intersect(cyl(r_plug, -1, 10))
     plug = plug.cut(box((CH_X + T + 0.25 + 49) / 2, 0, LID_T - 1, 49, 2 * (hy - 0.25 - 1.2), PLUG_H + 3))  # hollow plug
     plug = plug.cut(box(CH_X + T + 2, 0, LID_T - 1, 6, WIRE_W + 0.5, PLUG_H + 3))   # notch above the wall pass-through
     lid = plate.union(plug)
     # crush ribs on the outside of the plug (press against the chamber side walls)
     for sy in (-1, 1):
-        for xx in (CH_X + 8.0, CH_X + 20.0):
+        for xx in ((CH_X + 6.0, CH_X + 15.0) if TALL else (CH_X + 8.0, CH_X + 20.0)):
             lid = lid.union(rib(xx, sy * (hy - 0.25), 0, sy, LID_T - 0.01, h=PLUG_H, p=0.25 + RIB_INTERF))
     return lid
 

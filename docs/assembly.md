@@ -24,7 +24,7 @@ Each board sits on ledges and is gripped by small crush ribs. Push it in straigh
 | 2 | HC-SR602 PIR | Lens into the round hole, the two flats of the board onto the two keys, header pointing left (towards the BH1750) over the recess in the ring. |
 | 3 | BH1750 (GY-302) | Components down, pins towards the open side of the seat (towards the ESP), mounting holes the other way. The chip lines up with the small window in the face. |
 | 4 | ENS160+AHT21 | **Components up**, flat underside on the two ledges, pin row towards the cable pass-through (5). |
-| 5 | Cable pass-through | 5 × 2.5 mm slot at the top of the chamber wall for the four ENS160 wires (VIN, GND, SCL, SDA). |
+| 5 | Cable pass-through | 5 × 2.5 mm slot at the top of the chamber wall for the four ENS160 wires (VIN, GND, SCL, SDA). The chamber is 23 mm tall, so a straight pin header with push-on (Dupont) jumper plugs fits standing up; soldered wires work too. |
 | 6 | ESP32-S3-Zero | Bottom side down, between the four corner posts. |
 | 7 | S09 converter | Bottom side down, between the posts, wires at the corners. The 220 µF capacitor goes next to it. |
 | 8 | Chamber lid | Collar down, the notch in the collar over the pass-through, then press it in. To remove it, pry the edge up with a thin blade; it has no holes on purpose. |
@@ -33,7 +33,7 @@ After the lid is on, seal the pass-through around the wires with a bit of plasti
 
 ### Why the ENS160 board faces up
 
-The ENS160 and AHT21 sample air by diffusion, so they don't need to "look" at the grille. What matters is that the air in the chamber gets replaced and that heat from the ESP and the S09 stays out. The grille in the face is the inlet and the upper row of slots in the chamber wall, just under the lid, is the outlet. The ENS160 heater and the temperature difference drive a slow flow from bottom to top around the board.
+The ENS160 and AHT21 sample air by diffusion, so they don't need to "look" at the grille. What matters is that the air in the chamber gets replaced and that heat from the ESP and the S09 stays out. The grille in the face is the inlet and the upper row of slots in the housing wall, a few millimetres above the board, is the outlet. The ENS160 heater and the temperature difference drive a slow flow from bottom to top around the board.
 
 Mounted components-up, the board lies on its flat underside and the milled slot around the AHT21 (which isolates it from the ENS160 heater) doesn't touch any ledge.
 
