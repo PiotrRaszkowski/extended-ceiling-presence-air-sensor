@@ -33,7 +33,7 @@ Issues and photos of your build are welcome.
 4. [Firmware and Home Assistant](docs/firmware.md): flashing ESPHome, adding the device, entity list
 5. [Assembly](docs/assembly.md): modules into seats, ceiling mount
 6. [Tuning and automations](docs/tuning.md): radar range, temperature offset, example automations
-7. [Enclosure source](docs/enclosure-source.md): parametric CadQuery model, parameters, measured sizes
+7. [Enclosure source](docs/enclosure-source.md): OpenSCAD Customizer for other module sizes, CadQuery model, parameters, measured sizes
 
 ## Quick start
 
@@ -53,7 +53,7 @@ Issues and photos of your build are welcome.
 firmware/        ESPHome config + secrets template
 hardware/stl/    printable parts, Ø80
 hardware/step/   the same parts as STEP
-hardware/source/ CadQuery model and the wiring diagram generator
+hardware/source/ CadQuery model, the same model for OpenSCAD (Customizer), wiring diagram generator
 hardware/d100/   printable parts, Ø100 (STL + STEP)
 homeassistant/   example automations
 docs/            documentation and images
