@@ -6,7 +6,7 @@ The LD2410B splits its range into gates of 0.75 m (g0 = 0-0.75 m, g1 = 0.75-1.5 
 
 1. Set `Radar max moving gate` and `Radar max still gate` to cover the room and no further. For a typical living room that's 4-5. The radar sees through drywall and doors, so anything larger starts picking up the hallway or the neighbour's room.
 2. In Home Assistant, enable the disabled `Radar gN move energy` / `Radar gN still energy` entities. With the room empty, switch on `Radar engineering mode` and watch them for a minute or two.
-3. Set each gate's move and still thresholds roughly 10-15 above the noise you saw. Gates with fans, curtains or plants need more margin.
+3. Set each gate's move and still thresholds roughly 10-15 above the noise you saw. Gates with fans, curtains or plants need more margin. In an empty room expect single digits to the low teens on most gates. If every gate shows 40 or more, thresholds won't help: look at the radar window first ([printing](printing.md#the-radar-window)).
 4. Switch engineering mode off again afterwards. It makes the radar send a stream of extra updates.
 
 Alternatively, switch on `Radar Bluetooth` and tune it with the HLKRadarTool app on a phone. Switch Bluetooth off when you're done, otherwise anyone nearby can change the radar settings.

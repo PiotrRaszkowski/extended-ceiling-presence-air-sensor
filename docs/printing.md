@@ -33,7 +33,8 @@ The last row matters. The seats rely on crush ribs that overlap the board outlin
 | `01_housing.stl` | Housing: face, module seats, closed ENS160 chamber, three bayonet pins | face down |
 | `02_ceiling_base.stl` | Ceiling base: 4 screw holes on a 60 mm spacing, Ø12 hole for the 12 V cable, bayonet ring | ceiling side down |
 | `03_chamber_lid.stl` | Lid for the ENS160 chamber, pressed in from the top | plate down, collar up |
-| `12_radar_window_samples.stl` | Three plates 0.8 / 1.6 / 3.7 mm (1/2/3 notches) for the radar window test below | flat |
+| `13_radar_seat_test.stl` | The radar seat with the face around it (24 × 43 mm, about 15 minutes), for the radar check below | face down |
+| `12_radar_window_samples.stl` | Three plates 0.8 / 1.6 / 3.7 mm (1/2/3 notches); no longer needed, kept for experiments | flat |
 
 1. Calibration first. Push an ESP32-S3-Zero into each of the four seats of `10_press_fit_calibration`. Pick the one where the board holds firmly but still goes in with a thumb, without shaving the ribs. On the reference printer (QIDI, PETG, 0.16 mm) that was **0.1 mm**, which is what the STLs use. If yours prefers 0.2, regenerate the parts with `RIB_INTERF = 0.2` (see [enclosure source](enclosure-source.md)).
 2. Seat test. Print `11_seat_test_fit` and put every module in. Check that the radar's edge components fall between the ledges, that you can see the black BH1750 chip through its window from the outside, and that the PIR notches sit on the two keys.
@@ -43,8 +44,10 @@ The last row matters. The seats rely on crush ribs that overlap the board outlin
 
 ![Seat test fit](images/seat-test-fit.png)
 
-## Why the face is 3.7 mm in front of the radar
+## The radar window
 
-Most of the face is 1.6 mm. In front of the radar antenna it is 3.7 mm, which is half a wavelength of 24 GHz inside PETG (εr ≈ 2.8). A window that is a whole number of half-wavelengths thick should pass the signal with the least loss; other thicknesses can reduce range.
+Most of the face is 1.6 mm. In front of the radar it is 0.8 mm, over the board and a few millimetres around it, and the board sits 2 mm above it.
 
-If you want to check it with your own filament, print `12_radar_window_samples.stl`. Lay the radar on each plate in turn, and once with nothing in front, switch on `Radar engineering mode` in Home Assistant (and enable the per-gate energy entities), stand 3-4 m away and compare `Radar g4 move energy` and `Radar g5 move energy`. If 3.7 mm comes out clearly worse than bare, set `RADAR["win_t"]` to the thickness that won and regenerate.
+Up to v14 the window was 3.7 mm, meant as half a wavelength of 24 GHz in PETG. On the prototype in a kitchen that made things much worse. With the room empty, `Radar gN move energy` sat at 40-60 on every gate from g2 to g8, and still energy at 90-100. Out of the housing, on the same supply and in the same spot, the same radar gave 1-9. Hi-Link's guidance for a half-wave window also asks for a gap of 6.2, 12.4 or 18.6 mm between the antenna and the plastic; with 2 mm, the reflection from a thick window comes straight back into the receiver. Their alternative is a window of 1/8 wavelength or thinner (about 1 mm in PETG) and that is what v15 uses.
+
+Before printing the whole housing, print `13_radar_seat_test.stl`, put the radar in it exactly as it goes into the housing, and compare the empty-room gate energies with the radar lying bare (see [tuning](tuning.md#radar-range)). If they are close, print the housing. Keep the radar's wires leaving from the back of the board, not running across the antenna side.

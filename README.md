@@ -20,8 +20,8 @@ Parts cost about 100 zł (~€24) from AliExpress or about 160 zł (~€38) from
 |---|---|
 | Firmware | Validates and compiles with ESPHome 2026.10.0. Not yet confirmed on a finished unit. |
 | Electronics | Wiring designed around these modules. Do the bench test from [assembly](docs/assembly.md) before closing the box. |
-| Enclosure Ø100 (v14, [`hardware/d100/`](hardware/d100/)) | v12 was printed in PETG and the seats fit. v14 adds the same Dupont hub seat and pass-through change as Ø80. |
-| Enclosure Ø80 (v14, current) | v12 was printed in PETG and every module went into its seat (photos below). v13 tightens the BH1750 seat by 0.05 mm; v14 adds a seat for the [Dupont hub](docs/wiring.md#dupont-hub) and moves the ENS160 pass-through. Print `11_seat_test_fit.stl` first anyway, since fit depends on your printer. |
+| Enclosure Ø100 (v15, [`hardware/d100/`](hardware/d100/)) | v12 was printed in PETG and the seats fit. v14 adds the same Dupont hub seat and pass-through change as Ø80. v15 thins the radar window to 0.8 mm: in the 3.7 mm one the radar saw noise on every gate ([why](docs/printing.md#the-radar-window)). |
+| Enclosure Ø80 (v15, current) | v12 was printed in PETG and every module went into its seat (photos below). v13 tightens the BH1750 seat by 0.05 mm; v14 adds a seat for the [Dupont hub](docs/wiring.md#dupont-hub) and moves the ENS160 pass-through; v15 thins the radar window to 0.8 mm. Print `11_seat_test_fit.stl` first anyway, since fit depends on your printer. |
 
 Issues and photos of your build are welcome.
 

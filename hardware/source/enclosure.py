@@ -35,6 +35,9 @@ History:
   v13 - Ø80: BH1750 seat +0.05 mm interference (printed loose; Ø100 fit fine).
   v14 - seat for a Dupont "hub" (perfboard with male headers, one row per net) standing on the
         outside of the chamber inner wall; ENS160 cable pass-through moved to the +y side wall.
+  v15 - radar window 0.8 mm (was 3.7 mm): the thick window made the radar see noise on every gate.
+        Board still 2 mm above the window, so it now sits 2.9 mm lower. New quick print
+        13_radar_seat_test to check a filament before printing the whole housing.
 """
 import math
 import os
@@ -94,7 +97,12 @@ CABLE_HOLE_D = 12.0
 # HLK-LD2410B: 35.06 x 7.0. The antenna side (towards the face) carries the radar IC,
 # LED and pin solder joints, so the board rests on two ledges along its long edges
 # over a recess (gap). win_t of plastic stays in front of the antenna (half wave).
-RADAR = dict(x=7.0, y=35.06, cx=4.6 if SIZE == 80 else 0.0, cy=-5.0 if SIZE == 80 else 4.0, win_t=3.7, gap=2.0, ledge=0.7,
+# v15: the 3.7 mm window with the board 2 mm above it raised the empty-room move energy to 40-60 on
+# every gate (1-9 with the radar out of the housing). The window is now 0.8 mm (thinner than 1/8 of
+# a wavelength in PETG, which Hi-Link allows when half a wavelength can't be met), over the board
+# footprint plus win_mx / win_my on each side.
+RADAR = dict(x=7.0, y=35.06, cx=4.6 if SIZE == 80 else 0.0, cy=-5.0 if SIZE == 80 else 4.0, win_t=0.8, gap=2.0, ledge=0.7,
+             win_mx=3.0, win_my=1.5,
              # ledge segments [from, to] in mm from the end WITHOUT the connector (-y); components at the edges elsewhere
              ledge_segments=((1.0, 15.0), (25.0, 30.0)))
 # HC-SR602: round board Ø15.89, two opposite notches (13.65 across), 3-pin header
@@ -256,8 +264,12 @@ ENS_SEAT_Z = FACE + ENS["rail_h"]
 def seat_radar(c):
     m = RADAR
     ix, iy = m["x"] + CLR, m["y"] + CLR
+    z_ped = min(FACE, m["win_t"])
+    if m["win_t"] < FACE:   # thin window: thin the face under the seat and a margin around it
+        c = c.cut(box(m["cx"], m["cy"], m["win_t"], ix + 2 * T + 2 * m["win_mx"], iy + 2 * T + 2 * m["win_my"],
+                      FACE - m["win_t"] + 0.01))
     # pedestal up to seat height
-    c = c.union(box(m["cx"], m["cy"], FACE - 0.01, ix + 2 * T, iy + 2 * T, RADAR_SEAT_Z - FACE + 0.01))
+    c = c.union(box(m["cx"], m["cy"], z_ped - 0.01, ix + 2 * T, iy + 2 * T, RADAR_SEAT_Z - z_ped + 0.01))
     # recess under the whole board, then ledges only on the segments without edge components
     c = c.cut(box(m["cx"], m["cy"], m["win_t"], ix, iy, RADAR_SEAT_Z - m["win_t"] + 0.01))
     y_end = m["cy"] - m["y"] / 2                     # end without the connector
@@ -563,6 +575,16 @@ def make_radar_test():
     return out
 
 
+def make_radar_seat_test(housing=None):
+    """The radar seat cut out of the housing with the face around it: a 15-minute print that holds
+    the radar exactly as the housing does, to compare empty-room gate energies before a full print."""
+    housing = housing if housing is not None else make_housing()
+    m = RADAR
+    sx = m["x"] + CLR + 2 * T + 2 * m["win_mx"] + 8.0
+    sy = m["y"] + CLR + 2 * T + 2 * m["win_my"] + 2.0
+    return housing.intersect(box(m["cx"], m["cy"], -1, sx, sy, RADAR_SEAT_Z + POST_H + 2.0))
+
+
 # ----------------------------------------------------------------------------
 # 6. PRESS-FIT CALIBRATION: 4 ESP32-S3-Zero seats with RIB_INTERF 0.1 / 0.2 / 0.3 / 0.4
 #    (1-4 notches on the edge). Pick the one where the board is tight but can still be pressed in.
@@ -680,7 +702,7 @@ if __name__ == "__main__":
     parts = {"00_print_plate_all_parts": make_print_plate(housing, base, lid),
              "01_housing": housing, "02_ceiling_base": base, "03_chamber_lid": lid,
              "10_press_fit_calibration": make_rib_test(), "11_seat_test_fit": make_fit_test(housing),
-             "12_radar_window_samples": make_radar_test()}
+             "12_radar_window_samples": make_radar_test(), "13_radar_seat_test": make_radar_seat_test(housing)}
     for name, p in parts.items():
         cq.exporters.export(p, os.path.join(OUT_DIR, f"{name}{SUFFIX}.stl"), tolerance=0.02, angularTolerance=0.15)
         cq.exporters.export(p, os.path.join(OUT_DIR, f"{name}{SUFFIX}.step"))

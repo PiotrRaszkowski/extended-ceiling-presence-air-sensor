@@ -20,6 +20,7 @@ The modules sit differently than in the Ø80 pictures. Seen from the ceiling sid
 | `stl/02_ceiling_base_d100.stl` | ceiling base (60 mm screw spacing) |
 | `stl/03_chamber_lid_d100.stl` | ENS160 chamber lid |
 | `stl/11_seat_test_fit_d100.stl` | bottom 9 mm for a test fit |
+| `stl/13_radar_seat_test_d100.stl` | radar seat with the face around it, to check the radar before a full print |
 
 The press-fit calibration print and the radar window samples are the same for both sizes; use the ones in [`../stl/`](../stl/). STEP versions are in [`step/`](step/).
 
@@ -27,6 +28,6 @@ Generate these files with `python enclosure.py 100` (see [enclosure source](../.
 
 Print settings and assembly are the same as for Ø80, see [printing](../../docs/printing.md) and [assembly](../../docs/assembly.md).
 
-History: v9 of this size was printed in PETG and test-fitted. Everything that print showed (loose ESP, PIR and chamber lid, buck seat slightly loose) was fixed in v10, v12 added the taller chamber (printed, seats fit) and v14 the Dupont hub seat on the chamber wall.
+History: v9 of this size was printed in PETG and test-fitted. Everything that print showed (loose ESP, PIR and chamber lid, buck seat slightly loose) was fixed in v10, v12 added the taller chamber (printed, seats fit) v14 the Dupont hub seat on the chamber wall, and v15 the 0.8 mm radar window (the 3.7 mm one made the radar noisy, see [printing](../../docs/printing.md#the-radar-window)).
 
 ![Ø100 hub seat](../../docs/images/d100-hub-seat.png)

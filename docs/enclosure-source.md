@@ -36,7 +36,7 @@ The STEP files open in FreeCAD, Fusion and most other CAD tools if you prefer to
 
 ## Design in short
 
-- Housing: Ø80 × 30 mm. The face (towards the room) is 1.6 mm thick, 3.7 mm in front of the radar. It prints face down without supports.
+- Housing: Ø80 × 30 mm. The face (towards the room) is 1.6 mm thick, 0.8 mm in front of the radar. It prints face down without supports.
 - Ceiling base with a 10 mm ring and three blind bayonet grooves. The housing has three pins at 60°, 180° and 300°, placed so that none of them sits over the air chamber. Twist 25° to lock; a small triangular detent stops it from turning back.
 - Seats: every board rests on ledges, so pin stubs and components underneath have room. Seat walls and posts stand 0.4 mm away from the board on each side; only the trapezoid crush ribs touch it. The ribs are 2.4 mm wide at the base with a 0.8 mm flat top, large enough that a 0.4 mm nozzle actually prints them. In an earlier version they were 1.0 × 0.35 mm and the slicer simply dropped them.
 - ENS160 chamber: a closed box along one wall with its own face grille (inlet) and slots above the board (outlet), a press-fit lid with crush ribs on the outside of its plug, and a 5 × 2.5 mm pass-through for the four I2C/power wires. It is 23 mm tall so jumper plugs on a pin header fit. Above 19.5 mm its outer wall steps in at 45° (prints without support) to stay clear of the ceiling base ring. It keeps the warm air from the ESP and the S09 converter away from the temperature and VOC sensors.
@@ -65,7 +65,8 @@ Each module has a dict with its measured size (`x`, `y`) and its position in the
 
 | Dict / key | Default | Meaning |
 |---|---|---|
-| `RADAR["win_t"]` | 3.7 | Plastic in front of the antenna (half a wavelength in PETG). |
+| `RADAR["win_t"]` | 0.8 | Plastic in front of the antenna. Was 3.7 (half a wavelength in PETG) up to v14, which made the radar see noise on every gate, see [printing](printing.md#the-radar-window). |
+| `RADAR["win_mx"]`, `RADAR["win_my"]` | 3.0, 1.5 | How far the thin window reaches past the seat walls in x and y. |
 | `RADAR["ledge_segments"]` | ((1, 15), (25, 30)) | Where the ledges support the radar, measured from the end without the connector. The gaps leave room for components on the board edge. |
 | `PIR["lens_d"]` | 10.3 | Lens hole: lens diameter at its base + 0.3. |
 | `PIR["hdr_angle"]` | 180 | Direction the PIR header points (degrees). The seat rotates with it. |

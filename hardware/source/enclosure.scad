@@ -1,5 +1,5 @@
 // Ceiling-mounted enclosure for an ESP32 presence + air-quality sensor.
-// OpenSCAD port of hardware/source/enclosure.py (CadQuery, v14). One file, two sizes (Ø80 / Ø100).
+// OpenSCAD port of hardware/source/enclosure.py (CadQuery, v15). One file, two sizes (Ø80 / Ø100).
 //
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2026 Piotr Raszkowski
@@ -20,6 +20,7 @@
 //   seat_test_fit         - bottom 9 mm of the housing (quick test-fit of the modules)
 //   press_fit_calibration - 4 ESP32-S3-Zero seats with rib interference 0.1 / 0.2 / 0.3 / 0.4
 //   radar_window_samples  - 0.8 / 1.6 / 3.7 mm tiles (1 / 2 / 3 notches)
+//   radar_seat_test       - the radar seat cut out of the housing with the face around it
 //
 // Housing coordinates: z = 0 is the face (room side), z = h is the rim at the ceiling.
 // "Inside view" = looking down from the ceiling onto the face; x/y of the modules are given in it.
@@ -31,7 +32,7 @@
 // Housing diameter (mm): selects the module layout
 size = 80; // [80, 100]
 // Part to render
-part = "housing"; // [housing, ceiling_base, chamber_lid, print_plate, seat_test_fit, press_fit_calibration, radar_window_samples]
+part = "housing"; // [housing, ceiling_base, chamber_lid, print_plate, seat_test_fit, press_fit_calibration, radar_window_samples, radar_seat_test]
 // Facets per full circle (higher = smoother, slower)
 resolution = 128; // [32:8:512]
 
@@ -150,10 +151,12 @@ radar_y = 35.06;
 radar_pos_80 = [4.6, -5.0];
 // Board centre, Ø100 layout [x, y] (mm)
 radar_pos_100 = [0.0, 4.0];
-// Plastic in front of the antenna (mm)
-radar_win_t = 3.7;
+// Plastic in front of the antenna (mm). v15: 0.8 (was 3.7, which raised the empty-room noise on every gate)
+radar_win_t = 0.8;
 // Recess under the board, above the window (mm)
 radar_gap = 2.0;
+// Thin window margin around the seat walls, x / y (mm)
+radar_win_margin = [3.0, 1.5];
 // Ledge width under each long edge (mm)
 radar_ledge = 0.7;
 // Ledge segments [from, to, from, to] in mm from the end without the connector (-y)
@@ -442,11 +445,17 @@ module seat_radar() {
     y_end = cy - radar_y / 2;                       // end without the connector
     lw = ix / 2 - (radar_x / 2 - radar_ledge);      // ledge from (board edge - ledge) to the wall
     segs = radar_ledge_segments;
+    z_ped = min(face, radar_win_t);
     union() {
         difference() {
             union() {
-                children();
-                box(cx, cy, face - eps, ix + 2 * seat_t, iy + 2 * seat_t, radar_seat_z - face + eps);   // pedestal
+                difference() {
+                    children();
+                    if (radar_win_t < face)   // thin window: thin the face under the seat + margin
+                        box(cx, cy, radar_win_t, ix + 2 * seat_t + 2 * radar_win_margin[0],
+                            iy + 2 * seat_t + 2 * radar_win_margin[1], face - radar_win_t + eps);
+                }
+                box(cx, cy, z_ped - eps, ix + 2 * seat_t, iy + 2 * seat_t, radar_seat_z - z_ped + eps);   // pedestal
             }
             box(cx, cy, radar_win_t, ix, iy, radar_seat_z - radar_win_t + eps);   // recess under the board
         }
@@ -759,6 +768,15 @@ module press_fit_calibration() {
 
 module seat_test_fit() { intersection() { housing(); cyl(r_out + 1, -1, fit_z_cut + 1); } }
 
+// Radar seat + the face around it: holds the radar exactly as the housing does (quick noise check)
+module radar_seat_test() {
+    intersection() {
+        housing();
+        box(radar_pos[0], radar_pos[1], -1, radar_x + clr + 2 * seat_t + 2 * radar_win_margin[0] + 8.0,
+            radar_y + clr + 2 * seat_t + 2 * radar_win_margin[1] + 2.0, radar_seat_z + post_h + 2.0);
+    }
+}
+
 module print_plate() {
     housing();
     translate([r_out + ring_r_out + 8.4, 0, 0]) ceiling_base();
@@ -774,3 +792,4 @@ else if (part == "print_plate") print_plate();
 else if (part == "seat_test_fit") seat_test_fit();
 else if (part == "press_fit_calibration") press_fit_calibration();
 else if (part == "radar_window_samples") radar_window_samples();
+else if (part == "radar_seat_test") radar_seat_test();
