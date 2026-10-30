@@ -7,7 +7,7 @@ Upload [`hardware/gerber/carrier_v2_gerbers_jlcpcb.zip`](../hardware/gerber/carr
 | Option | Value |
 |---|---|
 | Layers | 2 |
-| Dimensions | detected from the outline, 91.8 × 91.8 mm (round) |
+| Dimensions | detected from the outline, 91.2 × 91.2 mm (round) |
 | Thickness | 1.6 mm (the housing is designed around it) |
 | Surface finish | HASL is fine |
 | Colour | any |
