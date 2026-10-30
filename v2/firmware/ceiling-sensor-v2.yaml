@@ -133,21 +133,20 @@ binary_sensor:
 #  Measurements
 # -----------------------------------------------------------------------------
 sensor:
-  # --- AHT21 (on the same board as the ENS160) --------------------------------
-  - platform: aht10
-    variant: AHT20               # AHT21 is compatible
-    address: 0x38
+  # --- SHT40 in its own pocket: the room temperature and humidity -------------------
+  # (v1 used the AHT21 on the ENS160 board, which reads ~10 degC high: the ENS160 heater sits next to it)
+  - platform: sht4x
+    address: 0x44
     update_interval: 15s
     temperature:
-      id: temp_raw
+      id: temp_sht
       name: Temperature raw
       internal: true
     humidity:
-      id: rh_raw
+      id: rh_sht
       name: Humidity raw
       internal: true
 
-  # Temperature corrected for self-heating (the ENS160 heater sits next to the AHT21)
   - platform: template
     id: temperature
     name: Temperature
@@ -157,10 +156,10 @@ sensor:
     accuracy_decimals: 1
     update_interval: 15s
     lambda: |-
-      if (isnan(id(temp_raw).state)) return {};
-      return id(temp_raw).state + id(temp_offset).state;
+      if (isnan(id(temp_sht).state)) return {};
+      return id(temp_sht).state + id(temp_offset).state;
 
-  # Relative humidity recalculated for the corrected temperature (Magnus formula)
+  # Relative humidity recalculated for the offset temperature (Magnus formula); with offset 0 it is the SHT40 value
   - platform: template
     id: humidity
     name: Humidity
@@ -170,13 +169,29 @@ sensor:
     accuracy_decimals: 1
     update_interval: 15s
     lambda: |-
-      const float t0 = id(temp_raw).state;
-      const float rh0 = id(rh_raw).state;
+      const float t0 = id(temp_sht).state;
+      const float rh0 = id(rh_sht).state;
       if (isnan(t0) || isnan(rh0)) return {};
       const float t = t0 + id(temp_offset).state;
       auto es = [](float tc) { return expf(17.62f * tc / (243.12f + tc)); };
       const float rh = rh0 * es(t0) / es(t);
       return std::max(0.0f, std::min(100.0f, rh));
+
+  # --- AHT21 (on the ENS160 board): only for the ENS160's own compensation ------------
+  # It measures the air in the closed chamber, warmed by the ENS160 heater, which is what the
+  # ENS160 needs; it is not the room temperature.
+  - platform: aht10
+    variant: AHT20               # AHT21 is compatible
+    address: 0x38
+    update_interval: 15s
+    temperature:
+      id: temp_raw
+      name: Chamber temperature
+      entity_category: diagnostic
+    humidity:
+      id: rh_raw
+      name: Chamber humidity
+      entity_category: diagnostic
 
   # --- ENS160: estimated CO2 (derived from VOCs!), TVOC, AQI 1-5 ---------------
   - platform: ens160_i2c
@@ -196,8 +211,8 @@ sensor:
       id: aqi
       name: AQI
     compensation:
-      temperature: temperature
-      humidity: humidity
+      temperature: temp_raw
+      humidity: rh_raw
 
   # --- Light -------------------------------------------------------------------
   - platform: bh1750
@@ -407,10 +422,10 @@ number:
     icon: mdi:thermometer-minus
     entity_category: config
     unit_of_measurement: "°C"
-    min_value: -8
-    max_value: 2
+    min_value: -5
+    max_value: 5
     step: 0.1
-    initial_value: -2.5
+    initial_value: 0
     optimistic: true
     restore_value: true
 

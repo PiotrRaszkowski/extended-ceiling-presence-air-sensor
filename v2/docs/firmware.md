@@ -8,6 +8,7 @@
 - 14 distance gates instead of 9. One gate is still 0.75 m, so from a 2.6 m ceiling the floor is in gate 3, as before. Use **Radar max gate** to stop it looking through the floor or walls.
 - **Radar learn empty room** (button): the LD2412 measures the background with nobody in the room and subtracts it afterwards. Press it once after mounting and leave the room until **Radar background correction running** turns off.
 - The radar's OUT pin is wired to GPIO7. The config doesn't use it; it's there if you ever want a hardware presence line.
+- **Temperature** and **Humidity** come from the SHT40 (0x44) in its own pocket. The v1 values came from the AHT21 on the ENS160 board, which reads about 10 °C high because the ENS160 heater sits next to it. The AHT21 is still read, as **Chamber temperature / humidity** (diagnostic), and feeds the ENS160's compensation, which is what it is for. **Temperature offset** now defaults to 0 (range ±5 °C).
 - The ENS160 is still expected at 0x53. If the I2C scan in the log doesn't show it, bridge JP1 on the PCB (ties ADD to the module's 3.3 V) and JP2 (CS), see [pcb.md](pcb.md#soldering).
 
 ## Optional SCD40 / SCD41

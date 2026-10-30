@@ -87,7 +87,7 @@ def two_pin(x, y, ref, val, net1, net2, kind):
 
 
 def main(path):
-    W, H = 1560, 1080
+    W, H = 1620, 1080
     e(f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}">')
     e(f'<rect width="{W}" height="{H}" fill="#ffffff"/>')
     t(30, 40, "Ceiling sensor v2 - carrier PCB schematic", 24, weight="700")
@@ -116,6 +116,7 @@ def main(path):
     block(120, 790, "U6  ENS160 + AHT21 *", "1x8 socket, in the air chamber", [], pins_of("ENS"), w=150)
     block(560, 790, "U7  SCD40 / SCD41 *", "1x4 socket, optional", [], pins_of("SCD"), w=150)
     block(1000, 790, "J2  I2C expansion", "1x4 header, not fitted", [], [("1", "+3V3"), ("2", "GND"), ("3", "SDA"), ("4", "SCL")], w=150)
+    block(1290, 820, "U8  GY-SHT40", "1x4 socket, room T/RH", [], pins_of("SHT"), w=150)
     block(1290, 560, "JP1", "ADD strap, open", [], [("1", "ENS_3V3"), ("2", "ENS_ADD")], w=70)
     block(1290, 700, "JP2", "CS strap, open", [], [("1", "ENS_3V3"), ("2", "ENS_CS")], w=70)
 

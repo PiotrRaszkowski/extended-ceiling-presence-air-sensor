@@ -107,7 +107,20 @@ MODULES = {
         rows=[("U7", [("GND", -10.2, 3.81, "GND"), ("VDD", -10.2, 1.27, "+3V3"),
                       ("SCL", -10.2, -1.27, "SCL"), ("SDA", -10.2, -3.81, "SDA")])],
         sensor=(3.0, 0.0, 10.1, 6.5), thick=1.6, components_up=True, optional=True, verify=True),
+
+    # GY-SHT40 (purple CJMCU-style board, ~13 x 10 mm, VERIFY): the room temperature / humidity sensor.
+    # The AHT21 on the ENS160 board reads ~10 degC high (the ENS160 heater sits next to it), so v2 measures
+    # the room in a separate walled pocket with its own grille. Front view: VIN GND SCL SDA top to bottom on
+    # the left edge, sensor on the right. Sensor towards the face -> seen from the ceiling it is mirrored.
+    "SHT": dict(
+        ref="U8", label="GY-SHT40", cx=25.5, cy=26.0, rot=0.0, body=(13.0, 10.0),
+        rows=[("U8", [("VIN", 5.2, 3.81, "+3V3"), ("GND", 5.2, 1.27, "GND"),
+                      ("SCL", 5.2, -1.27, "SCL"), ("SDA", 5.2, -3.81, "SDA")])],
+        chip=(-4.5, 0.0), thick=1.6, verify=True),
 }
+
+# walled pocket around the SHT40 (inside dimensions), closed at the top by the PCB, grille in the face
+POCKET = dict(cx=25.5, cy=26.0, ix=15.0, iy=12.5)
 
 # --- power and other parts (not modules) -----------------------------------------
 # side: "B" = underside (same side as the modules), "T" = top (ceiling side)

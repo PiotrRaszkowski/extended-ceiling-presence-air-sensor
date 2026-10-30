@@ -13,6 +13,7 @@ Read the silkscreen next to the pins and compare it with the table. The order is
 | ENS160 + AHT21 | VIN, 3V3, GND, SCL, SDA, ADD, CS, INT | component side |
 | GY-302 | VCC, GND, SCL, SDA, ADDR | component side |
 | SCD40/41 module | GND, VDD, SCL, SDA | sensor side |
+| GY-SHT40 | VIN, GND, SCL, SDA | sensor side |
 | ESP32-S3-Zero | 5V, GND, 3V3, GP1 … GP6 / TX, RX, GP13 … GP7 | component side, USB-C up |
 
 Also measure the PIR's OUT with the PIR on 5 V while you wave at it: it must stay at or below 3.3 V, because it goes straight to GPIO6. The HC-SR602 has its own 3.3 V regulator, but clones vary.
@@ -27,13 +28,14 @@ The PIR is the one to be careful with: the order differs between HC-SR602 clones
 | HC-SR602 | pin row 5.4 mm from the lens centre | distance from the lens centre to the line through the three pins |
 | ENS160 + AHT21 | 19.29 × 24.20 mm (as v1), pin row 1.3 mm from the edge | pin row position |
 | SCD4x module | ~23 × 13 mm, pin column 1.3 mm from the short edge, sensor centre 3 mm right of the board centre | outline, pin column, sensor position |
+| GY-SHT40 | 13 × 10 mm, pin column 1.3 mm from the left edge, sensor 4.5 mm right of the centre | outline, pin column, sensor position |
 | ESP32-S3-Zero | rows 15.24 mm apart, 9 pins centred on the 23.69 mm length, antenna in the last 6 mm away from USB-C | first pin's distance from the USB end; where the antenna is |
 
 ## 3. Which side the pins come out
 
 All modules hang under the PCB with their pins pointing **up** into the sockets:
 
-- ESP32-S3-Zero, LD2412, HC-SR602, GY-302: pins on the side **away from** the parts that face the room (chip, antenna, lens, light sensor).
+- ESP32-S3-Zero, LD2412, HC-SR602, GY-302, GY-SHT40: pins on the side **away from** the parts that face the room (chip, antenna, lens, light sensor, SHT40).
 - ENS160 + AHT21 and SCD4x: pins on the **component / sensor** side (these two sit face up).
 
 ## 4. Fit test with the printed template

@@ -11,6 +11,7 @@ Prices in PLN, checked in October 2026. Modules that are the same as in v1 link 
 | U4 | HC-SR602 PIR | as v1 | Header pins out of the back (away from the lens), as in v1. |
 | U5 | GY-302 BH1750 | as v1 | Header pins out of the side without the sensor chip, as in v1. |
 | U6 | ENS160 + AHT21 combo | as v1 | Header on the **component** side this time: the board sits components up. If your v1 board has the header on the other side, desolder it and fit a new one. |
+| U8 | GY-SHT40 temperature/humidity module (purple, VIN/GND/SCL/SDA, ~13 × 10 mm) | [AliExpress, ~17 zł](https://pl.aliexpress.com/item/1005013050830731.html) | Room temperature and humidity. Header on the side **without** the sensor (the sensor faces the room). SHT41 boards with the same layout work too. |
 | U7 | SCD40 or SCD41 module (optional) | [AliExpress, ~62 zł](https://pl.aliexpress.com/item/1005011652313734.html), the GND/VDD/SCL/SDA board | Solder the header on the **sensor** side. SCD41 has the wider calibrated range (up to 5000 ppm); for a kitchen or living room SCD40 is enough. |
 
 ## Parts on the PCB

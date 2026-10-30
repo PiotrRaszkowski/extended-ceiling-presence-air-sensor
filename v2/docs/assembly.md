@@ -38,6 +38,7 @@ Hold the board underside up. The silkscreen names every socket pin; match it wit
 | GY-302 (U5) | light sensor away from the board | pin row towards the ESP |
 | ENS160+AHT21 (U6) | components **towards** the board | sits inside the chamber outline |
 | SCD40/41 (U7, optional) | sensor **towards** the board | pin column on the PIR side |
+| GY-SHT40 (U8) | sensor away from the board | sits inside the small pocket outline next to the chamber |
 
 Push every module all the way down: the header plastic should touch the socket. The module heights in the housing (radar 2 mm above its window, PIR lens in its hole) depend on that.
 
@@ -58,4 +59,4 @@ Exactly as v1 ([assembly](../../docs/assembly.md#3-ceiling-mount)): base on the 
 
 ![Face](images/v2-face.png)
 
-What the face has, from the room side: the radar window (3.7 mm of plastic, no holes), the PIR lens hole, a small window for the BH1750, a thin spot that lets the ESP's RGB LED glow through, the ENS160 chamber grille, a grille under the SCD4x and one under the power parts.
+What the face has, from the room side: the radar window (3.7 mm of plastic, no holes), the PIR lens hole, a small window for the BH1750, a thin spot that lets the ESP's RGB LED glow through, the ENS160 chamber grille, the SHT40 pocket grille, a grille under the SCD4x and one under the power parts.

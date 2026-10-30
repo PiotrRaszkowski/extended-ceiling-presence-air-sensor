@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1560" height="1080" viewBox="0 0 1560 1080">
-<rect width="1560" height="1080" fill="#ffffff"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="1620" height="1080" viewBox="0 0 1620 1080">
+<rect width="1620" height="1080" fill="#ffffff"/>
 <text x="30.0" y="40.0" font-size="24" text-anchor="start" font-weight="700" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">Ceiling sensor v2 - carrier PCB schematic</text>
 <text x="30.0" y="64.0" font-size="13" text-anchor="start" font-weight="400" fill="#607d8b" font-family="system-ui,Segoe UI,sans-serif">Generated from v2/hardware/source/layout.py. Pin names as printed on each module (the order in a box is not the physical order); items marked * must be checked against your boards (docs/verify.md).</text>
 <text x="30.0" y="110.0" font-size="18" text-anchor="start" font-weight="700" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">Power</text>
@@ -290,6 +290,25 @@
 <text x="1142.0" y="903.0" font-size="13" text-anchor="end" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">4</text>
 <path d="M1176 898 l8 -10 h31.799999999999997 v20 h-31.799999999999997 z" fill="#b8860b"/>
 <text x="1187.0" y="903.0" font-size="12.5" text-anchor="start" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">SCL</text>
+<rect x="1290" y="820" width="150" height="142" rx="8" fill="#eceff1" stroke="#455a64" stroke-width="2"/>
+<text x="1365.0" y="798.0" font-size="16" text-anchor="middle" font-weight="700" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">U8  GY-SHT40</text>
+<text x="1365.0" y="814.0" font-size="12" text-anchor="middle" font-weight="400" fill="#607d8b" font-family="system-ui,Segoe UI,sans-serif">1x4 socket, room T/RH</text>
+<line x1="1440" y1="856" x2="1466" y2="856" stroke="#455a64" stroke-width="2"/>
+<text x="1432.0" y="861.0" font-size="13" text-anchor="end" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">VIN</text>
+<path d="M1466 856 l8 -10 h39.4 v20 h-39.4 z" fill="#c2185b"/>
+<text x="1477.0" y="861.0" font-size="12.5" text-anchor="start" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">+3V3</text>
+<line x1="1440" y1="880" x2="1466" y2="880" stroke="#455a64" stroke-width="2"/>
+<text x="1432.0" y="885.0" font-size="13" text-anchor="end" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">GND</text>
+<path d="M1466 880 l8 -10 h31.799999999999997 v20 h-31.799999999999997 z" fill="#212121"/>
+<text x="1477.0" y="885.0" font-size="12.5" text-anchor="start" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">GND</text>
+<line x1="1440" y1="904" x2="1466" y2="904" stroke="#455a64" stroke-width="2"/>
+<text x="1432.0" y="909.0" font-size="13" text-anchor="end" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">SCL</text>
+<path d="M1466 904 l8 -10 h31.799999999999997 v20 h-31.799999999999997 z" fill="#b8860b"/>
+<text x="1477.0" y="909.0" font-size="12.5" text-anchor="start" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">SCL</text>
+<line x1="1440" y1="928" x2="1466" y2="928" stroke="#455a64" stroke-width="2"/>
+<text x="1432.0" y="933.0" font-size="13" text-anchor="end" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">SDA</text>
+<path d="M1466 928 l8 -10 h31.799999999999997 v20 h-31.799999999999997 z" fill="#1565c0"/>
+<text x="1477.0" y="933.0" font-size="12.5" text-anchor="start" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">SDA</text>
 <rect x="1290" y="560" width="70" height="94" rx="8" fill="#eceff1" stroke="#455a64" stroke-width="2"/>
 <text x="1325.0" y="538.0" font-size="16" text-anchor="middle" font-weight="700" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">JP1</text>
 <text x="1325.0" y="554.0" font-size="12" text-anchor="middle" font-weight="400" fill="#607d8b" font-family="system-ui,Segoe UI,sans-serif">ADD strap, open</text>

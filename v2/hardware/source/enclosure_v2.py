@@ -117,6 +117,14 @@ def make_housing():
     lx, ly = L.place(e, *e["led"])
     c = c.cut(cyl(2.5, 0.6, FACE, lx, ly))
 
+    # --- SHT40 pocket: walls up to the PCB, grille in the face -----------------------------
+    k = L.POCKET
+    zt = L.PCB_BOT - CH_GAP
+    outer = box(k["cx"], k["cy"], FACE - 0.01, k["ix"] + 2 * T, k["iy"] + 2 * T, zt - FACE + 0.01)
+    inner = box(k["cx"], k["cy"], FACE - 1, k["ix"], k["iy"], zt + 2)
+    c = c.union(outer.cut(inner))
+    c = c.cut(face_slots(k["cx"], k["cy"], 4, k["iy"] - 3.0, a=90.0))
+
     # --- SCD4x (option): grille under it and slots in the wall next to it -----------------
     scd = L.MODULES["SCD"]
     c = c.cut(face_slots(scd["cx"] + 2.0, scd["cy"], 4, 9.0, a=0.0))
@@ -194,7 +202,7 @@ def module_dummies():
             body = body.union(box(px, py, z1, ss, ss, sh))
         if k == "RADAR":
             body = body.union(rot_box(m["cx"], m["cy"], z0 - 0.9, 6.0, 6.0, 0.9, m["rot"]))   # radar chip
-        if k == "BH":
+        if k in ("BH", "SHT"):
             px, py = L.place(m, *m["chip"])
             body = body.union(box(px, py, z0 - 1.0, 3.0, 3.0, 1.0))
         # header plastic (between module and socket) and the header tails on the other side

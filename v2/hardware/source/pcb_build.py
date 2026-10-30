@@ -206,6 +206,30 @@ def chamber_fp(b):
     return fp
 
 
+def pocket_fp(b):
+    """Marks the housing walls around the SHT40 pocket (courtyard + fab), like the chamber."""
+    k = L.POCKET
+    fp = pcbnew.FOOTPRINT(b)
+    fp.SetFPID(pcbnew.LIB_ID("ceiling_v2", "PocketWalls"))
+    fp.SetPosition(pt(k["cx"], k["cy"]))
+    fp.SetLayer(pcbnew.B_Cu)
+    fp.SetReference("CH2")
+    fp.SetValue("SHT40 pocket walls (housing)")
+    fp.Reference().SetVisible(False)
+    fp.Reference().SetLayer(pcbnew.B_Fab)
+    fp.Value().SetLayer(pcbnew.B_Fab)
+    b.Add(fp)
+    x0, x1 = k["cx"] - k["ix"] / 2, k["cx"] + k["ix"] / 2
+    y0, y1 = k["cy"] - k["iy"] / 2, k["cy"] + k["iy"] / 2
+    t = 1.5
+    # four wall strips as separate closed courtyards
+    for (a, bb, c, d) in ((x0 - t, y0 - t, x1 + t, y0), (x0 - t, y1, x1 + t, y1 + t),
+                          (x0 - t, y0 + 0.1, x0, y1 - 0.1), (x1, y0 + 0.1, x1 + t, y1 - 0.1)):   # strips must not touch
+        poly(fp, pcbnew.B_CrtYd, [(a, bb), (c, bb), (c, d), (a, d)], 0.05)
+    poly(fp, pcbnew.B_Fab, [(x0 - 1.2, y0 - 1.2), (x1 + 1.2, y0 - 1.2), (x1 + 1.2, y1 + 1.2), (x0 - 1.2, y1 + 1.2)], 0.15)
+    return fp
+
+
 def outline(b):
     s = pcbnew.PCB_SHAPE(b, pcbnew.SHAPE_T_CIRCLE)
     s.SetLayer(pcbnew.Edge_Cuts)
@@ -265,6 +289,7 @@ def place():
     for i, (x, y) in enumerate(L.HOLES, 1):
         hole_fp(b, i, x, y)
     chamber_fp(b)
+    pocket_fp(b)
     board_text(b, "CEILING SENSOR v2", 22.0, -27.0, pcbnew.F_SilkS, 1.5)
     board_text(b, "PCB rev A  2026-10", 22.0, -30.0, pcbnew.F_SilkS, 1.0)
     board_text(b, "modules plug in from this side", 18.0, -30.0, pcbnew.B_SilkS, 1.0, mirrored=True)
@@ -291,6 +316,12 @@ def finish(src="router"):
            (L.R_PCB + 1, c["y_half"] + 1.5), (c["x0"] - 1.5, c["y_half"] + 1.5)]
     for layer in (pcbnew.F_Cu, pcbnew.B_Cu):
         zone(b, layer, rule_area=True, pts=pts)
+    # no pour above the SHT40 pocket either: keeps the room sensor away from the board's warmth
+    k = L.POCKET
+    pk = [(k["cx"] - k["ix"] / 2 - 1.2, k["cy"] - k["iy"] / 2 - 1.2), (k["cx"] + k["ix"] / 2 + 1.2, k["cy"] - k["iy"] / 2 - 1.2),
+          (k["cx"] + k["ix"] / 2 + 1.2, k["cy"] + k["iy"] / 2 + 1.2), (k["cx"] - k["ix"] / 2 - 1.2, k["cy"] + k["iy"] / 2 + 1.2)]
+    for layer in (pcbnew.F_Cu, pcbnew.B_Cu):
+        zone(b, layer, rule_area=True, pts=pk)
     # no pour above the ESP32-S3-Zero's antenna end (the board hangs ~11 mm below the PCB)
     e = L.MODULES["ESP"]
     sx, sy = e["body"]

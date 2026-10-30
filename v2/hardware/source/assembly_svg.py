@@ -17,7 +17,7 @@ import layout as L
 S = 9.0          # px per mm
 PAD = 70
 W = H = int(2 * L.R_PCB * S + 2 * PAD)
-COL = {"RADAR": "#1565c0", "ESP": "#263238", "PIR": "#8d6e63", "BH": "#0d47a1", "ENS": "#7b1fa2", "SCD": "#00838f"}
+COL = {"RADAR": "#1565c0", "ESP": "#263238", "PIR": "#8d6e63", "BH": "#0d47a1", "ENS": "#7b1fa2", "SCD": "#00838f", "SHT": "#6a1b9a"}
 out = []
 e = out.append
 

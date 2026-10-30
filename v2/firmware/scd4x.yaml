@@ -5,7 +5,7 @@
 #
 # The SCD4x measures CO2 directly (photoacoustic), unlike the ENS160 eCO2, which is an
 # estimate from VOCs. It also reports temperature and humidity; they read high inside the
-# housing, so they are diagnostic only and the AHT21 stays the main thermometer.
+# housing, so they are diagnostic only and the SHT40 stays the main thermometer.
 sensor:
   - platform: scd4x
     id: scd

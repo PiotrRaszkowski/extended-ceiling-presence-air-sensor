@@ -151,6 +151,20 @@
 <rect x="538.8" y="202.28999999999996" width="12" height="12" rx="2" fill="#212121"/>
 <circle cx="544.8" cy="208.28999999999996" r="2.6" fill="#ffd54f"/>
 <text x="558.9" y="217.5" font-size="10.5" text-anchor="middle" font-weight="600" fill="#37474f" font-family="system-ui,Segoe UI,sans-serif" paint-order="stroke" stroke="#ffffff" stroke-width="3">SDA</text>
+<polygon points="309.0,291.0 192.0,291.0 192.0,201.0 309.0,201.0" fill="#6a1b9a" fill-opacity="0.12" stroke="#6a1b9a" stroke-width="2.5"/>
+<text x="250.5" y="242.0" font-size="14" text-anchor="middle" font-weight="700" fill="#6a1b9a" font-family="system-ui,Segoe UI,sans-serif" paint-order="stroke" stroke="#ffffff" stroke-width="3">U8 GY-SHT40</text>
+<rect x="197.7" y="205.71000000000004" width="12" height="12" rx="2" fill="#212121"/>
+<circle cx="203.7" cy="211.71000000000004" r="2.6" fill="#ffd54f"/>
+<text x="191.6" y="206.8" font-size="10.5" text-anchor="middle" font-weight="600" fill="#37474f" font-family="system-ui,Segoe UI,sans-serif" paint-order="stroke" stroke="#ffffff" stroke-width="3">VIN</text>
+<rect x="197.7" y="228.57" width="12" height="12" rx="2" fill="#212121"/>
+<circle cx="203.7" cy="234.57" r="2.6" fill="#ffd54f"/>
+<text x="189.1" y="235.0" font-size="10.5" text-anchor="middle" font-weight="600" fill="#37474f" font-family="system-ui,Segoe UI,sans-serif" paint-order="stroke" stroke="#ffffff" stroke-width="3">GND</text>
+<rect x="197.7" y="251.43" width="12" height="12" rx="2" fill="#212121"/>
+<circle cx="203.7" cy="257.43" r="2.6" fill="#ffd54f"/>
+<text x="189.1" y="265.0" font-size="10.5" text-anchor="middle" font-weight="600" fill="#37474f" font-family="system-ui,Segoe UI,sans-serif" paint-order="stroke" stroke="#ffffff" stroke-width="3">SCL</text>
+<rect x="197.7" y="274.28999999999996" width="12" height="12" rx="2" fill="#212121"/>
+<circle cx="203.7" cy="280.28999999999996" r="2.6" fill="#ffd54f"/>
+<text x="191.6" y="293.2" font-size="10.5" text-anchor="middle" font-weight="600" fill="#37474f" font-family="system-ui,Segoe UI,sans-serif" paint-order="stroke" stroke="#ffffff" stroke-width="3">SDA</text>
 <rect x="635.0" y="410.0" width="14" height="14" fill="#bdbdbd" stroke="#424242" stroke-width="1.5"/>
 <circle cx="550.5600000000001" cy="417.0" r="7" fill="#bdbdbd" stroke="#424242" stroke-width="1.5"/>
 <text x="596.3" y="405.0" font-size="12" text-anchor="middle" font-weight="700" fill="#bf360c" font-family="system-ui,Segoe UI,sans-serif" paint-order="stroke" stroke="#ffffff" stroke-width="3">D1 1N5819</text>

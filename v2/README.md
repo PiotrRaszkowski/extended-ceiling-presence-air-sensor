@@ -15,6 +15,7 @@ v1 works, but wiring it is fiddly: about twenty jumpers, a hand-made Dupont hub,
 | Power | S09 module, EN bridged by hand, capacitor on its pads | 3-pin switching regulator (K7805-1000R3 or any pin-compatible 7805 replacement) on the board |
 | 12 V input | Wago | Keyed JST-XH connector, plus a diode against reverse polarity |
 | USB + 12 V together | Not allowed | Allowed (a diode separates the ESP from the 5 V rail) |
+| Room temperature / humidity | AHT21 on the ENS160 board (reads ~10 °C high: the ENS160 heater is next to it) | Separate SHT40 in its own walled, vented pocket |
 | CO2 | eCO2 estimated from VOCs | Optional SCD40/SCD41 socket for real CO2 |
 | Housing | Ø80 or Ø100 | Ø100 only; same ceiling base and bayonet as v1 |
 | ESP | On the face | Under the PCB, in a socket: unplug it to flash over USB |
