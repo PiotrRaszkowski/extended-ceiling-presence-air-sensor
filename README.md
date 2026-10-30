@@ -25,6 +25,8 @@ Parts cost about 100 zł (~€24) from AliExpress or about 160 zł (~€38) from
 
 Issues and photos of your build are welcome.
 
+**Next version:** [v2](v2/) replaces the jumpers and the hub with a round carrier PCB that every module plugs into, switches to the HLK-LD2412 radar (2.54 mm pins) and adds an optional SCD40/SCD41 for real CO2. It is designed but not built yet.
+
 ## Documentation
 
 1. [Bill of materials](docs/bom.md): modules with Allegro and AliExpress links, passives, screws
@@ -61,6 +63,7 @@ hardware/stl/    printable parts, Ø80
 hardware/step/   the same parts as STEP
 hardware/source/ CadQuery model, the same model for OpenSCAD (Customizer), wiring diagram generator
 hardware/d100/   printable parts, Ø100 (STL + STEP)
+v2/              next version: carrier PCB, LD2412, optional SCD4x (designed, not built yet)
 homeassistant/   example automations
 docs/            documentation and images
 ```

@@ -1,0 +1,24 @@
+# Optional SCD40 / SCD41 on the v2 carrier PCB (socket U7, I2C address 0x62).
+# Enable it from ceiling-sensor-v2.yaml:
+#   packages:
+#     scd4x: !include scd4x.yaml
+#
+# The SCD4x measures CO2 directly (photoacoustic), unlike the ENS160 eCO2, which is an
+# estimate from VOCs. It also reports temperature and humidity; they read high inside the
+# housing, so they are diagnostic only and the AHT21 stays the main thermometer.
+sensor:
+  - platform: scd4x
+    id: scd
+    address: 0x62
+    update_interval: 30s
+    measurement_mode: periodic
+    automatic_self_calibration: true   # needs fresh air (~400 ppm) for a while every few days
+    co2:
+      id: co2
+      name: CO2
+    temperature:
+      name: SCD4x temperature
+      entity_category: diagnostic
+    humidity:
+      name: SCD4x humidity
+      entity_category: diagnostic

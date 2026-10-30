@@ -5,3 +5,5 @@ __pycache__/
 .venv/
 hardware/source/out/
 .DS_Store
+v2/hardware/source/out/
+*.kicad_prl

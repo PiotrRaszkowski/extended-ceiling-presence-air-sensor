@@ -1,0 +1,316 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1560" height="1080" viewBox="0 0 1560 1080">
+<rect width="1560" height="1080" fill="#ffffff"/>
+<text x="30.0" y="40.0" font-size="24" text-anchor="start" font-weight="700" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">Ceiling sensor v2 - carrier PCB schematic</text>
+<text x="30.0" y="64.0" font-size="13" text-anchor="start" font-weight="400" fill="#607d8b" font-family="system-ui,Segoe UI,sans-serif">Generated from v2/hardware/source/layout.py. Pin names as printed on each module (the order in a box is not the physical order); items marked * must be checked against your boards (docs/verify.md).</text>
+<text x="30.0" y="110.0" font-size="18" text-anchor="start" font-weight="700" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">Power</text>
+<rect x="60" y="150" width="110" height="94" rx="8" fill="#eceff1" stroke="#455a64" stroke-width="2"/>
+<text x="115.0" y="128.0" font-size="16" text-anchor="middle" font-weight="700" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">J1</text>
+<text x="115.0" y="144.0" font-size="12" text-anchor="middle" font-weight="400" fill="#607d8b" font-family="system-ui,Segoe UI,sans-serif">JST-XH, 12 V in</text>
+<line x1="170" y1="186" x2="196" y2="186" stroke="#455a64" stroke-width="2"/>
+<text x="162.0" y="191.0" font-size="13" text-anchor="end" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">1</text>
+<path d="M196 186 l8 -10 h62.199999999999996 v20 h-62.199999999999996 z" fill="#b71c1c"/>
+<text x="207.0" y="191.0" font-size="12.5" text-anchor="start" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">+12V IN</text>
+<line x1="170" y1="210" x2="196" y2="210" stroke="#455a64" stroke-width="2"/>
+<text x="162.0" y="215.0" font-size="13" text-anchor="end" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">2</text>
+<path d="M196 210 l8 -10 h31.799999999999997 v20 h-31.799999999999997 z" fill="#212121"/>
+<text x="207.0" y="215.0" font-size="12.5" text-anchor="start" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">GND</text>
+<line x1="380" y1="140" x2="380" y2="210" stroke="#455a64" stroke-width="2"/>
+<path d="M369 166 h22 l-11 16 z" fill="#455a64"/>
+<line x1="369" y1="183" x2="391" y2="183" stroke="#455a64" stroke-width="3"/>
+<text x="398.0" y="173.0" font-size="13" text-anchor="start" font-weight="700" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">D1</text>
+<text x="398.0" y="189.0" font-size="12" text-anchor="start" font-weight="400" fill="#607d8b" font-family="system-ui,Segoe UI,sans-serif">1N5819 (reverse polarity)</text>
+<circle cx="380" cy="140" r="3" fill="#455a64"/><circle cx="380" cy="210" r="3" fill="#455a64"/>
+<path d="M380 140 l8 -10 h62.199999999999996 v20 h-62.199999999999996 z" fill="#b71c1c"/>
+<text x="391.0" y="145.0" font-size="12.5" text-anchor="start" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">+12V IN</text>
+<path d="M380 210 l8 -10 h123.0 v20 h-123.0 z" fill="#b71c1c"/>
+<text x="391.0" y="215.0" font-size="12.5" text-anchor="start" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">+12V (after D1)</text>
+<rect x="170" y="300" width="170" height="94" rx="8" fill="#eceff1" stroke="#455a64" stroke-width="2"/>
+<text x="255.0" y="278.0" font-size="16" text-anchor="middle" font-weight="700" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">U1</text>
+<text x="255.0" y="294.0" font-size="12" text-anchor="middle" font-weight="400" fill="#607d8b" font-family="system-ui,Segoe UI,sans-serif">K7805-1000R3 / R-78E5.0-1.0</text>
+<line x1="144" y1="336" x2="170" y2="336" stroke="#455a64" stroke-width="2"/>
+<text x="178.0" y="341.0" font-size="13" text-anchor="start" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">VIN</text>
+<path d="M144 336 l-8 -10 h-123.0 v20 h123.0 z" fill="#b71c1c"/>
+<text x="133.0" y="341.0" font-size="12.5" text-anchor="end" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">+12V (after D1)</text>
+<line x1="144" y1="360" x2="170" y2="360" stroke="#455a64" stroke-width="2"/>
+<text x="178.0" y="365.0" font-size="13" text-anchor="start" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">GND</text>
+<path d="M144 360 l-8 -10 h-31.799999999999997 v20 h31.799999999999997 z" fill="#212121"/>
+<text x="133.0" y="365.0" font-size="12.5" text-anchor="end" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">GND</text>
+<line x1="340" y1="336" x2="366" y2="336" stroke="#455a64" stroke-width="2"/>
+<text x="332.0" y="341.0" font-size="13" text-anchor="end" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">VOUT</text>
+<path d="M366 336 l8 -10 h31.799999999999997 v20 h-31.799999999999997 z" fill="#ef6c00"/>
+<text x="377.0" y="341.0" font-size="12.5" text-anchor="start" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">+5V</text>
+<line x1="720" y1="140" x2="720" y2="210" stroke="#455a64" stroke-width="2"/>
+<rect x="704" y="170" width="32" height="10" fill="#fff" stroke="none"/>
+<line x1="705" y1="170" x2="735" y2="170" stroke="#455a64" stroke-width="3"/>
+<path d="M705 182 q15 -8 30 0" fill="none" stroke="#455a64" stroke-width="3"/>
+<text x="698.0" y="170.0" font-size="13" text-anchor="end" font-weight="700" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">+</text>
+<text x="738.0" y="173.0" font-size="13" text-anchor="start" font-weight="700" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">C1</text>
+<text x="738.0" y="189.0" font-size="12" text-anchor="start" font-weight="400" fill="#607d8b" font-family="system-ui,Segoe UI,sans-serif">10 µF 25 V</text>
+<circle cx="720" cy="140" r="3" fill="#455a64"/><circle cx="720" cy="210" r="3" fill="#455a64"/>
+<path d="M720 140 l8 -10 h123.0 v20 h-123.0 z" fill="#b71c1c"/>
+<text x="731.0" y="145.0" font-size="12.5" text-anchor="start" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">+12V (after D1)</text>
+<path d="M720 210 l8 -10 h31.799999999999997 v20 h-31.799999999999997 z" fill="#212121"/>
+<text x="731.0" y="215.0" font-size="12.5" text-anchor="start" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">GND</text>
+<line x1="720" y1="280" x2="720" y2="350" stroke="#455a64" stroke-width="2"/>
+<rect x="704" y="310" width="32" height="10" fill="#fff" stroke="none"/>
+<line x1="705" y1="310" x2="735" y2="310" stroke="#455a64" stroke-width="3"/>
+<path d="M705 322 q15 -8 30 0" fill="none" stroke="#455a64" stroke-width="3"/>
+<text x="698.0" y="310.0" font-size="13" text-anchor="end" font-weight="700" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">+</text>
+<text x="738.0" y="313.0" font-size="13" text-anchor="start" font-weight="700" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">C2</text>
+<text x="738.0" y="329.0" font-size="12" text-anchor="start" font-weight="400" fill="#607d8b" font-family="system-ui,Segoe UI,sans-serif">220 µF 10 V</text>
+<circle cx="720" cy="280" r="3" fill="#455a64"/><circle cx="720" cy="350" r="3" fill="#455a64"/>
+<path d="M720 280 l8 -10 h31.799999999999997 v20 h-31.799999999999997 z" fill="#ef6c00"/>
+<text x="731.0" y="285.0" font-size="12.5" text-anchor="start" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">+5V</text>
+<path d="M720 350 l8 -10 h31.799999999999997 v20 h-31.799999999999997 z" fill="#212121"/>
+<text x="731.0" y="355.0" font-size="12.5" text-anchor="start" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">GND</text>
+<line x1="430" y1="430" x2="430" y2="500" stroke="#455a64" stroke-width="2"/>
+<path d="M419 456 h22 l-11 16 z" fill="#455a64"/>
+<line x1="419" y1="473" x2="441" y2="473" stroke="#455a64" stroke-width="3"/>
+<text x="448.0" y="463.0" font-size="13" text-anchor="start" font-weight="700" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">D2</text>
+<text x="448.0" y="479.0" font-size="12" text-anchor="start" font-weight="400" fill="#607d8b" font-family="system-ui,Segoe UI,sans-serif">1N5819 (USB + 12 V safe)</text>
+<circle cx="430" cy="430" r="3" fill="#455a64"/><circle cx="430" cy="500" r="3" fill="#455a64"/>
+<path d="M430 430 l8 -10 h31.799999999999997 v20 h-31.799999999999997 z" fill="#ef6c00"/>
+<text x="441.0" y="435.0" font-size="12.5" text-anchor="start" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">+5V</text>
+<path d="M430 500 l8 -10 h138.2 v20 h-138.2 z" fill="#f9a825"/>
+<text x="441.0" y="505.0" font-size="12.5" text-anchor="start" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">ESP 5V (after D2)</text>
+<line x1="720" y1="420" x2="720" y2="490" stroke="#455a64" stroke-width="2"/>
+<rect x="704" y="450" width="32" height="10" fill="#fff" stroke="none"/>
+<line x1="705" y1="450" x2="735" y2="450" stroke="#455a64" stroke-width="3"/>
+<path d="M705 462 q15 -8 30 0" fill="none" stroke="#455a64" stroke-width="3"/>
+<text x="698.0" y="450.0" font-size="13" text-anchor="end" font-weight="700" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">+</text>
+<text x="738.0" y="453.0" font-size="13" text-anchor="start" font-weight="700" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">C3</text>
+<text x="738.0" y="469.0" font-size="12" text-anchor="start" font-weight="400" fill="#607d8b" font-family="system-ui,Segoe UI,sans-serif">47 µF 10 V (fit with SCD4x)</text>
+<circle cx="720" cy="420" r="3" fill="#455a64"/><circle cx="720" cy="490" r="3" fill="#455a64"/>
+<path d="M720 420 l8 -10 h39.4 v20 h-39.4 z" fill="#c2185b"/>
+<text x="731.0" y="425.0" font-size="12.5" text-anchor="start" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">+3V3</text>
+<path d="M720 490 l8 -10 h31.799999999999997 v20 h-31.799999999999997 z" fill="#212121"/>
+<text x="731.0" y="495.0" font-size="12.5" text-anchor="start" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">GND</text>
+<rect x="1000" y="140" width="170" height="262" rx="8" fill="#eceff1" stroke="#455a64" stroke-width="2"/>
+<text x="1085.0" y="118.0" font-size="16" text-anchor="middle" font-weight="700" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">U2  ESP32-S3-Zero</text>
+<text x="1085.0" y="134.0" font-size="12" text-anchor="middle" font-weight="400" fill="#607d8b" font-family="system-ui,Segoe UI,sans-serif">two 1x9 sockets</text>
+<line x1="974" y1="176" x2="1000" y2="176" stroke="#455a64" stroke-width="2"/>
+<text x="1008.0" y="181.0" font-size="13" text-anchor="start" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">5V</text>
+<path d="M974 176 l-8 -10 h-138.2 v20 h138.2 z" fill="#f9a825"/>
+<text x="963.0" y="181.0" font-size="12.5" text-anchor="end" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">ESP 5V (after D2)</text>
+<line x1="974" y1="200" x2="1000" y2="200" stroke="#455a64" stroke-width="2"/>
+<text x="1008.0" y="205.0" font-size="13" text-anchor="start" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">GND</text>
+<path d="M974 200 l-8 -10 h-31.799999999999997 v20 h31.799999999999997 z" fill="#212121"/>
+<text x="963.0" y="205.0" font-size="12.5" text-anchor="end" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">GND</text>
+<line x1="974" y1="224" x2="1000" y2="224" stroke="#455a64" stroke-width="2"/>
+<text x="1008.0" y="229.0" font-size="13" text-anchor="start" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">3V3</text>
+<path d="M974 224 l-8 -10 h-39.4 v20 h39.4 z" fill="#c2185b"/>
+<text x="963.0" y="229.0" font-size="12.5" text-anchor="end" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">+3V3</text>
+<line x1="974" y1="248" x2="1000" y2="248" stroke="#455a64" stroke-width="2"/>
+<text x="1008.0" y="253.0" font-size="13" text-anchor="start" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">GP1</text>
+<path d="M974 248 l-8 -10 h-31.799999999999997 v20 h31.799999999999997 z" fill="#1565c0"/>
+<text x="963.0" y="253.0" font-size="12.5" text-anchor="end" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">SDA</text>
+<line x1="974" y1="272" x2="1000" y2="272" stroke="#455a64" stroke-width="2"/>
+<text x="1008.0" y="277.0" font-size="13" text-anchor="start" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">GP2</text>
+<path d="M974 272 l-8 -10 h-31.799999999999997 v20 h31.799999999999997 z" fill="#b8860b"/>
+<text x="963.0" y="277.0" font-size="12.5" text-anchor="end" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">SCL</text>
+<line x1="974" y1="296" x2="1000" y2="296" stroke="#455a64" stroke-width="2"/>
+<text x="1008.0" y="301.0" font-size="13" text-anchor="start" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">GP3</text>
+<text x="968.0" y="301.0" font-size="12" text-anchor="end" font-weight="400" fill="#90a4ae" font-family="system-ui,Segoe UI,sans-serif">n.c.</text>
+<line x1="974" y1="320" x2="1000" y2="320" stroke="#455a64" stroke-width="2"/>
+<text x="1008.0" y="325.0" font-size="13" text-anchor="start" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">GP4</text>
+<path d="M974 320 l-8 -10 h-69.8 v20 h69.8 z" fill="#6a1b9a"/>
+<text x="963.0" y="325.0" font-size="12.5" text-anchor="end" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">RADAR_RX</text>
+<line x1="974" y1="344" x2="1000" y2="344" stroke="#455a64" stroke-width="2"/>
+<text x="1008.0" y="349.0" font-size="13" text-anchor="start" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">GP5</text>
+<path d="M974 344 l-8 -10 h-69.8 v20 h69.8 z" fill="#2e7d32"/>
+<text x="963.0" y="349.0" font-size="12.5" text-anchor="end" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">RADAR_TX</text>
+<line x1="974" y1="368" x2="1000" y2="368" stroke="#455a64" stroke-width="2"/>
+<text x="1008.0" y="373.0" font-size="13" text-anchor="start" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">GP6</text>
+<path d="M974 368 l-8 -10 h-62.199999999999996 v20 h62.199999999999996 z" fill="#795548"/>
+<text x="963.0" y="373.0" font-size="12.5" text-anchor="end" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">PIR_OUT</text>
+<line x1="1170" y1="176" x2="1196" y2="176" stroke="#455a64" stroke-width="2"/>
+<text x="1162.0" y="181.0" font-size="13" text-anchor="end" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">TX</text>
+<text x="1202.0" y="181.0" font-size="12" text-anchor="start" font-weight="400" fill="#90a4ae" font-family="system-ui,Segoe UI,sans-serif">n.c.</text>
+<line x1="1170" y1="200" x2="1196" y2="200" stroke="#455a64" stroke-width="2"/>
+<text x="1162.0" y="205.0" font-size="13" text-anchor="end" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">RX</text>
+<text x="1202.0" y="205.0" font-size="12" text-anchor="start" font-weight="400" fill="#90a4ae" font-family="system-ui,Segoe UI,sans-serif">n.c.</text>
+<line x1="1170" y1="224" x2="1196" y2="224" stroke="#455a64" stroke-width="2"/>
+<text x="1162.0" y="229.0" font-size="13" text-anchor="end" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">GP13</text>
+<text x="1202.0" y="229.0" font-size="12" text-anchor="start" font-weight="400" fill="#90a4ae" font-family="system-ui,Segoe UI,sans-serif">n.c.</text>
+<line x1="1170" y1="248" x2="1196" y2="248" stroke="#455a64" stroke-width="2"/>
+<text x="1162.0" y="253.0" font-size="13" text-anchor="end" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">GP12</text>
+<text x="1202.0" y="253.0" font-size="12" text-anchor="start" font-weight="400" fill="#90a4ae" font-family="system-ui,Segoe UI,sans-serif">n.c.</text>
+<line x1="1170" y1="272" x2="1196" y2="272" stroke="#455a64" stroke-width="2"/>
+<text x="1162.0" y="277.0" font-size="13" text-anchor="end" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">GP11</text>
+<text x="1202.0" y="277.0" font-size="12" text-anchor="start" font-weight="400" fill="#90a4ae" font-family="system-ui,Segoe UI,sans-serif">n.c.</text>
+<line x1="1170" y1="296" x2="1196" y2="296" stroke="#455a64" stroke-width="2"/>
+<text x="1162.0" y="301.0" font-size="13" text-anchor="end" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">GP10</text>
+<text x="1202.0" y="301.0" font-size="12" text-anchor="start" font-weight="400" fill="#90a4ae" font-family="system-ui,Segoe UI,sans-serif">n.c.</text>
+<line x1="1170" y1="320" x2="1196" y2="320" stroke="#455a64" stroke-width="2"/>
+<text x="1162.0" y="325.0" font-size="13" text-anchor="end" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">GP9</text>
+<text x="1202.0" y="325.0" font-size="12" text-anchor="start" font-weight="400" fill="#90a4ae" font-family="system-ui,Segoe UI,sans-serif">n.c.</text>
+<line x1="1170" y1="344" x2="1196" y2="344" stroke="#455a64" stroke-width="2"/>
+<text x="1162.0" y="349.0" font-size="13" text-anchor="end" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">GP8</text>
+<text x="1202.0" y="349.0" font-size="12" text-anchor="start" font-weight="400" fill="#90a4ae" font-family="system-ui,Segoe UI,sans-serif">n.c.</text>
+<line x1="1170" y1="368" x2="1196" y2="368" stroke="#455a64" stroke-width="2"/>
+<text x="1162.0" y="373.0" font-size="13" text-anchor="end" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">GP7</text>
+<path d="M1196 368 l8 -10 h77.39999999999999 v20 h-77.39999999999999 z" fill="#00838f"/>
+<text x="1207.0" y="373.0" font-size="12.5" text-anchor="start" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">RADAR_OUT</text>
+<rect x="180" y="560" width="150" height="142" rx="8" fill="#eceff1" stroke="#455a64" stroke-width="2"/>
+<text x="255.0" y="538.0" font-size="16" text-anchor="middle" font-weight="700" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">U3  HLK-LD2412 *</text>
+<text x="255.0" y="554.0" font-size="12" text-anchor="middle" font-weight="400" fill="#607d8b" font-family="system-ui,Segoe UI,sans-serif">1x4 + 1x3 sockets</text>
+<line x1="154" y1="596" x2="180" y2="596" stroke="#455a64" stroke-width="2"/>
+<text x="188.0" y="601.0" font-size="13" text-anchor="start" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">TX</text>
+<path d="M154 596 l-8 -10 h-69.8 v20 h69.8 z" fill="#2e7d32"/>
+<text x="143.0" y="601.0" font-size="12.5" text-anchor="end" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">RADAR_TX</text>
+<line x1="154" y1="620" x2="180" y2="620" stroke="#455a64" stroke-width="2"/>
+<text x="188.0" y="625.0" font-size="13" text-anchor="start" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">RX</text>
+<path d="M154 620 l-8 -10 h-69.8 v20 h69.8 z" fill="#6a1b9a"/>
+<text x="143.0" y="625.0" font-size="12.5" text-anchor="end" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">RADAR_RX</text>
+<line x1="154" y1="644" x2="180" y2="644" stroke="#455a64" stroke-width="2"/>
+<text x="188.0" y="649.0" font-size="13" text-anchor="start" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">GND</text>
+<path d="M154 644 l-8 -10 h-31.799999999999997 v20 h31.799999999999997 z" fill="#212121"/>
+<text x="143.0" y="649.0" font-size="12.5" text-anchor="end" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">GND</text>
+<line x1="154" y1="668" x2="180" y2="668" stroke="#455a64" stroke-width="2"/>
+<text x="188.0" y="673.0" font-size="13" text-anchor="start" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">3V3</text>
+<text x="148.0" y="673.0" font-size="12" text-anchor="end" font-weight="400" fill="#90a4ae" font-family="system-ui,Segoe UI,sans-serif">n.c.</text>
+<line x1="330" y1="596" x2="356" y2="596" stroke="#455a64" stroke-width="2"/>
+<text x="322.0" y="601.0" font-size="13" text-anchor="end" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">OUT</text>
+<path d="M356 596 l8 -10 h77.39999999999999 v20 h-77.39999999999999 z" fill="#00838f"/>
+<text x="367.0" y="601.0" font-size="12.5" text-anchor="start" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">RADAR_OUT</text>
+<line x1="330" y1="620" x2="356" y2="620" stroke="#455a64" stroke-width="2"/>
+<text x="322.0" y="625.0" font-size="13" text-anchor="end" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">GND</text>
+<path d="M356 620 l8 -10 h31.799999999999997 v20 h-31.799999999999997 z" fill="#212121"/>
+<text x="367.0" y="625.0" font-size="12.5" text-anchor="start" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">GND</text>
+<line x1="330" y1="644" x2="356" y2="644" stroke="#455a64" stroke-width="2"/>
+<text x="322.0" y="649.0" font-size="13" text-anchor="end" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">+5V</text>
+<path d="M356 644 l8 -10 h31.799999999999997 v20 h-31.799999999999997 z" fill="#ef6c00"/>
+<text x="367.0" y="649.0" font-size="12.5" text-anchor="start" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">+5V</text>
+<rect x="560" y="560" width="150" height="118" rx="8" fill="#eceff1" stroke="#455a64" stroke-width="2"/>
+<text x="635.0" y="538.0" font-size="16" text-anchor="middle" font-weight="700" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">U4  HC-SR602 PIR *</text>
+<text x="635.0" y="554.0" font-size="12" text-anchor="middle" font-weight="400" fill="#607d8b" font-family="system-ui,Segoe UI,sans-serif">1x3 socket</text>
+<line x1="710" y1="596" x2="736" y2="596" stroke="#455a64" stroke-width="2"/>
+<text x="702.0" y="601.0" font-size="13" text-anchor="end" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">+</text>
+<path d="M736 596 l8 -10 h31.799999999999997 v20 h-31.799999999999997 z" fill="#ef6c00"/>
+<text x="747.0" y="601.0" font-size="12.5" text-anchor="start" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">+5V</text>
+<line x1="710" y1="620" x2="736" y2="620" stroke="#455a64" stroke-width="2"/>
+<text x="702.0" y="625.0" font-size="13" text-anchor="end" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">OUT</text>
+<path d="M736 620 l8 -10 h62.199999999999996 v20 h-62.199999999999996 z" fill="#795548"/>
+<text x="747.0" y="625.0" font-size="12.5" text-anchor="start" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">PIR_OUT</text>
+<line x1="710" y1="644" x2="736" y2="644" stroke="#455a64" stroke-width="2"/>
+<text x="702.0" y="649.0" font-size="13" text-anchor="end" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">-</text>
+<path d="M736 644 l8 -10 h31.799999999999997 v20 h-31.799999999999997 z" fill="#212121"/>
+<text x="747.0" y="649.0" font-size="12.5" text-anchor="start" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">GND</text>
+<rect x="1000" y="560" width="150" height="166" rx="8" fill="#eceff1" stroke="#455a64" stroke-width="2"/>
+<text x="1075.0" y="538.0" font-size="16" text-anchor="middle" font-weight="700" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">U5  GY-302 BH1750</text>
+<text x="1075.0" y="554.0" font-size="12" text-anchor="middle" font-weight="400" fill="#607d8b" font-family="system-ui,Segoe UI,sans-serif">1x5 socket</text>
+<line x1="1150" y1="596" x2="1176" y2="596" stroke="#455a64" stroke-width="2"/>
+<text x="1142.0" y="601.0" font-size="13" text-anchor="end" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">ADDR</text>
+<text x="1182.0" y="601.0" font-size="12" text-anchor="start" font-weight="400" fill="#90a4ae" font-family="system-ui,Segoe UI,sans-serif">n.c.</text>
+<line x1="1150" y1="620" x2="1176" y2="620" stroke="#455a64" stroke-width="2"/>
+<text x="1142.0" y="625.0" font-size="13" text-anchor="end" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">SDA</text>
+<path d="M1176 620 l8 -10 h31.799999999999997 v20 h-31.799999999999997 z" fill="#1565c0"/>
+<text x="1187.0" y="625.0" font-size="12.5" text-anchor="start" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">SDA</text>
+<line x1="1150" y1="644" x2="1176" y2="644" stroke="#455a64" stroke-width="2"/>
+<text x="1142.0" y="649.0" font-size="13" text-anchor="end" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">SCL</text>
+<path d="M1176 644 l8 -10 h31.799999999999997 v20 h-31.799999999999997 z" fill="#b8860b"/>
+<text x="1187.0" y="649.0" font-size="12.5" text-anchor="start" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">SCL</text>
+<line x1="1150" y1="668" x2="1176" y2="668" stroke="#455a64" stroke-width="2"/>
+<text x="1142.0" y="673.0" font-size="13" text-anchor="end" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">GND</text>
+<path d="M1176 668 l8 -10 h31.799999999999997 v20 h-31.799999999999997 z" fill="#212121"/>
+<text x="1187.0" y="673.0" font-size="12.5" text-anchor="start" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">GND</text>
+<line x1="1150" y1="692" x2="1176" y2="692" stroke="#455a64" stroke-width="2"/>
+<text x="1142.0" y="697.0" font-size="13" text-anchor="end" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">VCC</text>
+<path d="M1176 692 l8 -10 h39.4 v20 h-39.4 z" fill="#c2185b"/>
+<text x="1187.0" y="697.0" font-size="12.5" text-anchor="start" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">+3V3</text>
+<rect x="120" y="790" width="150" height="238" rx="8" fill="#eceff1" stroke="#455a64" stroke-width="2"/>
+<text x="195.0" y="768.0" font-size="16" text-anchor="middle" font-weight="700" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">U6  ENS160 + AHT21 *</text>
+<text x="195.0" y="784.0" font-size="12" text-anchor="middle" font-weight="400" fill="#607d8b" font-family="system-ui,Segoe UI,sans-serif">1x8 socket, in the air chamber</text>
+<line x1="270" y1="826" x2="296" y2="826" stroke="#455a64" stroke-width="2"/>
+<text x="262.0" y="831.0" font-size="13" text-anchor="end" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">VIN</text>
+<path d="M296 826 l8 -10 h31.799999999999997 v20 h-31.799999999999997 z" fill="#ef6c00"/>
+<text x="307.0" y="831.0" font-size="12.5" text-anchor="start" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">+5V</text>
+<line x1="270" y1="850" x2="296" y2="850" stroke="#455a64" stroke-width="2"/>
+<text x="262.0" y="855.0" font-size="13" text-anchor="end" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">3V3</text>
+<path d="M296 850 l8 -10 h92.6 v20 h-92.6 z" fill="#455a64"/>
+<text x="307.0" y="855.0" font-size="12.5" text-anchor="start" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">ENS 3V3 out</text>
+<line x1="270" y1="874" x2="296" y2="874" stroke="#455a64" stroke-width="2"/>
+<text x="262.0" y="879.0" font-size="13" text-anchor="end" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">GND</text>
+<path d="M296 874 l8 -10 h31.799999999999997 v20 h-31.799999999999997 z" fill="#212121"/>
+<text x="307.0" y="879.0" font-size="12.5" text-anchor="start" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">GND</text>
+<line x1="270" y1="898" x2="296" y2="898" stroke="#455a64" stroke-width="2"/>
+<text x="262.0" y="903.0" font-size="13" text-anchor="end" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">SCL</text>
+<path d="M296 898 l8 -10 h31.799999999999997 v20 h-31.799999999999997 z" fill="#b8860b"/>
+<text x="307.0" y="903.0" font-size="12.5" text-anchor="start" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">SCL</text>
+<line x1="270" y1="922" x2="296" y2="922" stroke="#455a64" stroke-width="2"/>
+<text x="262.0" y="927.0" font-size="13" text-anchor="end" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">SDA</text>
+<path d="M296 922 l8 -10 h31.799999999999997 v20 h-31.799999999999997 z" fill="#1565c0"/>
+<text x="307.0" y="927.0" font-size="12.5" text-anchor="start" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">SDA</text>
+<line x1="270" y1="946" x2="296" y2="946" stroke="#455a64" stroke-width="2"/>
+<text x="262.0" y="951.0" font-size="13" text-anchor="end" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">ADD</text>
+<path d="M296 946 l8 -10 h62.199999999999996 v20 h-62.199999999999996 z" fill="#455a64"/>
+<text x="307.0" y="951.0" font-size="12.5" text-anchor="start" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">ENS ADD</text>
+<line x1="270" y1="970" x2="296" y2="970" stroke="#455a64" stroke-width="2"/>
+<text x="262.0" y="975.0" font-size="13" text-anchor="end" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">CS</text>
+<path d="M296 970 l8 -10 h54.599999999999994 v20 h-54.599999999999994 z" fill="#455a64"/>
+<text x="307.0" y="975.0" font-size="12.5" text-anchor="start" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">ENS CS</text>
+<line x1="270" y1="994" x2="296" y2="994" stroke="#455a64" stroke-width="2"/>
+<text x="262.0" y="999.0" font-size="13" text-anchor="end" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">INT</text>
+<text x="302.0" y="999.0" font-size="12" text-anchor="start" font-weight="400" fill="#90a4ae" font-family="system-ui,Segoe UI,sans-serif">n.c.</text>
+<rect x="560" y="790" width="150" height="142" rx="8" fill="#eceff1" stroke="#455a64" stroke-width="2"/>
+<text x="635.0" y="768.0" font-size="16" text-anchor="middle" font-weight="700" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">U7  SCD40 / SCD41 *</text>
+<text x="635.0" y="784.0" font-size="12" text-anchor="middle" font-weight="400" fill="#607d8b" font-family="system-ui,Segoe UI,sans-serif">1x4 socket, optional</text>
+<line x1="710" y1="826" x2="736" y2="826" stroke="#455a64" stroke-width="2"/>
+<text x="702.0" y="831.0" font-size="13" text-anchor="end" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">GND</text>
+<path d="M736 826 l8 -10 h31.799999999999997 v20 h-31.799999999999997 z" fill="#212121"/>
+<text x="747.0" y="831.0" font-size="12.5" text-anchor="start" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">GND</text>
+<line x1="710" y1="850" x2="736" y2="850" stroke="#455a64" stroke-width="2"/>
+<text x="702.0" y="855.0" font-size="13" text-anchor="end" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">VDD</text>
+<path d="M736 850 l8 -10 h39.4 v20 h-39.4 z" fill="#c2185b"/>
+<text x="747.0" y="855.0" font-size="12.5" text-anchor="start" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">+3V3</text>
+<line x1="710" y1="874" x2="736" y2="874" stroke="#455a64" stroke-width="2"/>
+<text x="702.0" y="879.0" font-size="13" text-anchor="end" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">SCL</text>
+<path d="M736 874 l8 -10 h31.799999999999997 v20 h-31.799999999999997 z" fill="#b8860b"/>
+<text x="747.0" y="879.0" font-size="12.5" text-anchor="start" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">SCL</text>
+<line x1="710" y1="898" x2="736" y2="898" stroke="#455a64" stroke-width="2"/>
+<text x="702.0" y="903.0" font-size="13" text-anchor="end" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">SDA</text>
+<path d="M736 898 l8 -10 h31.799999999999997 v20 h-31.799999999999997 z" fill="#1565c0"/>
+<text x="747.0" y="903.0" font-size="12.5" text-anchor="start" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">SDA</text>
+<rect x="1000" y="790" width="150" height="142" rx="8" fill="#eceff1" stroke="#455a64" stroke-width="2"/>
+<text x="1075.0" y="768.0" font-size="16" text-anchor="middle" font-weight="700" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">J2  I2C expansion</text>
+<text x="1075.0" y="784.0" font-size="12" text-anchor="middle" font-weight="400" fill="#607d8b" font-family="system-ui,Segoe UI,sans-serif">1x4 header, not fitted</text>
+<line x1="1150" y1="826" x2="1176" y2="826" stroke="#455a64" stroke-width="2"/>
+<text x="1142.0" y="831.0" font-size="13" text-anchor="end" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">1</text>
+<path d="M1176 826 l8 -10 h39.4 v20 h-39.4 z" fill="#c2185b"/>
+<text x="1187.0" y="831.0" font-size="12.5" text-anchor="start" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">+3V3</text>
+<line x1="1150" y1="850" x2="1176" y2="850" stroke="#455a64" stroke-width="2"/>
+<text x="1142.0" y="855.0" font-size="13" text-anchor="end" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">2</text>
+<path d="M1176 850 l8 -10 h31.799999999999997 v20 h-31.799999999999997 z" fill="#212121"/>
+<text x="1187.0" y="855.0" font-size="12.5" text-anchor="start" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">GND</text>
+<line x1="1150" y1="874" x2="1176" y2="874" stroke="#455a64" stroke-width="2"/>
+<text x="1142.0" y="879.0" font-size="13" text-anchor="end" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">3</text>
+<path d="M1176 874 l8 -10 h31.799999999999997 v20 h-31.799999999999997 z" fill="#1565c0"/>
+<text x="1187.0" y="879.0" font-size="12.5" text-anchor="start" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">SDA</text>
+<line x1="1150" y1="898" x2="1176" y2="898" stroke="#455a64" stroke-width="2"/>
+<text x="1142.0" y="903.0" font-size="13" text-anchor="end" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">4</text>
+<path d="M1176 898 l8 -10 h31.799999999999997 v20 h-31.799999999999997 z" fill="#b8860b"/>
+<text x="1187.0" y="903.0" font-size="12.5" text-anchor="start" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">SCL</text>
+<rect x="1290" y="560" width="70" height="94" rx="8" fill="#eceff1" stroke="#455a64" stroke-width="2"/>
+<text x="1325.0" y="538.0" font-size="16" text-anchor="middle" font-weight="700" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">JP1</text>
+<text x="1325.0" y="554.0" font-size="12" text-anchor="middle" font-weight="400" fill="#607d8b" font-family="system-ui,Segoe UI,sans-serif">ADD strap, open</text>
+<line x1="1360" y1="596" x2="1386" y2="596" stroke="#455a64" stroke-width="2"/>
+<text x="1352.0" y="601.0" font-size="13" text-anchor="end" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">1</text>
+<path d="M1386 596 l8 -10 h92.6 v20 h-92.6 z" fill="#455a64"/>
+<text x="1397.0" y="601.0" font-size="12.5" text-anchor="start" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">ENS 3V3 out</text>
+<line x1="1360" y1="620" x2="1386" y2="620" stroke="#455a64" stroke-width="2"/>
+<text x="1352.0" y="625.0" font-size="13" text-anchor="end" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">2</text>
+<path d="M1386 620 l8 -10 h62.199999999999996 v20 h-62.199999999999996 z" fill="#455a64"/>
+<text x="1397.0" y="625.0" font-size="12.5" text-anchor="start" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">ENS ADD</text>
+<rect x="1290" y="700" width="70" height="94" rx="8" fill="#eceff1" stroke="#455a64" stroke-width="2"/>
+<text x="1325.0" y="678.0" font-size="16" text-anchor="middle" font-weight="700" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">JP2</text>
+<text x="1325.0" y="694.0" font-size="12" text-anchor="middle" font-weight="400" fill="#607d8b" font-family="system-ui,Segoe UI,sans-serif">CS strap, open</text>
+<line x1="1360" y1="736" x2="1386" y2="736" stroke="#455a64" stroke-width="2"/>
+<text x="1352.0" y="741.0" font-size="13" text-anchor="end" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">1</text>
+<path d="M1386 736 l8 -10 h92.6 v20 h-92.6 z" fill="#455a64"/>
+<text x="1397.0" y="741.0" font-size="12.5" text-anchor="start" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">ENS 3V3 out</text>
+<line x1="1360" y1="760" x2="1386" y2="760" stroke="#455a64" stroke-width="2"/>
+<text x="1352.0" y="765.0" font-size="13" text-anchor="end" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">2</text>
+<path d="M1386 760 l8 -10 h54.599999999999994 v20 h-54.599999999999994 z" fill="#455a64"/>
+<text x="1397.0" y="765.0" font-size="12.5" text-anchor="start" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">ENS CS</text>
+<text x="30.0" y="1040.0" font-size="13" text-anchor="start" font-weight="400" fill="#455a64" font-family="system-ui,Segoe UI,sans-serif">Same-name labels are connected. n.c. = not connected. Radar 3V3 stays open: the LD2412 is fed from 5 V only (5 V or 3V3, never both). I2C pull-ups are on the modules.</text>
+</svg>
