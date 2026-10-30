@@ -74,11 +74,13 @@ MODULES = {
         antenna=6.0,      # ceramic antenna: the last ~6 mm at the end away from USB-C (no copper pour above it)
         thick=1.0, below=3.4),   # USB-C is the tallest part under the board
 
-    # HC-SR602, round board Ø15.89, lens towards the face, 3-pin header near the edge.
-    # Pin order VERIFY (read it off the silkscreen: + OUT -).
+    # HC-SR602 (HW-438 board), round Ø15.89, lens towards the face, 3-pin header near the edge.
+    # Silkscreen on the lens side, along the pin column: OUT, +, -  (+ in the MIDDLE; checked on the
+    # prototype's board, 2026-10-30). Only the middle pin matters: turning the module by 180 deg
+    # swaps the two outer ones.
     "PIR": dict(
         ref="U4", label="HC-SR602", cx=-22.0, cy=19.0, rot=0.0, body=(15.89, 15.89), round=True,
-        rows=[("U4", [("+", -P, -5.4, "+5V"), ("OUT", 0.0, -5.4, "PIR_OUT"), ("-", P, -5.4, "GND")])],
+        rows=[("U4", [("OUT", -P, -5.4, "PIR_OUT"), ("+", 0.0, -5.4, "+5V"), ("-", P, -5.4, "GND")])],
         lens_d=10.3, thick=1.0, verify=True),
 
     # GY-302 (BH1750), 14.05 x 18.53, components (sensor) towards the face.

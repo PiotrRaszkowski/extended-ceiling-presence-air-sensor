@@ -185,13 +185,13 @@
 <text x="635.0" y="538.0" font-size="16" text-anchor="middle" font-weight="700" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">U4  HC-SR602 PIR *</text>
 <text x="635.0" y="554.0" font-size="12" text-anchor="middle" font-weight="400" fill="#607d8b" font-family="system-ui,Segoe UI,sans-serif">1x3 socket</text>
 <line x1="710" y1="596" x2="736" y2="596" stroke="#455a64" stroke-width="2"/>
-<text x="702.0" y="601.0" font-size="13" text-anchor="end" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">+</text>
-<path d="M736 596 l8 -10 h31.799999999999997 v20 h-31.799999999999997 z" fill="#ef6c00"/>
-<text x="747.0" y="601.0" font-size="12.5" text-anchor="start" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">+5V</text>
+<text x="702.0" y="601.0" font-size="13" text-anchor="end" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">OUT</text>
+<path d="M736 596 l8 -10 h62.199999999999996 v20 h-62.199999999999996 z" fill="#795548"/>
+<text x="747.0" y="601.0" font-size="12.5" text-anchor="start" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">PIR_OUT</text>
 <line x1="710" y1="620" x2="736" y2="620" stroke="#455a64" stroke-width="2"/>
-<text x="702.0" y="625.0" font-size="13" text-anchor="end" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">OUT</text>
-<path d="M736 620 l8 -10 h62.199999999999996 v20 h-62.199999999999996 z" fill="#795548"/>
-<text x="747.0" y="625.0" font-size="12.5" text-anchor="start" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">PIR_OUT</text>
+<text x="702.0" y="625.0" font-size="13" text-anchor="end" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">+</text>
+<path d="M736 620 l8 -10 h31.799999999999997 v20 h-31.799999999999997 z" fill="#ef6c00"/>
+<text x="747.0" y="625.0" font-size="12.5" text-anchor="start" font-weight="700" fill="#fff" font-family="system-ui,Segoe UI,sans-serif">+5V</text>
 <line x1="710" y1="644" x2="736" y2="644" stroke="#455a64" stroke-width="2"/>
 <text x="702.0" y="649.0" font-size="13" text-anchor="end" font-weight="600" fill="#263238" font-family="system-ui,Segoe UI,sans-serif">-</text>
 <path d="M736 644 l8 -10 h31.799999999999997 v20 h-31.799999999999997 z" fill="#212121"/>

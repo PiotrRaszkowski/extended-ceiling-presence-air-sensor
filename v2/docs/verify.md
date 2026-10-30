@@ -9,7 +9,7 @@ Read the silkscreen next to the pins and compare it with the table. The order is
 | Module | Expected order | Read it on |
 |---|---|---|
 | HLK-LD2412 | one end: OUT, GND, +5V; other end: TX, RX, GND, 3V3 | antenna side (with the chip), long edge horizontal |
-| HC-SR602 | +, OUT, − | back of the board |
+| HC-SR602 (HW-438 board) | OUT, +, − along the pin column, **+ in the middle** (checked on the prototype) | lens side |
 | ENS160 + AHT21 | VIN, 3V3, GND, SCL, SDA, ADD, CS, INT | component side |
 | GY-302 | VCC, GND, SCL, SDA, ADDR | component side |
 | SCD40/41 module | GND, VDD, SCL, SDA | sensor side |
@@ -17,7 +17,7 @@ Read the silkscreen next to the pins and compare it with the table. The order is
 
 Also measure the PIR's OUT with the PIR on 5 V while you wave at it: it must stay at or below 3.3 V, because it goes straight to GPIO6. The HC-SR602 has its own 3.3 V regulator, but clones vary.
 
-The PIR is the one to be careful with: on cheap HC-SR602 clones + and − swap places, and swapping them makes the board hot (it happened on the v1 prototype).
+The PIR is the one to be careful with: the order differs between HC-SR602 clones, and wiring it wrong makes the board hot (it happened on the v1 prototype). For the socket only the middle pin matters, because turning the module round swaps the outer two.
 
 ## 2. Dimensions
 
