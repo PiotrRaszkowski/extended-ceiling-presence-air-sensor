@@ -1,6 +1,6 @@
 # Bill of materials
 
-The enclosure is built around the exact modules below. Seats are modelled from caliper measurements of these boards, and the boards are held by 0.1 mm crush ribs, so a "compatible" module that is a millimetre bigger will not go in, and one that is smaller will rattle. Buy the same board types, then print [`11_seat_test_fit.stl`](../hardware/stl/11_seat_test_fit.stl) before the full housing to confirm they fit.
+The enclosure is built around the exact modules below. Seats are modelled from caliper measurements of these boards, and the boards are held by 0.13 mm crush ribs, so a "compatible" module that is a millimetre bigger will not go in, and one that is smaller will rattle. Buy the same board types, then print [`11_seat_test_fit.stl`](../hardware/stl/11_seat_test_fit.stl) before the full housing to confirm they fit.
 
 Prices are in PLN and were checked in October 2026. AliExpress prices move every week, so treat them as a rough guide.
 

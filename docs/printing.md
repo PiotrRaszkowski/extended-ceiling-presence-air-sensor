@@ -21,7 +21,7 @@ The default **0.16 mm** profile of QIDI Studio / Orca Slicer for PETG works fine
 | Brim | not needed; add one if your PETG lifts at the corners |
 | **X-Y hole compensation / X-Y contour compensation** | **0** |
 
-The last row matters. The seats rely on crush ribs that overlap the board outline by only 0.1 mm. Any slicer-side XY compensation changes that overlap and the boards end up either loose or impossible to push in.
+The last row matters. The seats rely on crush ribs that overlap the board outline by only 0.13 mm. Any slicer-side XY compensation changes that overlap and the boards end up either loose or impossible to push in.
 
 ## What to print, in order
 
@@ -36,7 +36,7 @@ The last row matters. The seats rely on crush ribs that overlap the board outlin
 | `13_radar_seat_test.stl` | The radar seat with the face around it (24 × 43 mm, about 15 minutes), for the radar check below | face down |
 | `12_radar_window_samples.stl` | Three plates 0.8 / 1.6 / 3.7 mm (1/2/3 notches); no longer needed, kept for experiments | flat |
 
-1. Calibration first. Push an ESP32-S3-Zero into each of the four seats of `10_press_fit_calibration`. Pick the one where the board holds firmly but still goes in with a thumb, without shaving the ribs. On the reference printer (QIDI, PETG, 0.16 mm) that was **0.1 mm**, which is what the STLs use. If yours prefers 0.2, regenerate the parts with `RIB_INTERF = 0.2` (see [enclosure source](enclosure-source.md)).
+1. Calibration first. Push an ESP32-S3-Zero into each of the four seats of `10_press_fit_calibration`. Pick the one where the board holds firmly but still goes in with a thumb, without shaving the ribs. On the reference printer (QIDI, PETG, 0.16 mm) 0.1 mm held every board but a touch loosely and 0.2 mm would not go in, so the STLs use **0.13 mm**. If yours prefers something else, regenerate the parts with that `RIB_INTERF` (see [enclosure source](enclosure-source.md)).
 2. Seat test. Print `11_seat_test_fit` and put every module in. Check that the radar's edge components fall between the ledges, that you can see the black BH1750 chip through its window from the outside, and that the PIR notches sit on the two keys.
 3. Full set. Print the plate, or the three parts separately.
 
@@ -46,8 +46,8 @@ The last row matters. The seats rely on crush ribs that overlap the board outlin
 
 ## The radar window
 
-Most of the face is 1.6 mm. In front of the radar it is 0.8 mm, over the board and a few millimetres around it, and the board sits 2 mm above it.
+Most of the face is 1.6 mm. In front of the radar it is 0.8 mm, over the board and a few millimetres around it. The board stands 6.2 mm above it on six thin posts (two on each long side, one at each end), with a small tab under the board edge at the four long-side posts and nothing else around it.
 
-Up to v14 the window was 3.7 mm, meant as half a wavelength of 24 GHz in PETG. On the prototype in a kitchen that made things much worse. With the room empty, `Radar gN move energy` sat at 40-60 on every gate from g2 to g8, and still energy at 90-100. Out of the housing, on the same supply and in the same spot, the same radar gave 1-9. Hi-Link's guidance for a half-wave window also asks for a gap of 6.2, 12.4 or 18.6 mm between the antenna and the plastic; with 2 mm, the reflection from a thick window comes straight back into the receiver. Their alternative is a window of 1/8 wavelength or thinner (about 1 mm in PETG) and that is what v15 uses.
+Up to v14 the window was 3.7 mm, meant as half a wavelength of 24 GHz in PETG. On the prototype in a kitchen that made things much worse. With the room empty, `Radar gN move energy` sat at 40-60 on every gate from g2 to g8, and still energy at 90-100. Out of the housing, on the same supply and in the same spot, the same radar gave 1-9. Hi-Link's guidance for a half-wave window also asks for a gap of 6.2, 12.4 or 18.6 mm between the antenna and the plastic; with 2 mm, the reflection from a thick window comes straight back into the receiver. Their alternative is a window of 1/8 wavelength or thinner (about 1 mm in PETG). v15 switched to 0.8 mm; v16 also lifts the board to 6.2 mm (half a wavelength in air) and replaces the walled pocket with posts, so there is as little plastic near the antenna as possible.
 
 Before printing the whole housing, print `13_radar_seat_test.stl`, put the radar in it exactly as it goes into the housing, and compare the empty-room gate energies with the radar lying bare (see [tuning](tuning.md#radar-range)). If they are close, print the housing. Keep the radar's wires leaving from the back of the board, not running across the antenna side.

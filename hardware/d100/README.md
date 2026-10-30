@@ -28,6 +28,6 @@ Generate these files with `python enclosure.py 100` (see [enclosure source](../.
 
 Print settings and assembly are the same as for Ø80, see [printing](../../docs/printing.md) and [assembly](../../docs/assembly.md).
 
-History: v9 of this size was printed in PETG and test-fitted. Everything that print showed (loose ESP, PIR and chamber lid, buck seat slightly loose) was fixed in v10, v12 added the taller chamber (printed, seats fit) v14 the Dupont hub seat on the chamber wall, and v15 the 0.8 mm radar window (the 3.7 mm one made the radar noisy, see [printing](../../docs/printing.md#the-radar-window)).
+History: v9 of this size was printed in PETG and test-fitted. Everything that print showed (loose ESP, PIR and chamber lid, buck seat slightly loose) was fixed in v10, v12 added the taller chamber (printed, seats fit) v14 the Dupont hub seat on the chamber wall, v15/v16 the 0.8 mm radar window with the radar on posts 6.2 mm above it (the 3.7 mm window made the radar noisy, see [printing](../../docs/printing.md#the-radar-window)), plus a wider ENS160 pass-through and slightly tighter ribs.
 
 ![Ø100 hub seat](../../docs/images/d100-hub-seat.png)

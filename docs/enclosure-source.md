@@ -39,7 +39,7 @@ The STEP files open in FreeCAD, Fusion and most other CAD tools if you prefer to
 - Housing: Ø80 × 30 mm. The face (towards the room) is 1.6 mm thick, 0.8 mm in front of the radar. It prints face down without supports.
 - Ceiling base with a 10 mm ring and three blind bayonet grooves. The housing has three pins at 60°, 180° and 300°, placed so that none of them sits over the air chamber. Twist 25° to lock; a small triangular detent stops it from turning back.
 - Seats: every board rests on ledges, so pin stubs and components underneath have room. Seat walls and posts stand 0.4 mm away from the board on each side; only the trapezoid crush ribs touch it. The ribs are 2.4 mm wide at the base with a 0.8 mm flat top, large enough that a 0.4 mm nozzle actually prints them. In an earlier version they were 1.0 × 0.35 mm and the slicer simply dropped them.
-- ENS160 chamber: a closed box along one wall with its own face grille (inlet) and slots above the board (outlet), a press-fit lid with crush ribs on the outside of its plug, and a 5 × 2.5 mm pass-through for the four I2C/power wires. It is 23 mm tall so jumper plugs on a pin header fit. Above 19.5 mm its outer wall steps in at 45° (prints without support) to stay clear of the ceiling base ring. It keeps the warm air from the ESP and the S09 converter away from the temperature and VOC sensors.
+- ENS160 chamber: a closed box along one wall with its own face grille (inlet) and slots above the board (outlet), a press-fit lid with crush ribs on the outside of its plug, and an 8 × 4 mm pass-through for the four jumper wires (VIN, GND, SCL, SDA). It is 23 mm tall so jumper plugs on a pin header fit. Above 19.5 mm its outer wall steps in at 45° (prints without support) to stay clear of the ceiling base ring. It keeps the warm air from the ESP and the S09 converter away from the temperature and VOC sensors.
 
 ![Housing inside](images/inside-empty.png)
 
@@ -49,7 +49,7 @@ All values in millimetres.
 
 | Parameter | Default | What it does |
 |---|---|---|
-| `RIB_INTERF` | 0.1 | How far each crush rib reaches into the board outline. Set it from the result of `10_press_fit_calibration`. |
+| `RIB_INTERF` | 0.13 | How far each crush rib reaches into the board outline. Set it from the result of `10_press_fit_calibration` (0.1 was a touch loose on the reference printer, 0.2 too tight). |
 | `CLR` | 0.8 | Total gap between the seat walls/posts and the board. |
 | `RIB_W`, `RIB_TOP`, `RIB_H` | 2.4, 0.8, 2.0 | Crush rib base width, flat-top width and height. |
 | `SIZE`, `H`, `FACE` | 80, 30, 1.6 | Housing diameter (80 or 100, from the command line), height, face thickness. Each size has its own module positions (`cx`/`cy` below); another diameter needs a new layout. |
@@ -66,7 +66,9 @@ Each module has a dict with its measured size (`x`, `y`) and its position in the
 | Dict / key | Default | Meaning |
 |---|---|---|
 | `RADAR["win_t"]` | 0.8 | Plastic in front of the antenna. Was 3.7 (half a wavelength in PETG) up to v14, which made the radar see noise on every gate, see [printing](printing.md#the-radar-window). |
-| `RADAR["win_mx"]`, `RADAR["win_my"]` | 3.0, 1.5 | How far the thin window reaches past the seat walls in x and y. |
+| `RADAR["win_mx"]`, `RADAR["win_my"]` | 3.0, 1.5 | How far the thin window reaches past the radar posts in x and y. |
+| `RADAR["gap"]` | 6.2 | Air between the window and the board: half a wavelength at 24 GHz. |
+| `RADAR["post_y"]` | (6.5, 27.5) | Long-side posts, measured from the end without the connector. Each has a small tab under the board edge; keep them off the components at the board edge (15.5-24.5 and 30.5-35 mm). |
 | `RADAR["ledge_segments"]` | ((1, 15), (25, 30)) | Where the ledges support the radar, measured from the end without the connector. The gaps leave room for components on the board edge. |
 | `PIR["lens_d"]` | 10.3 | Lens hole: lens diameter at its base + 0.3. |
 | `PIR["hdr_angle"]` | 180 | Direction the PIR header points (degrees). The seat rotates with it. |
@@ -91,4 +93,4 @@ These are the caliper measurements the seats are built on. If your boards differ
 
 ## Version history
 
-The header of `enclosure.py` lists every revision. In short: v2-v5 got the bayonet and module sizes right, v6-v8 moved to printable crush ribs calibrated at 0.1 mm, v9 was printed in full in PETG, and v10 fixed what that print showed (loose ESP, PIR and chamber lid, buck seat slightly loose), v11 shrank the housing from Ø100 to Ø80 with the same seats, v12 made the ENS160 chamber 10 mm taller for pin headers with jumper plugs, v13 tightened the Ø80 BH1750 seat by 0.05 mm, and v14 added the Dupont hub seat on the chamber wall and moved the ENS160 pass-through to the chamber side wall. v12 also generates both sizes from one file: the Ø100 layout is selected with `python enclosure.py 100` and lives in [`hardware/d100/`](../hardware/d100/).
+The header of `enclosure.py` lists every revision. In short: v2-v5 got the bayonet and module sizes right, v6-v8 moved to printable crush ribs calibrated at 0.1 mm, v9 was printed in full in PETG, and v10 fixed what that print showed (loose ESP, PIR and chamber lid, buck seat slightly loose), v11 shrank the housing from Ø100 to Ø80 with the same seats, v12 made the ENS160 chamber 10 mm taller for pin headers with jumper plugs, v13 tightened the Ø80 BH1750 seat by 0.05 mm, v14 added the Dupont hub seat on the chamber wall and moved the ENS160 pass-through to the chamber side wall, v15 thinned the radar window to 0.8 mm, and v16 put the radar on posts 6.2 mm above it, widened the ENS160 pass-through to 8 × 4 mm and raised `RIB_INTERF` to 0.13 mm. v12 also generates both sizes from one file: the Ø100 layout is selected with `python enclosure.py 100` and lives in [`hardware/d100/`](../hardware/d100/).

@@ -36,8 +36,11 @@ History:
   v14 - seat for a Dupont "hub" (perfboard with male headers, one row per net) standing on the
         outside of the chamber inner wall; ENS160 cable pass-through moved to the +y side wall.
   v15 - radar window 0.8 mm (was 3.7 mm): the thick window made the radar see noise on every gate.
-        Board still 2 mm above the window, so it now sits 2.9 mm lower. New quick print
-        13_radar_seat_test to check a filament before printing the whole housing.
+        New quick print 13_radar_seat_test to check the radar before printing the whole housing.
+  v16 - radar on six posts (like the S09) instead of in a walled pocket, 6.2 mm (half a wavelength)
+        above the 0.8 mm window; small tabs under the board only at the long-side posts.
+        ENS160 cable pass-through 8 x 4 mm (was 5 x 2.5): four jumper wires did not fit.
+        RIB_INTERF 0.13 (was 0.1): the Ø100 print held every board, but a touch loosely.
 """
 import math
 import os
@@ -60,7 +63,7 @@ H = 30.0              # housing height (face to ceiling)
 FACE = 1.6            # face thickness
 EDGE_CHAMFER = 1.5    # chamfer on the face edge
 CLR = 0.8             # wall/post clearance (total, 0.4 per side) - only the crush ribs hold the board
-RIB_INTERF = 0.1      # how far a crush rib reaches into the board outline (per side); 0.1 = calibration variant 1
+RIB_INTERF = 0.13     # how far a crush rib reaches into the board outline (per side); v16: 0.13 (0.1 held, but a little loose)
 RIB_W = 2.4           # crush rib base width (must be > 2x nozzle line width)
 RIB_TOP = 0.8         # crush rib flat top width
 RIB_H = 2.0           # crush rib height above the board underside
@@ -101,8 +104,13 @@ CABLE_HOLE_D = 12.0
 # every gate (1-9 with the radar out of the housing). The window is now 0.8 mm (thinner than 1/8 of
 # a wavelength in PETG, which Hi-Link allows when half a wavelength can't be met), over the board
 # footprint plus win_mx / win_my on each side.
-RADAR = dict(x=7.0, y=35.06, cx=4.6 if SIZE == 80 else 0.0, cy=-5.0 if SIZE == 80 else 4.0, win_t=0.8, gap=2.0, ledge=0.7,
+# v16: the board is no longer in a pocket. It stands on six posts like the S09 (two on each long
+# side, one at each end), with a small tab under the board edge only at the long-side posts, and
+# sits gap = 6.2 mm (half a wavelength in air) above the thin window.
+RADAR = dict(x=7.0, y=35.06, cx=4.6 if SIZE == 80 else 0.0, cy=-5.0 if SIZE == 80 else 4.0, win_t=0.8, gap=6.2, ledge=0.7,
              win_mx=3.0, win_my=1.5,
+             post_t=1.6, post_w=3.0, end_w=2.5,
+             post_y=(6.5, 27.5),   # long-side posts, centre in mm from the end without the connector
              # ledge segments [from, to] in mm from the end WITHOUT the connector (-y); components at the edges elsewhere
              ledge_segments=((1.0, 15.0), (25.0, 30.0)))
 # HC-SR602: round board Ø15.89, two opposite notches (13.65 across), 3-pin header
@@ -134,9 +142,9 @@ ENS = dict(x=19.29, y=24.20, rail_h=3.0,
 CH_X = 12.0 if SIZE == 80 else 21.0   # inner chamber wall (x)
 CH_TOP = 23.0         # top of the chamber walls = underside of the lid (room for headers + jumper plugs)
 LID_T = 1.5
-WIRE_W, WIRE_D = 5.0, 2.5   # I2C cable pass-through (width x depth from the wall top)
+WIRE_W, WIRE_D = 8.0, 4.0   # cable pass-through for 4 jumper wires (width x depth from the wall top)
 WIRE_SIDE = 1               # pass-through in the +y (1) or -y (-1) chamber side wall, next to the inner wall
-WIRE_XC = CH_X + T + 3.5    # its centre along x
+WIRE_XC = CH_X + T + 4.5    # its centre along x
 PLUG_H = 2.0          # lid plug that goes into the chamber
 # The base ring reaches RING_DEPTH into the housing along the outer wall. If the chamber
 # is taller than that, its outer wall steps in (45 deg) to R_UP above Z_STEP.
@@ -264,23 +272,24 @@ ENS_SEAT_Z = FACE + ENS["rail_h"]
 def seat_radar(c):
     m = RADAR
     ix, iy = m["x"] + CLR, m["y"] + CLR
-    z_ped = min(FACE, m["win_t"])
+    pt, z0 = m["post_t"], m["win_t"] - 0.01
     if m["win_t"] < FACE:   # thin window: thin the face under the seat and a margin around it
-        c = c.cut(box(m["cx"], m["cy"], m["win_t"], ix + 2 * T + 2 * m["win_mx"], iy + 2 * T + 2 * m["win_my"],
+        c = c.cut(box(m["cx"], m["cy"], m["win_t"], ix + 2 * pt + 2 * m["win_mx"], iy + 2 * pt + 2 * m["win_my"],
                       FACE - m["win_t"] + 0.01))
-    # pedestal up to seat height
-    c = c.union(box(m["cx"], m["cy"], z_ped - 0.01, ix + 2 * T, iy + 2 * T, RADAR_SEAT_Z - z_ped + 0.01))
-    # recess under the whole board, then ledges only on the segments without edge components
-    c = c.cut(box(m["cx"], m["cy"], m["win_t"], ix, iy, RADAR_SEAT_Z - m["win_t"] + 0.01))
+    h_post = RADAR_SEAT_Z + POST_H - m["win_t"] + 0.01
     y_end = m["cy"] - m["y"] / 2                     # end without the connector
-    for (l0, l1) in m["ledge_segments"]:
+    lw = ix / 2 - (m["x"] / 2 - m["ledge"])          # tab from (board edge - ledge) to the post face
+    # long sides: posts with a small tab under the board edge (no other support under the board)
+    for d in m["post_y"]:
+        yy = y_end + d
         for sx in (-1, 1):
-            lw = ix / 2 - (m["x"] / 2 - m["ledge"])          # ledge from (board edge - ledge) to the wall
-            c = c.union(box(m["cx"] + sx * (ix / 2 - lw / 2), y_end + (l0 + l1) / 2, m["win_t"] - 0.01,
-                            lw, l1 - l0, RADAR_SEAT_Z - m["win_t"] + 0.01))
-    # seat walls above the pedestal + crush ribs (3 on each long side, 1 on each short side)
-    c = c.union(rect_walls(m["cx"], m["cy"], ix, iy, RADAR_SEAT_Z - 0.01, POST_H + 0.01))
-    c = c.union(ribs_rect(m["cx"], m["cy"], ix, iy, RADAR_SEAT_Z, xs=(0.0,), ys=(-11.0, 0.0, 11.0)))
+            c = c.union(box(m["cx"] + sx * (ix / 2 + pt / 2), yy, z0, pt, m["post_w"], h_post))
+            c = c.union(box(m["cx"] + sx * (ix / 2 - lw / 2), yy, z0, lw + 0.01, m["post_w"], RADAR_SEAT_Z - m["win_t"] + 0.01))
+            c = c.union(rib(m["cx"] + sx * ix / 2, yy, -sx, 0, RADAR_SEAT_Z))
+    # ends: one post each, no tab (the connector end has its wires right at the edge)
+    for sy in (-1, 1):
+        c = c.union(box(m["cx"], m["cy"] + sy * (iy / 2 + pt / 2), z0, m["end_w"], pt, h_post))
+        c = c.union(rib(m["cx"], m["cy"] + sy * iy / 2, 0, -sy, RADAR_SEAT_Z, w=m["end_w"]))
     return c
 
 
@@ -385,7 +394,7 @@ def chamber_body(c):
         upper = ring(R_UP - T, R_UP, Z_STEP - 0.01, CH_TOP - Z_STEP + 0.01)
         walls = walls.union(step.union(upper).intersect(foot))
     c = c.union(walls.intersect(clip))
-    # cable pass-through (side wall next to the inner wall, from the top): 4 wires AWG 26-28.
+    # cable pass-through (side wall next to the inner wall, from the top): four jumper wires.
     # Not in the inner wall: the Dupont hub stands in front of it.
     c = c.cut(box(WIRE_XC, WIRE_SIDE * (hy + T / 2), CH_TOP - WIRE_D, WIRE_W, T + 2, WIRE_D + 0.5))
     # rails under the flat board underside (clear of the pin row and the edges)
@@ -420,9 +429,9 @@ def hub_geometry():
     xb = CH_X - m["back_gap"]                          # board back face (solder side)
     xf = xb - m["t"]                                   # board front face (header side)
     # anything lower in the way of the channels or the plugs: the radar seat
-    rx_hi = RADAR["cx"] + (RADAR["x"] + CLR) / 2 + T
-    ry_lo = RADAR["cy"] - (RADAR["y"] + CLR) / 2 - T
-    ry_hi = RADAR["cy"] + (RADAR["y"] + CLR) / 2 + T
+    rx_hi = RADAR["cx"] + (RADAR["x"] + CLR) / 2 + RADAR["post_t"]
+    ry_lo = RADAR["cy"] - (RADAR["y"] + CLR) / 2 - RADAR["post_t"]
+    ry_hi = RADAR["cy"] + (RADAR["y"] + CLR) / 2 + RADAR["post_t"]
     r_top = RADAR_SEAT_Z + POST_H
     y_out = w / 2 + m["slack"] + T
     x_lo = xf - 0.3 - 1.2
@@ -580,8 +589,8 @@ def make_radar_seat_test(housing=None):
     the radar exactly as the housing does, to compare empty-room gate energies before a full print."""
     housing = housing if housing is not None else make_housing()
     m = RADAR
-    sx = m["x"] + CLR + 2 * T + 2 * m["win_mx"] + 8.0
-    sy = m["y"] + CLR + 2 * T + 2 * m["win_my"] + 2.0
+    sx = m["x"] + CLR + 2 * m["post_t"] + 2 * m["win_mx"] + 8.0
+    sy = m["y"] + CLR + 2 * m["post_t"] + 2 * m["win_my"] + 2.0
     return housing.intersect(box(m["cx"], m["cy"], -1, sx, sy, RADAR_SEAT_Z + POST_H + 2.0))
 
 
@@ -646,6 +655,10 @@ def dummies():
     for (l0, l1) in ((15.5, 24.5), (30.5, 35.0)):     # components right at the edges
         zone = zone.union(box(r["cx"], y_end + (l0 + l1) / 2, RADAR_SEAT_Z - 1.2, r["x"], l1 - l0, 1.2))
     d["radar_parts"] = zone
+    # components on the back of the radar (IC, crystal: up to ~1.2 mm) and the wires leaving the
+    # connector end upwards
+    d["radar_back"] = box(r["cx"], r["cy"], RADAR_SEAT_Z + 1.0, r["x"], r["y"], 1.2).union(
+        box(r["cx"], r["cy"] + r["y"] / 2 - 2.0, RADAR_SEAT_Z + 1.0, r["x"], 4.0, 4.0))
     p = PIR
     zp = FACE + p["standoff"]
     disk = cyl(p["d"] / 2, zp, 1.2, p["cx"], p["cy"])

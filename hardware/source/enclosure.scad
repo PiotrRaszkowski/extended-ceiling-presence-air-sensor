@@ -1,5 +1,5 @@
 // Ceiling-mounted enclosure for an ESP32 presence + air-quality sensor.
-// OpenSCAD port of hardware/source/enclosure.py (CadQuery, v15). One file, two sizes (Ø80 / Ø100).
+// OpenSCAD port of hardware/source/enclosure.py (CadQuery, v16). One file, two sizes (Ø80 / Ø100).
 //
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2026 Piotr Raszkowski
@@ -38,7 +38,7 @@ resolution = 128; // [32:8:512]
 
 /* [General fit] */
 // Crush rib reach into the board outline, per side (mm); 0.1 = calibration variant 1
-rib_interf = 0.1; // [0:0.05:0.5]
+rib_interf = 0.13; // [0:0.01:0.5]
 // Total wall/post clearance around a board (mm, 0.4 per side); only the ribs hold the board
 clr = 0.8;
 // Crush rib base width (mm, > 2x nozzle line width)
@@ -109,14 +109,14 @@ ch_x_80 = 12.0;
 ch_x_100 = 21.0;
 // Top of the chamber walls = underside of the lid (mm from the face's outside)
 ch_top = 23.0;
-// I2C cable pass-through width (mm)
-wire_w = 5.0;
-// I2C cable pass-through depth from the wall top (mm)
-wire_d = 2.5;
+// Cable pass-through width, four jumper wires (mm)
+wire_w = 8.0;
+// Cable pass-through depth from the wall top (mm)
+wire_d = 4.0;
 // Chamber side wall that carries the pass-through: +y (1) or -y (-1)
 wire_side = 1; // [-1, 1]
 // Pass-through centre along x, measured from the chamber side of the inner wall (mm)
-wire_xc_offset = 3.5;
+wire_xc_offset = 4.5;
 // Lid plate thickness (mm)
 lid_t = 1.5;
 // Lid plug height (mm)
@@ -153,16 +153,21 @@ radar_pos_80 = [4.6, -5.0];
 radar_pos_100 = [0.0, 4.0];
 // Plastic in front of the antenna (mm). v15: 0.8 (was 3.7, which raised the empty-room noise on every gate)
 radar_win_t = 0.8;
-// Recess under the board, above the window (mm)
-radar_gap = 2.0;
+// Air between the window and the board: half a wavelength at 24 GHz (mm)
+radar_gap = 6.2;
 // Thin window margin around the seat walls, x / y (mm)
 radar_win_margin = [3.0, 1.5];
-// Ledge width under each long edge (mm)
+// How far the tab under the board edge reaches in (mm)
 radar_ledge = 0.7;
-// Ledge segments [from, to, from, to] in mm from the end without the connector (-y)
-radar_ledge_segments = [1.0, 15.0, 25.0, 30.0];
-// Rib positions along the long walls, from the board centre (mm)
-radar_rib_y = [-11.0, 0.0, 11.0];
+// Post thickness (mm)
+radar_post_t = 1.6;
+// Long-side post width along the board (mm)
+radar_post_w = 3.0;
+// End post width (mm)
+radar_end_w = 2.5;
+// Long-side posts (two per side), centre in mm from the end without the connector (-y);
+// keep them clear of the components at the board edge (15.5-24.5 and 30.5-35)
+radar_post_y = [6.5, 27.5];
 // Extra rib interference for this seat (mm)
 radar_rib_extra = 0.0;
 
@@ -348,9 +353,9 @@ hub_h = hub_rows * 2.54;
 hub_y_pins = (hub_cols - 2) * 2.54 / 2;        // header plastic / plugs reach +-hub_y_pins
 hub_xb = ch_x - hub_back_gap;                  // board back face (solder side)
 hub_xf = hub_xb - hub_t;                       // board front face (header side)
-hub_rx_hi = radar_pos[0] + (radar_x + clr) / 2 + seat_t;   // radar seat extent (may lie under the channels)
-hub_ry_lo = radar_pos[1] - (radar_y + clr) / 2 - seat_t;
-hub_ry_hi = radar_pos[1] + (radar_y + clr) / 2 + seat_t;
+hub_rx_hi = radar_pos[0] + (radar_x + clr) / 2 + radar_post_t;   // radar seat extent (may lie under the channels)
+hub_ry_lo = radar_pos[1] - (radar_y + clr) / 2 - radar_post_t;
+hub_ry_hi = radar_pos[1] + (radar_y + clr) / 2 + radar_post_t;
 hub_r_top = radar_seat_z + post_h;
 hub_y_out = hub_w / 2 + hub_slack + seat_t;
 hub_x_lo = hub_xf - 0.3 - 1.2;
@@ -442,28 +447,30 @@ module radial_slots(angles, z0, hh, width = 2.0, r = r_out - wall / 2) {
 module seat_radar() {
     cx = radar_pos[0]; cy = radar_pos[1];
     ix = radar_x + clr; iy = radar_y + clr;
+    pt = radar_post_t;
     y_end = cy - radar_y / 2;                       // end without the connector
-    lw = ix / 2 - (radar_x / 2 - radar_ledge);      // ledge from (board edge - ledge) to the wall
-    segs = radar_ledge_segments;
-    z_ped = min(face, radar_win_t);
+    lw = ix / 2 - (radar_x / 2 - radar_ledge);      // tab from (board edge - ledge) to the post face
+    z0 = radar_win_t - eps;
+    h_post = radar_seat_z + post_h - radar_win_t + eps;
+    pr = clr / 2 + rib_interf + radar_rib_extra;
     union() {
         difference() {
-            union() {
-                difference() {
-                    children();
-                    if (radar_win_t < face)   // thin window: thin the face under the seat + margin
-                        box(cx, cy, radar_win_t, ix + 2 * seat_t + 2 * radar_win_margin[0],
-                            iy + 2 * seat_t + 2 * radar_win_margin[1], face - radar_win_t + eps);
-                }
-                box(cx, cy, z_ped - eps, ix + 2 * seat_t, iy + 2 * seat_t, radar_seat_z - z_ped + eps);   // pedestal
-            }
-            box(cx, cy, radar_win_t, ix, iy, radar_seat_z - radar_win_t + eps);   // recess under the board
+            children();
+            if (radar_win_t < face)   // thin window: thin the face under the seat + margin
+                box(cx, cy, radar_win_t, ix + 2 * pt + 2 * radar_win_margin[0],
+                    iy + 2 * pt + 2 * radar_win_margin[1], face - radar_win_t + eps);
         }
-        for (i = [0:2:len(segs) - 2], sx = [-1, 1])
-            box(cx + sx * (ix / 2 - lw / 2), y_end + (segs[i] + segs[i + 1]) / 2, radar_win_t - eps,
-                lw, segs[i + 1] - segs[i], radar_seat_z - radar_win_t + eps);
-        rect_walls(cx, cy, ix, iy, radar_seat_z - eps, post_h + eps);
-        ribs_rect(cx, cy, ix, iy, radar_seat_z, xs = [0.0], ys = radar_rib_y, p = clr / 2 + rib_interf + radar_rib_extra);
+        // long sides: posts with a small tab under the board edge (no other support under the board)
+        for (d = radar_post_y, sx = [-1, 1]) {
+            box(cx + sx * (ix / 2 + pt / 2), y_end + d, z0, pt, radar_post_w, h_post);
+            box(cx + sx * (ix / 2 - lw / 2), y_end + d, z0, lw + eps, radar_post_w, radar_seat_z - radar_win_t + eps);
+            rib(cx + sx * ix / 2, y_end + d, -sx, 0, radar_seat_z, p = pr);
+        }
+        // ends: one post each, no tab (the connector end has its wires right at the edge)
+        for (sy = [-1, 1]) {
+            box(cx, cy + sy * (iy / 2 + pt / 2), z0, radar_end_w, pt, h_post);
+            rib(cx, cy + sy * iy / 2, 0, -sy, radar_seat_z, p = pr, w = radar_end_w);
+        }
     }
 }
 
@@ -772,8 +779,8 @@ module seat_test_fit() { intersection() { housing(); cyl(r_out + 1, -1, fit_z_cu
 module radar_seat_test() {
     intersection() {
         housing();
-        box(radar_pos[0], radar_pos[1], -1, radar_x + clr + 2 * seat_t + 2 * radar_win_margin[0] + 8.0,
-            radar_y + clr + 2 * seat_t + 2 * radar_win_margin[1] + 2.0, radar_seat_z + post_h + 2.0);
+        box(radar_pos[0], radar_pos[1], -1, radar_x + clr + 2 * radar_post_t + 2 * radar_win_margin[0] + 8.0,
+            radar_y + clr + 2 * radar_post_t + 2 * radar_win_margin[1] + 2.0, radar_seat_z + post_h + 2.0);
     }
 }
 
