@@ -41,6 +41,8 @@ History:
         above the 0.8 mm window; small tabs under the board only at the long-side posts.
         ENS160 cable pass-through 8 x 4 mm (was 5 x 2.5): four jumper wires did not fit.
         RIB_INTERF 0.13 (was 0.1): the Ø100 print held every board, but a touch loosely.
+  v17 - the radar fell out of the v16 seat test: snap lips on the four long-side posts close over the
+        board edge (0.5 mm, 0.15 mm above the board), radar ribs +0.05 mm.
 """
 import math
 import os
@@ -110,6 +112,9 @@ CABLE_HOLE_D = 12.0
 RADAR = dict(x=7.0, y=35.06, cx=4.6 if SIZE == 80 else 0.0, cy=-5.0 if SIZE == 80 else 4.0, win_t=0.8, gap=6.2, ledge=0.7,
              win_mx=3.0, win_my=1.5,
              post_t=1.6, post_w=3.0, end_w=2.5,
+             board_t=1.0,          # PCB thickness; the snap lips close 0.15 mm above it
+             snap=0.5,             # how far each snap lip reaches over the board edge
+             rib_extra=0.05,       # v17: the board fell out of the v16 test print
              post_y=(6.5, 27.5),   # long-side posts, centre in mm from the end without the connector
              # ledge segments [from, to] in mm from the end WITHOUT the connector (-y); components at the edges elsewhere
              ledge_segments=((1.0, 15.0), (25.0, 30.0)))
@@ -279,18 +284,29 @@ def seat_radar(c):
     h_post = RADAR_SEAT_Z + POST_H - m["win_t"] + 0.01
     y_end = m["cy"] - m["y"] / 2                     # end without the connector
     lw = ix / 2 - (m["x"] / 2 - m["ledge"])          # tab from (board edge - ledge) to the post face
+    pr = CLR / 2 + RIB_INTERF + m["rib_extra"]
+    z_lip = RADAR_SEAT_Z + m["board_t"] + 0.15
     # long sides: posts with a small tab under the board edge (no other support under the board)
     for d in m["post_y"]:
         yy = y_end + d
         for sx in (-1, 1):
             c = c.union(box(m["cx"] + sx * (ix / 2 + pt / 2), yy, z0, pt, m["post_w"], h_post))
             c = c.union(box(m["cx"] + sx * (ix / 2 - lw / 2), yy, z0, lw + 0.01, m["post_w"], RADAR_SEAT_Z - m["win_t"] + 0.01))
-            c = c.union(rib(m["cx"] + sx * ix / 2, yy, -sx, 0, RADAR_SEAT_Z))
-    # ends: one post each, no tab (the connector end has its wires right at the edge)
+            c = c.union(rib(m["cx"] + sx * ix / 2, yy, -sx, 0, RADAR_SEAT_Z, h=m["board_t"] + 0.1, p=pr))
+            c = c.union(snap_lip(m["cx"] + sx * ix / 2, yy, sx, m["post_w"], z_lip, CLR / 2 + m["snap"]))
+    # ends: one post each, no tab and no lip (the connector end has its wires right at the edge)
     for sy in (-1, 1):
         c = c.union(box(m["cx"], m["cy"] + sy * (iy / 2 + pt / 2), z0, m["end_w"], pt, h_post))
-        c = c.union(rib(m["cx"], m["cy"] + sy * iy / 2, 0, -sy, RADAR_SEAT_Z, w=m["end_w"]))
+        c = c.union(rib(m["cx"], m["cy"] + sy * iy / 2, 0, -sy, RADAR_SEAT_Z, p=pr, w=m["end_w"]))
     return c
+
+
+def snap_lip(xw, yy, sx, w, z_lo, reach):
+    """Snap lip on a post face at x = xw (post on the sx side): flat underside at z_lo that holds
+    the board down, 45 deg lead-in on top so the board pushes the post aside on the way in."""
+    x_back, x_tip = xw + sx * 0.3, xw - sx * reach
+    pts = [(x_back, z_lo), (x_tip, z_lo), (x_tip, z_lo + 0.3), (x_back, z_lo + 0.6 + reach)]
+    return cq.Workplane("XZ", origin=(0, yy + w / 2, 0)).polyline(pts).close().extrude(w)
 
 
 def _ring_sector(cx, cy, r_in, r_out, a0, a1, z0, h):

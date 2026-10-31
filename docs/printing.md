@@ -46,7 +46,7 @@ The last row matters. The seats rely on crush ribs that overlap the board outlin
 
 ## The radar window
 
-Most of the face is 1.6 mm. In front of the radar it is 0.8 mm, over the board and a few millimetres around it. The board stands 6.2 mm above it on six thin posts (two on each long side, one at each end), with a small tab under the board edge at the four long-side posts and nothing else around it.
+Most of the face is 1.6 mm. In front of the radar it is 0.8 mm, over the board and a few millimetres around it. The board stands 6.2 mm above it on six thin posts (two on each long side, one at each end), with a small tab under the board edge at the four long-side posts and nothing else around it. The same four posts have snap lips that close 0.5 mm over the board edge, so the radar clicks in and can't drop out.
 
 Up to v14 the window was 3.7 mm, meant as half a wavelength of 24 GHz in PETG. On the prototype in a kitchen that made things much worse. With the room empty, `Radar gN move energy` sat at 40-60 on every gate from g2 to g8, and still energy at 90-100. Out of the housing, on the same supply and in the same spot, the same radar gave 1-9. Hi-Link's guidance for a half-wave window also asks for a gap of 6.2, 12.4 or 18.6 mm between the antenna and the plastic; with 2 mm, the reflection from a thick window comes straight back into the receiver. Their alternative is a window of 1/8 wavelength or thinner (about 1 mm in PETG). v15 switched to 0.8 mm; v16 also lifts the board to 6.2 mm (half a wavelength in air) and replaces the walled pocket with posts, so there is as little plastic near the antenna as possible.
 

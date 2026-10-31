@@ -1,5 +1,5 @@
 // Ceiling-mounted enclosure for an ESP32 presence + air-quality sensor.
-// OpenSCAD port of hardware/source/enclosure.py (CadQuery, v16). One file, two sizes (Ø80 / Ø100).
+// OpenSCAD port of hardware/source/enclosure.py (CadQuery, v17). One file, two sizes (Ø80 / Ø100).
 //
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2026 Piotr Raszkowski
@@ -168,8 +168,12 @@ radar_end_w = 2.5;
 // Long-side posts (two per side), centre in mm from the end without the connector (-y);
 // keep them clear of the components at the board edge (15.5-24.5 and 30.5-35)
 radar_post_y = [6.5, 27.5];
-// Extra rib interference for this seat (mm)
-radar_rib_extra = 0.0;
+// PCB thickness; the snap lips close 0.15 mm above it (mm)
+radar_board_t = 1.0;
+// How far each snap lip reaches over the board edge (mm)
+radar_snap = 0.5;
+// Extra rib interference for this seat (mm); v17: the board fell out of the v16 test print
+radar_rib_extra = 0.05;
 
 /* [PIR (HC-SR602)] */
 // Board diameter (mm)
@@ -444,6 +448,14 @@ module radial_slots(angles, z0, hh, width = 2.0, r = r_out - wall / 2) {
 // Module seats. Each module takes the body built so far as children() and applies its
 // unions/cuts in the same order as the Python function.
 // ---------------------------------------------------------------------------------------------
+// Snap lip on a post face at x = xw (post on the sx side): flat underside at z_lo holds the board
+// down, 45 deg lead-in on top so the board pushes the post aside on the way in.
+module snap_lip(xw, yy, sx, w, z_lo, reach) {
+    xb = xw + sx * 0.3; xt = xw - sx * reach;
+    translate([0, yy + w / 2, 0]) rotate([90, 0, 0]) linear_extrude(w)
+        polygon([[xb, z_lo], [xt, z_lo], [xt, z_lo + 0.3], [xb, z_lo + 0.6 + reach]]);
+}
+
 module seat_radar() {
     cx = radar_pos[0]; cy = radar_pos[1];
     ix = radar_x + clr; iy = radar_y + clr;
@@ -464,7 +476,8 @@ module seat_radar() {
         for (d = radar_post_y, sx = [-1, 1]) {
             box(cx + sx * (ix / 2 + pt / 2), y_end + d, z0, pt, radar_post_w, h_post);
             box(cx + sx * (ix / 2 - lw / 2), y_end + d, z0, lw + eps, radar_post_w, radar_seat_z - radar_win_t + eps);
-            rib(cx + sx * ix / 2, y_end + d, -sx, 0, radar_seat_z, p = pr);
+            rib(cx + sx * ix / 2, y_end + d, -sx, 0, radar_seat_z, hh = radar_board_t + 0.1, p = pr);
+            snap_lip(cx + sx * ix / 2, y_end + d, sx, radar_post_w, radar_seat_z + radar_board_t + 0.15, clr / 2 + radar_snap);
         }
         // ends: one post each, no tab (the connector end has its wires right at the edge)
         for (sy = [-1, 1]) {

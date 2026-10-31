@@ -27,7 +27,7 @@ Each board sits on ledges and is gripped by small crush ribs. Push it in straigh
 
 | # | Module | How it goes in |
 |---|---|---|
-| 1 | LD2410B radar | Antenna side down, towards the face (the side with the gold antenna patches). Push it down between the six posts until it sits on the four small tabs, 6.2 mm above the thin window. Wires leave from the back of the board at the connector end and go up, not across the antenna side. Never put glue on the antenna. |
+| 1 | LD2410B radar | Antenna side down, towards the face (the side with the gold antenna patches). Push it down between the six posts until it clicks under the four snap lips and sits on the small tabs, 6.2 mm above the thin window. To take it out, spread two posts on one side slightly. Wires leave from the back of the board at the connector end and go up, not across the antenna side. Never put glue on the antenna. |
 | 2 | HC-SR602 PIR | Lens into the round hole, the two flats of the board onto the two keys, header pointing left (towards the BH1750) over the recess in the ring. |
 | 3 | BH1750 (GY-302) | Components down, pins towards the open side of the seat (towards the ESP), mounting holes the other way. The chip lines up with the small window in the face. |
 | 4 | ENS160+AHT21 | **Components up**, flat underside on the two ledges, pin row along the chamber's inner wall. |
