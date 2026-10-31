@@ -399,9 +399,26 @@ number:
     gate_7:
       move_threshold: {name: Radar g7 move threshold}
       still_threshold: {name: Radar g7 still threshold}
+    # All 14 gates must be listed: ESPHome 2026.10 writes every gate's threshold when one
+    # changes and crashes on a gate that has no number entity.
     gate_8:
       move_threshold: {name: Radar g8 move threshold}
       still_threshold: {name: Radar g8 still threshold}
+    gate_9:
+      move_threshold: {name: Radar g9 move threshold}
+      still_threshold: {name: Radar g9 still threshold}
+    gate_10:
+      move_threshold: {name: Radar g10 move threshold}
+      still_threshold: {name: Radar g10 still threshold}
+    gate_11:
+      move_threshold: {name: Radar g11 move threshold}
+      still_threshold: {name: Radar g11 still threshold}
+    gate_12:
+      move_threshold: {name: Radar g12 move threshold}
+      still_threshold: {name: Radar g12 still threshold}
+    gate_13:
+      move_threshold: {name: Radar g13 move threshold}
+      still_threshold: {name: Radar g13 still threshold}
 
 select:
   - platform: ld2412
