@@ -45,6 +45,8 @@ History:
         board edge (0.5 mm, 0.15 mm above the board), radar ribs +0.05 mm.
   v18 - lips at 6.5 mm from the end without the connector sat on a chip: that pair moved to 11 mm;
         radar ribs +0.02 (v17 a hair tight); hub 0.8 mm higher (z_min 10) to clear the moved posts.
+  v19 - optional HLK-LD2412 seat (python enclosure.py 100 ld2412): four posts with lips, none at the
+        ends, where both pin columns are. Files get an _ld2412 suffix.
 """
 import math
 import os
@@ -55,7 +57,8 @@ import cadquery as cq
 OUT_DIR = "out"   # export directory, relative to the current working directory
 SIZE = int(sys.argv[1]) if len(sys.argv) > 1 and sys.argv[1].isdigit() else 80   # housing Ø: 80 or 100
 assert SIZE in (80, 100), "size must be 80 or 100"
-SUFFIX = "" if SIZE == 80 else "_d100"
+RADAR_MODEL = "ld2412" if "ld2412" in sys.argv[1:] else "ld2410b"   # python enclosure.py 100 ld2412
+SUFFIX = ("" if SIZE == 80 else "_d100") + ("_ld2412" if RADAR_MODEL == "ld2412" else "")
 
 # ----------------------------------------------------------------------------
 # GENERAL PARAMETERS
@@ -119,7 +122,13 @@ RADAR = dict(x=7.0, y=35.06, cx=4.6 if SIZE == 80 else 0.0, cy=-5.0 if SIZE == 8
              rib_extra=0.02,       # v17 had +0.05 (board fell out of v16); a hair too tight with the snap lips
              post_y=(11.0, 27.5),  # long-side posts, centre in mm from the end without the connector (v18: 6.5 hit a chip)
              # ledge segments [from, to] in mm from the end WITHOUT the connector (-y); components at the edges elsewhere
-             ledge_segments=((1.0, 15.0), (25.0, 30.0)))
+             ledge_segments=((1.0, 15.0), (25.0, 30.0)),
+             end_posts=True)
+# v19: optional HLK-LD2412 in the same housing (the v2 radar, for testing before the v2 PCB).
+# 11 x 28 mm from the datasheet (VERIFY with a caliper), pin columns 1.27 mm in from both short
+# ends, so wires leave from both ends: no end posts, two posts per long side away from the ends.
+if RADAR_MODEL == "ld2412":
+    RADAR.update(x=11.0, y=28.0, post_y=(8.0, 20.0), end_posts=False, ledge_segments=())
 # HC-SR602: round board Ø15.89, two opposite notches (13.65 across), 3-pin header
 # 90 deg from the notch axis; pin ends stick out on the lens side.
 # The board rests on a ring around the lens (standoff above the face), the notches sit on
@@ -297,7 +306,7 @@ def seat_radar(c):
             c = c.union(rib(m["cx"] + sx * ix / 2, yy, -sx, 0, RADAR_SEAT_Z, h=m["board_t"] + 0.1, p=pr))
             c = c.union(snap_lip(m["cx"] + sx * ix / 2, yy, sx, m["post_w"], z_lip, CLR / 2 + m["snap"]))
     # ends: one post each, no tab and no lip (the connector end has its wires right at the edge)
-    for sy in (-1, 1):
+    for sy in ((-1, 1) if m["end_posts"] else ()):
         c = c.union(box(m["cx"], m["cy"] + sy * (iy / 2 + pt / 2), z0, m["end_w"], pt, h_post))
         c = c.union(rib(m["cx"], m["cy"] + sy * iy / 2, 0, -sy, RADAR_SEAT_Z, p=pr, w=m["end_w"]))
     return c
@@ -607,7 +616,7 @@ def make_radar_seat_test(housing=None):
     the radar exactly as the housing does, to compare empty-room gate energies before a full print."""
     housing = housing if housing is not None else make_housing()
     m = RADAR
-    sx = m["x"] + CLR + 2 * m["post_t"] + 2 * m["win_mx"] + 8.0
+    sx = m["x"] + CLR + 2 * m["post_t"] + 2 * m["win_mx"] + (6.0 if RADAR_MODEL == "ld2412" else 8.0)
     sy = m["y"] + CLR + 2 * m["post_t"] + 2 * m["win_my"] + 2.0
     return housing.intersect(box(m["cx"], m["cy"], -1, sx, sy, RADAR_SEAT_Z + POST_H + 2.0))
 
@@ -670,13 +679,14 @@ def dummies():
     d["radar"] = box(r["cx"], r["cy"], RADAR_SEAT_Z, r["x"], r["y"], 1.0)
     y_end = r["cy"] - r["y"] / 2
     zone = box(r["cx"], r["cy"], RADAR_SEAT_Z - 1.8, r["x"] - 2 * r["ledge"] - 0.4, r["y"] - 0.6, 1.8)
-    for (l0, l1) in ((15.5, 24.5), (30.5, 35.0)):     # components right at the edges
+    for (l0, l1) in (((15.5, 24.5), (30.5, 35.0)) if RADAR_MODEL == "ld2410b" else ()):   # components right at the edges
         zone = zone.union(box(r["cx"], y_end + (l0 + l1) / 2, RADAR_SEAT_Z - 1.2, r["x"], l1 - l0, 1.2))
     d["radar_parts"] = zone
     # components on the back of the radar (IC, crystal: up to ~1.2 mm) and the wires leaving the
     # connector end upwards
-    d["radar_back"] = box(r["cx"], r["cy"], RADAR_SEAT_Z + 1.0, r["x"], r["y"], 1.2).union(
-        box(r["cx"], r["cy"] + r["y"] / 2 - 2.0, RADAR_SEAT_Z + 1.0, r["x"], 4.0, 4.0))
+    d["radar_back"] = box(r["cx"], r["cy"], RADAR_SEAT_Z + 1.0, r["x"], r["y"], 1.2)
+    for sy in ((1,) if RADAR_MODEL == "ld2410b" else (-1, 1)):   # wire ends
+        d["radar_back"] = d["radar_back"].union(box(r["cx"], r["cy"] + sy * (r["y"] / 2 - 2.0), RADAR_SEAT_Z + 1.0, r["x"], 4.0, 4.0))
     p = PIR
     zp = FACE + p["standoff"]
     disk = cyl(p["d"] / 2, zp, 1.2, p["cx"], p["cy"])

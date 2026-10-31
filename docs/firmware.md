@@ -80,3 +80,11 @@ A still radar target alone can't switch occupancy on. That keeps the usual radar
 - AQI and TVOC are useful for spotting sudden changes in the air.
 - There's no particulate matter (PM2.5) measurement. That needs a separate sensor.
 - The ENS160 needs about 3 minutes of warm-up after each power-up. After the very first power-on it runs an initial start-up of about an hour, and its baseline keeps settling over the first day of continuous operation. Until then eCO2, TVOC and AQI are empty or jumpy.
+
+## Trying the LD2412 in the v1 housing
+
+The [v2](../v2/) radar, the HLK-LD2412, can be tested in the v1 Ø100 housing before the v2 PCB exists:
+
+- **Housing.** Print the `_d100_ld2412` files from [`hardware/d100/`](../hardware/d100/), starting with `13_radar_seat_test_d100_ld2412.stl`. The board is taken as 11 × 28 × 1.0 mm from the datasheet; check yours with a caliper first and change `RADAR.update(...)` in `enclosure.py` if it differs (`python enclosure.py 100 ld2412`). The seat has four posts with snap lips and none at the ends, because both pin columns are at the ends.
+- **Wiring.** Same as the LD2410B: +5V (not 3V3), GND, radar TX to GPIO5, radar RX to GPIO4. OUT stays unconnected.
+- **Firmware.** [`firmware/ceiling-sensor-ld2412.yaml`](../firmware/ceiling-sensor-ld2412.yaml) is `ceiling-sensor.yaml` with the radar swapped: UART at 115200 baud, `gate_N` instead of `gN`, one `Radar max gate` instead of separate moving/still gates, and a `Radar learn empty room` button. Keep your own substitutions and Wi-Fi settings when you copy it.

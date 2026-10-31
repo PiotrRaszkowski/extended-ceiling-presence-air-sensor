@@ -21,6 +21,7 @@ The modules sit differently than in the Ø80 pictures. Seen from the ceiling sid
 | `stl/03_chamber_lid_d100.stl` | ENS160 chamber lid |
 | `stl/11_seat_test_fit_d100.stl` | bottom 9 mm for a test fit |
 | `stl/13_radar_seat_test_d100.stl` | radar seat with the face around it, to check the radar before a full print |
+| `stl/*_d100_ld2412.stl` | the same parts with a seat for the HLK-LD2412 (the v2 radar) instead of the LD2410B, see [firmware](../../docs/firmware.md#trying-the-ld2412-in-the-v1-housing) |
 
 The press-fit calibration print and the radar window samples are the same for both sizes; use the ones in [`../stl/`](../stl/). STEP versions are in [`step/`](step/).
 
