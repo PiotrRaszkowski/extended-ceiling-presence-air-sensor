@@ -43,6 +43,8 @@ History:
         RIB_INTERF 0.13 (was 0.1): the Ø100 print held every board, but a touch loosely.
   v17 - the radar fell out of the v16 seat test: snap lips on the four long-side posts close over the
         board edge (0.5 mm, 0.15 mm above the board), radar ribs +0.05 mm.
+  v18 - lips at 6.5 mm from the end without the connector sat on a chip: that pair moved to 11 mm;
+        radar ribs +0.02 (v17 a hair tight); hub 0.8 mm higher (z_min 10) to clear the moved posts.
 """
 import math
 import os
@@ -114,8 +116,8 @@ RADAR = dict(x=7.0, y=35.06, cx=4.6 if SIZE == 80 else 0.0, cy=-5.0 if SIZE == 8
              post_t=1.6, post_w=3.0, end_w=2.5,
              board_t=1.0,          # PCB thickness; the snap lips close 0.15 mm above it
              snap=0.5,             # how far each snap lip reaches over the board edge
-             rib_extra=0.05,       # v17: the board fell out of the v16 test print
-             post_y=(6.5, 27.5),   # long-side posts, centre in mm from the end without the connector
+             rib_extra=0.02,       # v17 had +0.05 (board fell out of v16); a hair too tight with the snap lips
+             post_y=(11.0, 27.5),  # long-side posts, centre in mm from the end without the connector (v18: 6.5 hit a chip)
              # ledge segments [from, to] in mm from the end WITHOUT the connector (-y); components at the edges elsewhere
              ledge_segments=((1.0, 15.0), (25.0, 30.0)))
 # HC-SR602: round board Ø15.89, two opposite notches (13.65 across), 3-pin header
@@ -161,7 +163,7 @@ TALL = CH_TOP > Z_STEP
 # chamber inner wall, male headers pointing into the housing (-x), jumper plugs horizontal.
 # cols x rows = holes of the cut board; the outer column on each side stays empty and is
 # what the two side channels grip, so only cols-2 columns carry pins.
-HUB = dict(cols=6, rows=5, t=1.6, back_gap=3.5, slack=0.8, plug_len=16.5, z_min=9.2)
+HUB = dict(cols=6, rows=5, t=1.6, back_gap=3.5, slack=0.8, plug_len=16.5, z_min=10.0)
 
 
 # ----------------------------------------------------------------------------

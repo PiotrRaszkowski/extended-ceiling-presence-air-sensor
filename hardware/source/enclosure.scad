@@ -1,5 +1,5 @@
 // Ceiling-mounted enclosure for an ESP32 presence + air-quality sensor.
-// OpenSCAD port of hardware/source/enclosure.py (CadQuery, v17). One file, two sizes (Ø80 / Ø100).
+// OpenSCAD port of hardware/source/enclosure.py (CadQuery, v18). One file, two sizes (Ø80 / Ø100).
 //
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2026 Piotr Raszkowski
@@ -140,7 +140,7 @@ hub_back_gap = 3.5;
 // Slot clearance beyond the board edge, per side (mm)
 hub_slack = 0.8;
 // Lowest board underside above the face (mm); raised automatically to clear the radar seat
-hub_z_min = 9.2;
+hub_z_min = 10.0;
 
 /* [Radar (LD2410B)] */
 // Board size x, short side (mm)
@@ -166,14 +166,14 @@ radar_post_w = 3.0;
 // End post width (mm)
 radar_end_w = 2.5;
 // Long-side posts (two per side), centre in mm from the end without the connector (-y);
-// keep them clear of the components at the board edge (15.5-24.5 and 30.5-35)
-radar_post_y = [6.5, 27.5];
+// keep them clear of the components at the board edge (antenna side 15.5-24.5 and 30.5-35, chip on the back at 2-7)
+radar_post_y = [11.0, 27.5];
 // PCB thickness; the snap lips close 0.15 mm above it (mm)
 radar_board_t = 1.0;
 // How far each snap lip reaches over the board edge (mm)
 radar_snap = 0.5;
 // Extra rib interference for this seat (mm); v17: the board fell out of the v16 test print
-radar_rib_extra = 0.05;
+radar_rib_extra = 0.02;
 
 /* [PIR (HC-SR602)] */
 // Board diameter (mm)

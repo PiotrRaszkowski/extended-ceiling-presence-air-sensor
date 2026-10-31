@@ -58,7 +58,7 @@ All values in millimetres.
 | `CH_X`, `CH_TOP` | 12, 23 | Inner wall of the ENS160 chamber and its height (= underside of the lid). Above `Z_STEP` the outer wall steps in to `R_UP` to clear the base ring; `CH_TOP` can go up to about 25: the lid has to stay below the base plate, which sits 2.5 mm inside the housing rim. |
 | `WIRE_W`, `WIRE_D` | 5.0, 2.5 | Chamber cable pass-through size. |
 | `WIRE_SIDE`, `WIRE_XC` | 1, CH_X + 4.7 | Which chamber side wall the pass-through is in (+y / -y) and where along it. |
-| `HUB` | cols 6, rows 5, back_gap 3.5, slack 0.8, z_min 9.2 | Dupont hub seat: the perfboard size in holes, the gap behind it for pin stubs, side play in the channels, lowest board position. The board height is raised automatically where the channels pass over the radar seat (Ø80). |
+| `HUB` | cols 6, rows 5, back_gap 3.5, slack 0.8, z_min 10.0 | Dupont hub seat: the perfboard size in holes, the gap behind it for pin stubs, side play in the channels, lowest board position. The board height is raised automatically where the channels pass over the radar seat (Ø80). |
 | `CAL_VALUES` | (0.1, 0.2, 0.3, 0.4) | Interference values on the calibration print. |
 
 Each module has a dict with its measured size (`x`, `y`) and its position in the housing (`cx`, `cy`, looking from the ceiling side), plus a few specific keys:
@@ -69,8 +69,8 @@ Each module has a dict with its measured size (`x`, `y`) and its position in the
 | `RADAR["win_mx"]`, `RADAR["win_my"]` | 3.0, 1.5 | How far the thin window reaches past the radar posts in x and y. |
 | `RADAR["gap"]` | 6.2 | Air between the window and the board: half a wavelength at 24 GHz. |
 | `RADAR["board_t"]`, `RADAR["snap"]` | 1.0, 0.5 | Radar PCB thickness and how far the snap lips reach over its edge. The lips close 0.15 mm above the board; if your board is thicker, raise `board_t`. |
-| `RADAR["rib_extra"]` | 0.05 | Extra crush-rib interference for the radar on top of `RIB_INTERF`. |
-| `RADAR["post_y"]` | (6.5, 27.5) | Long-side posts, measured from the end without the connector. Each has a small tab under the board edge; keep them off the components at the board edge (15.5-24.5 and 30.5-35 mm). |
+| `RADAR["rib_extra"]` | 0.02 | Extra crush-rib interference for the radar on top of `RIB_INTERF`. |
+| `RADAR["post_y"]` | (11.0, 27.5) | Long-side posts, measured from the end without the connector. Each has a small tab under the board edge and a snap lip over it; keep them off the components at the board edge (antenna side 15.5-24.5 and 30.5-35 mm, a chip on the back at about 2-7 mm). |
 | `RADAR["ledge_segments"]` | ((1, 15), (25, 30)) | Where the ledges support the radar, measured from the end without the connector. The gaps leave room for components on the board edge. |
 | `PIR["lens_d"]` | 10.3 | Lens hole: lens diameter at its base + 0.3. |
 | `PIR["hdr_angle"]` | 180 | Direction the PIR header points (degrees). The seat rotates with it. |
@@ -95,4 +95,4 @@ These are the caliper measurements the seats are built on. If your boards differ
 
 ## Version history
 
-The header of `enclosure.py` lists every revision. In short: v2-v5 got the bayonet and module sizes right, v6-v8 moved to printable crush ribs calibrated at 0.1 mm, v9 was printed in full in PETG, and v10 fixed what that print showed (loose ESP, PIR and chamber lid, buck seat slightly loose), v11 shrank the housing from Ø100 to Ø80 with the same seats, v12 made the ENS160 chamber 10 mm taller for pin headers with jumper plugs, v13 tightened the Ø80 BH1750 seat by 0.05 mm, v14 added the Dupont hub seat on the chamber wall and moved the ENS160 pass-through to the chamber side wall, v15 thinned the radar window to 0.8 mm, and v16 put the radar on posts 6.2 mm above it, widened the ENS160 pass-through to 8 × 4 mm and raised `RIB_INTERF` to 0.13 mm. In the v16 seat test the radar fell out, so v17 added snap lips on the long-side posts. v12 also generates both sizes from one file: the Ø100 layout is selected with `python enclosure.py 100` and lives in [`hardware/d100/`](../hardware/d100/).
+The header of `enclosure.py` lists every revision. In short: v2-v5 got the bayonet and module sizes right, v6-v8 moved to printable crush ribs calibrated at 0.1 mm, v9 was printed in full in PETG, and v10 fixed what that print showed (loose ESP, PIR and chamber lid, buck seat slightly loose), v11 shrank the housing from Ø100 to Ø80 with the same seats, v12 made the ENS160 chamber 10 mm taller for pin headers with jumper plugs, v13 tightened the Ø80 BH1750 seat by 0.05 mm, v14 added the Dupont hub seat on the chamber wall and moved the ENS160 pass-through to the chamber side wall, v15 thinned the radar window to 0.8 mm, and v16 put the radar on posts 6.2 mm above it, widened the ENS160 pass-through to 8 × 4 mm and raised `RIB_INTERF` to 0.13 mm. In the v16 seat test the radar fell out, so v17 added snap lips on the long-side posts; v18 moved one pair of them off a chip on the back of the board and raised the hub 0.8 mm to clear them. v12 also generates both sizes from one file: the Ø100 layout is selected with `python enclosure.py 100` and lives in [`hardware/d100/`](../hardware/d100/).
