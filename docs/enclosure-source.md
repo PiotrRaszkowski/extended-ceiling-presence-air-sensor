@@ -77,6 +77,7 @@ Each module has a dict with its measured size (`x`, `y`) and its position in the
 | `BH["chip_dy"]` | 2.5 | Offset of the BH1750 chip from the board centre, towards the mounting holes. The light window follows it. |
 | `ESP["rib_in"]` | 3.0 | Rib distance from the corners. The ESP32-S3-Zero has rounded corners, so ribs too close to them grip nothing. |
 | `BUCK["rib_extra"]` | 0.05 | Extra interference for the S09 converter on top of `RIB_INTERF`. |
+| `LID_RIB_EXTRA` | 0.08 | Extra interference for the ribs on the chamber lid plug. |
 | `BH["rib_extra"]` | 0.05 (Ø80), 0 (Ø100) | Extra interference for the BH1750. The Ø80 seat printed loose while the identical Ø100 seat was fine. |
 | `ENS["rails"]` | (4.5, 18.0) | Ledge positions measured from the pin edge, chosen to stay clear of the AHT21 slot. |
 

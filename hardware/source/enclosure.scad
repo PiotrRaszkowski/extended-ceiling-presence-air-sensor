@@ -1,5 +1,5 @@
 // Ceiling-mounted enclosure for an ESP32 presence + air-quality sensor.
-// OpenSCAD port of hardware/source/enclosure.py (CadQuery, v18). One file, two sizes (Ø80 / Ø100).
+// OpenSCAD port of hardware/source/enclosure.py (CadQuery, v20). One file, two sizes (Ø80 / Ø100).
 //
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2026 Piotr Raszkowski
@@ -119,6 +119,8 @@ wire_side = 1; // [-1, 1]
 wire_xc_offset = 4.5;
 // Lid plate thickness (mm)
 lid_t = 1.5;
+// Extra rib interference on the lid plug (mm); v20: the lid sat a little loose
+lid_rib_extra = 0.08;
 // Lid plug height (mm)
 plug_h = 2.0;
 // Clearance between lid plug and chamber walls, per side (mm)
@@ -717,7 +719,7 @@ module chamber_lid() {
         }
         // crush ribs on the outside of the plug (press against the chamber side walls)
         for (sy = [-1, 1], xx = tall ? [ch_x + 9.0, ch_x + 17.0] : [ch_x + 8.0, ch_x + 20.0])
-            rib(xx, sy * (hy - c), 0, sy, lid_t - eps, hh = plug_h, p = c + rib_interf);
+            rib(xx, sy * (hy - c), 0, sy, lid_t - eps, hh = plug_h, p = c + rib_interf + lid_rib_extra);
     }
 }
 

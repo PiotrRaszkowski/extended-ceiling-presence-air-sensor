@@ -47,6 +47,7 @@ History:
         radar ribs +0.02 (v17 a hair tight); hub 0.8 mm higher (z_min 10) to clear the moved posts.
   v19 - optional HLK-LD2412 seat (python enclosure.py 100 ld2412): four posts with lips, none at the
         ends, where both pin columns are. Files get an _ld2412 suffix.
+  v20 - chamber lid ribs +0.08 mm (LID_RIB_EXTRA): the lid sat a little loose.
 """
 import math
 import os
@@ -158,6 +159,7 @@ ENS = dict(x=19.29, y=24.20, rail_h=3.0,
 CH_X = 12.0 if SIZE == 80 else 21.0   # inner chamber wall (x)
 CH_TOP = 23.0         # top of the chamber walls = underside of the lid (room for headers + jumper plugs)
 LID_T = 1.5
+LID_RIB_EXTRA = 0.08   # v20: the lid sat a little loose with RIB_INTERF alone
 WIRE_W, WIRE_D = 8.0, 4.0   # cable pass-through for 4 jumper wires (width x depth from the wall top)
 WIRE_SIDE = 1               # pass-through in the +y (1) or -y (-1) chamber side wall, next to the inner wall
 WIRE_XC = CH_X + T + 4.5    # its centre along x
@@ -543,7 +545,7 @@ def make_lid():
     # crush ribs on the outside of the plug (press against the chamber side walls)
     for sy in (-1, 1):
         for xx in ((CH_X + 9.0, CH_X + 17.0) if TALL else (CH_X + 8.0, CH_X + 20.0)):
-            lid = lid.union(rib(xx, sy * (hy - 0.25), 0, sy, LID_T - 0.01, h=PLUG_H, p=0.25 + RIB_INTERF))
+            lid = lid.union(rib(xx, sy * (hy - 0.25), 0, sy, LID_T - 0.01, h=PLUG_H, p=0.25 + RIB_INTERF + LID_RIB_EXTRA))
     return lid
 
 
