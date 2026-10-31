@@ -97,6 +97,8 @@ binary_sensor:
       return id(occ_latched);
     filters:
       - delayed_off: !lambda "return (uint32_t) (id(hold_time).state * 1000);"
+    on_state:
+      - script.execute: update_aq_led
 
   - platform: gpio
     id: pir
@@ -335,6 +337,22 @@ text_sensor:
 #  Settings exposed to Home Assistant
 # -----------------------------------------------------------------------------
 number:
+  # External air-quality LED (WS2812B on GPIO8, behind the 0.6 mm spot in the Ø100 face)
+  - platform: template
+    id: aq_led_brightness
+    name: Air quality indicator brightness
+    icon: mdi:brightness-6
+    entity_category: config
+    unit_of_measurement: "%"
+    min_value: 5
+    max_value: 100
+    step: 5
+    initial_value: 20
+    optimistic: true
+    restore_value: true
+    on_value:
+      - script.execute: update_aq_led
+
   - platform: template
     id: hold_time
     name: Presence hold time
@@ -399,6 +417,22 @@ number:
       still_threshold: {name: Radar g8 still threshold}
 
 select:
+  - platform: template
+    id: aq_led_mode
+    name: Air quality indicator
+    icon: mdi:led-on
+    entity_category: config
+    options:
+      - Always
+      - When occupied
+      - Only when air is poor
+      - "Off"
+    initial_option: Only when air is poor
+    optimistic: true
+    restore_value: true
+    on_value:
+      - script.execute: update_aq_led
+
   - platform: ld2410
     ld2410_id: radar
     distance_resolution:
@@ -445,7 +479,50 @@ light:
     chipset: WS2812
     channel_colors: RGB
 
+  # External WS2812B: data GPIO8 through 330 ohm, +5V through a 1N4148 (so 3.3 V data reads high).
+  # Most WS2812B modules are GRB; if red and green are swapped, change it to RGB.
+  - platform: esp32_rmt_led_strip
+    id: aq_led
+    internal: true
+    pin: GPIO8
+    num_leds: 1
+    chipset: WS2812
+    channel_colors: GRB
+
+script:
+  # Colour from the ENS160 AQI (1-2 green, 3 orange, 4-5 red); whether it lights depends on the mode
+  - id: update_aq_led
+    mode: restart
+    then:
+      - lambda: |-
+          const std::string mode = id(aq_led_mode).current_option();
+          const float a = id(aqi).state;
+          const bool known = !isnan(a) && a >= 1;
+          bool show = false;
+          if (mode == "Always") show = known;
+          else if (mode == "When occupied") show = known && id(occupancy).state;
+          else if (mode == "Only when air is poor") show = known && a >= 3;
+          if (!show) {
+            auto off = id(aq_led).turn_off();
+            off.set_transition_length(1000);
+            off.perform();
+            return;
+          }
+          float r, g, b;
+          if (a < 3)       { r = 0.0f; g = 1.0f; b = 0.1f; }
+          else if (a < 4)  { r = 1.0f; g = 0.6f; b = 0.0f; }
+          else             { r = 1.0f; g = 0.0f; b = 0.0f; }
+          auto call = id(aq_led).turn_on();
+          call.set_rgb(r, g, b);
+          call.set_brightness(id(aq_led_brightness).state / 100.0f);
+          call.set_transition_length(1000);
+          call.perform();
+
 interval:
+  - interval: 30s
+    then:
+      - script.execute: update_aq_led
+
   - interval: 30s
     then:
       - if:

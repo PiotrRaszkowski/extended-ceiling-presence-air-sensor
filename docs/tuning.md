@@ -29,6 +29,8 @@ Mini PIRs are sensitive to the ESP's own 2.4 GHz transmissions. If `PIR motion` 
 
 The ESP's WS2812 LED shows air quality: green for AQI 1-2, orange for 3, red for 4-5. There is no window for it in the face, so at most a little light gets out through the side vents. Turn it off with the `Air quality LED` switch if it bothers you. If it shows red when it should be green, change `channel_colors: RGB` to `GRB` in the YAML.
 
+The optional external LED ([wiring](wiring.md#optional-parts), Ø100 housing) is visible from the room. `Air quality indicator` sets when it lights: `Always`, `When occupied`, `Only when air is poor` (AQI 3 or worse, the default) or `Off`; `Air quality indicator brightness` sets how bright. Same colours as above.
+
 ## Automation examples
 
 Full file: [`homeassistant/automations.yaml`](../homeassistant/automations.yaml). Replace the entity IDs with yours.

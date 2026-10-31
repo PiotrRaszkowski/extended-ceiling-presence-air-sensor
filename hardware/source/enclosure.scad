@@ -1,5 +1,5 @@
 // Ceiling-mounted enclosure for an ESP32 presence + air-quality sensor.
-// OpenSCAD port of hardware/source/enclosure.py (CadQuery, v20). One file, two sizes (Ø80 / Ø100).
+// OpenSCAD port of hardware/source/enclosure.py (CadQuery, v21). One file, two sizes (Ø80 / Ø100).
 //
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2026 Piotr Raszkowski
@@ -128,9 +128,28 @@ lid_plug_clr = 0.25;
 // Gap kept between the chamber top part and the base ring, radial and axial (mm)
 step_clr = 0.5;
 
+/* [Air-quality LED (Ø100 only)] */
+// Seat + 0.6 mm window for a WS2812B on a round board, LED facing the room
+aq_led_enabled = true;
+// Board centre, Ø100 layout [x, y] (mm)
+aq_led_pos = [13.0, -22.0];
+// Round board diameter (mm)
+aq_led_d = 10.0;
+// Board thickness (mm)
+aq_led_pcb_t = 1.6;
+// LED body: square size and height (mm)
+aq_led_body = 5.0;
+aq_led_body_h = 1.6;
+// Thin spot in the face: thickness and diameter (mm)
+aq_led_win_t = 0.6;
+aq_led_win_d = 7.6;
+// Air between the LED and the thin spot (mm)
+aq_led_gap = 0.2;
+
 /* [Dupont hub] */
 // Add the two channels that hold the perfboard hub outside the chamber inner wall
-hub_enabled = true;
+// (v21: off by default, the hub lies loose in the housing in practice)
+hub_enabled = false;
 // Hub board columns (2.54 mm holes, along y); the outer column on each side is gripped, cols-2 carry pins
 hub_cols = 6;
 // Hub board rows (2.54 mm holes, along z)
@@ -657,6 +676,22 @@ module hub_channel(sy) {
     }
 }
 
+module seat_aq_led() {
+    cx = aq_led_pos[0]; cy = aq_led_pos[1];
+    z_b = aq_led_win_t + aq_led_gap + aq_led_body_h;     // underside of the LED board
+    r_wall = aq_led_d / 2 + clr / 2;
+    if (aq_led_enabled && size == 100) {
+        union() {
+            difference() { children(); cyl(aq_led_win_d / 2, aq_led_win_t, face, cx, cy); }
+            translate([cx, cy, 0]) ring(aq_led_body * 0.7071 + 0.6, r_wall + eps, face - eps, z_b - face + eps);
+            translate([cx, cy, 0]) ring(r_wall, r_wall + seat_t, face - eps, z_b + aq_led_pcb_t + 1.5 - face);
+            for (a = [90, 210, 330])
+                rib(cx + r_wall * cos(a), cy + r_wall * sin(a), -cos(a), -sin(a), z_b,
+                    hh = aq_led_pcb_t + 1.0, p = r_wall - aq_led_d / 2 + rib_interf, w = 2.0);
+        }
+    } else children();
+}
+
 module seat_hub() {
     assert(!hub_enabled || hub_z0 + hub_h <= h - base_plate_t - 0.5, "hub too tall for the housing");
     union() {
@@ -680,7 +715,7 @@ module housing() {
     difference() {
         union() {
             difference() {
-                seat_pir() seat_hub() chamber_body() seat_buck() seat_esp() seat_bh() seat_radar() housing_shell();
+                seat_pir() seat_aq_led() seat_hub() chamber_body() seat_buck() seat_esp() seat_bh() seat_radar() housing_shell();
                 // electronics ventilation: side wall opposite the chamber
                 radial_slots([148:8:212], 3.5, 5.0);    // inlet (low)
                 radial_slots([148:8:212], 12.5, 5.5);   // outlet (high)

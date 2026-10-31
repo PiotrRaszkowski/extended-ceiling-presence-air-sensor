@@ -48,6 +48,8 @@ History:
   v19 - optional HLK-LD2412 seat (python enclosure.py 100 ld2412): four posts with lips, none at the
         ends, where both pin columns are. Files get an _ld2412 suffix.
   v20 - chamber lid ribs +0.08 mm (LID_RIB_EXTRA): the lid sat a little loose.
+  v21 - Dupont hub seat off by default (HUB_SEAT; the hub lies loose); Ø100: seat and 0.6 mm window
+        for an external WS2812B air-quality LED (AQ_LED).
 """
 import math
 import os
@@ -175,6 +177,12 @@ TALL = CH_TOP > Z_STEP
 # cols x rows = holes of the cut board; the outer column on each side stays empty and is
 # what the two side channels grip, so only cols-2 columns carry pins.
 HUB = dict(cols=6, rows=5, t=1.6, back_gap=3.5, slack=0.8, plug_len=16.5, z_min=10.0)
+HUB_SEAT = False   # v21: the hub lies loose in the housing in practice; set True for the v14 channels
+
+# v21: external air-quality LED, a WS2812B on a round ~10 mm board (Ø100 only), LED facing the room
+# behind a 0.6 mm thin spot. The board rests on a ring around the LED, held by three crush ribs.
+# Data from GPIO8 through 330 ohm; power from 5 V through a 1N4148 so 3.3 V data is a valid high.
+AQ_LED = dict(cx=13.0, cy=-22.0, d=10.0, pcb_t=1.6, led=5.0, led_h=1.6, win_t=0.6, win_d=7.6, gap=0.2) if SIZE == 100 else None
 
 
 # ----------------------------------------------------------------------------
@@ -501,6 +509,20 @@ def seat_hub(c):
 # ----------------------------------------------------------------------------
 # 2. HOUSING
 # ----------------------------------------------------------------------------
+def seat_aq_led(c):
+    m = AQ_LED
+    z_b = m["win_t"] + m["gap"] + m["led_h"]                  # underside of the LED board
+    r_wall = m["d"] / 2 + CLR / 2
+    c = c.cut(cyl(m["win_d"] / 2, m["win_t"], FACE, m["cx"], m["cy"]))                 # 0.6 mm thin spot
+    c = c.union(ring(m["led"] * 0.7071 + 0.6, r_wall + 0.01, FACE - 0.01, z_b - FACE + 0.01).translate((m["cx"], m["cy"], 0)))
+    c = c.union(ring(r_wall, r_wall + T, FACE - 0.01, z_b + m["pcb_t"] + 1.5 - FACE).translate((m["cx"], m["cy"], 0)))
+    for a in (90.0, 210.0, 330.0):
+        ar = math.radians(a)
+        c = c.union(rib(m["cx"] + r_wall * math.cos(ar), m["cy"] + r_wall * math.sin(ar), -math.cos(ar), -math.sin(ar),
+                        z_b, h=m["pcb_t"] + 1.0, p=r_wall - m["d"] / 2 + RIB_INTERF, w=2.0))
+    return c
+
+
 def make_housing():
     c = cq.Workplane("XY").circle(R_OUT).extrude(H)
     c = c.faces("<Z").edges().chamfer(EDGE_CHAMFER)
@@ -511,7 +533,10 @@ def make_housing():
     c = seat_esp(c)
     c = seat_buck(c)
     c, _ = chamber_body(c)
-    c = seat_hub(c)
+    if HUB_SEAT:
+        c = seat_hub(c)
+    if AQ_LED:
+        c = seat_aq_led(c)
     c = seat_pir(c)          # last: cuts the hole through the face
 
     # electronics ventilation: side wall opposite the chamber
@@ -620,7 +645,10 @@ def make_radar_seat_test(housing=None):
     m = RADAR
     sx = m["x"] + CLR + 2 * m["post_t"] + 2 * m["win_mx"] + (6.0 if RADAR_MODEL == "ld2412" else 8.0)
     sy = m["y"] + CLR + 2 * m["post_t"] + 2 * m["win_my"] + 2.0
-    return housing.intersect(box(m["cx"], m["cy"], -1, sx, sy, RADAR_SEAT_Z + POST_H + 2.0))
+    t = housing.intersect(box(m["cx"], m["cy"], -1, sx, sy, RADAR_SEAT_Z + POST_H + 2.0))
+    if AQ_LED:   # keep the LED seat out of the radar test piece
+        t = t.cut(cyl(AQ_LED["d"] / 2 + CLR / 2 + T + 1.0, -2, 40, AQ_LED["cx"], AQ_LED["cy"]))
+    return t
 
 
 # ----------------------------------------------------------------------------
@@ -722,10 +750,17 @@ def dummies():
         box(ENS_X0 + ENS["x"] / 2, 0, ENS_SEAT_Z + 1.6, ENS["x"] - 2, ENS["y"] - 2, 1.5))
     d["ens160_parts"] = box(ENS_X0 + 1.3, 0, ENS_SEAT_Z - 2.5, 1.8, ENS["y"] - 2, 2.5)
     # Dupont hub: board, header plastic + horizontal plugs (front), pin stubs + solder (back)
-    g = hub_geometry()
-    d["hub"] = box((g["xf"] + g["xb"]) / 2, 0, g["z0"], HUB["t"], g["w"], g["h"])
-    d["hub_parts"] = box(g["xf"] - HUB["plug_len"] / 2, 0, g["z0"], HUB["plug_len"], 2 * g["y_pins"], g["h"]).union(
-        box(g["xb"] + 1.5, 0, g["z0"] + 0.5, 3.0, 2 * (g["y_pins"] - 0.8), g["h"] - 1.0))
+    if HUB_SEAT:
+        g = hub_geometry()
+        d["hub"] = box((g["xf"] + g["xb"]) / 2, 0, g["z0"], HUB["t"], g["w"], g["h"])
+        d["hub_parts"] = box(g["xf"] - HUB["plug_len"] / 2, 0, g["z0"], HUB["plug_len"], 2 * g["y_pins"], g["h"]).union(
+            box(g["xb"] + 1.5, 0, g["z0"] + 0.5, 3.0, 2 * (g["y_pins"] - 0.8), g["h"] - 1.0))
+    if AQ_LED:
+        a = AQ_LED
+        z_b = a["win_t"] + a["gap"] + a["led_h"]
+        d["aq_led"] = cyl(a["d"] / 2, z_b, a["pcb_t"], a["cx"], a["cy"])
+        d["aq_led_parts"] = box(a["cx"], a["cy"], z_b - a["led_h"], a["led"], a["led"], a["led_h"]).union(
+            cyl(1.8, z_b + a["pcb_t"], 3.0, a["cx"], a["cy"]))   # LED body below, wires above
     # Dupont plugs standing on the ESP headers (both long edges), for clearance checks
     pr = None
     for sy in (-1, 1):
