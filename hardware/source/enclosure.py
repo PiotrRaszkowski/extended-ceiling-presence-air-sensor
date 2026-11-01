@@ -49,7 +49,8 @@ History:
         ends, where both pin columns are. Files get an _ld2412 suffix.
   v20 - chamber lid ribs +0.08 mm (LID_RIB_EXTRA): the lid sat a little loose.
   v21 - Dupont hub seat off by default (HUB_SEAT; the hub lies loose); Ø100: seat and 0.6 mm window
-        for an external WS2812B air-quality LED (AQ_LED).
+        for an external WS2812B air-quality LED (AQ_LED); the board rests only on its outer 0.4 mm, so
+        the resistor and capacitor next to the LED on the common 10 mm modules stay free.
 """
 import math
 import os
@@ -182,7 +183,8 @@ HUB_SEAT = False   # v21: the hub lies loose in the housing in practice; set Tru
 # v21: external air-quality LED, a WS2812B on a round ~10 mm board (Ø100 only), LED facing the room
 # behind a 0.6 mm thin spot. The board rests on a ring around the LED, held by three crush ribs.
 # Data from GPIO8 through 330 ohm; power from 5 V through a 1N4148 so 3.3 V data is a valid high.
-AQ_LED = dict(cx=13.0, cy=-22.0, d=10.0, pcb_t=1.6, led=5.0, led_h=1.6, win_t=0.6, win_d=7.6, gap=0.2) if SIZE == 100 else None
+AQ_LED = dict(cx=13.0, cy=-22.0, d=10.0, pcb_t=1.6, led=5.0, led_h=1.6, win_t=0.6, win_d=7.6, gap=0.2,
+              ledge_r=4.6) if SIZE == 100 else None   # ledge only under the outer 0.4 mm: R1/C1 sit next to the LED
 
 
 # ----------------------------------------------------------------------------
@@ -514,7 +516,7 @@ def seat_aq_led(c):
     z_b = m["win_t"] + m["gap"] + m["led_h"]                  # underside of the LED board
     r_wall = m["d"] / 2 + CLR / 2
     c = c.cut(cyl(m["win_d"] / 2, m["win_t"], FACE, m["cx"], m["cy"]))                 # 0.6 mm thin spot
-    c = c.union(ring(m["led"] * 0.7071 + 0.6, r_wall + 0.01, FACE - 0.01, z_b - FACE + 0.01).translate((m["cx"], m["cy"], 0)))
+    c = c.union(ring(m["ledge_r"], r_wall + 0.01, FACE - 0.01, z_b - FACE + 0.01).translate((m["cx"], m["cy"], 0)))
     c = c.union(ring(r_wall, r_wall + T, FACE - 0.01, z_b + m["pcb_t"] + 1.5 - FACE).translate((m["cx"], m["cy"], 0)))
     for a in (90.0, 210.0, 330.0):
         ar = math.radians(a)

@@ -145,6 +145,9 @@ aq_led_win_t = 0.6;
 aq_led_win_d = 7.6;
 // Air between the LED and the thin spot (mm)
 aq_led_gap = 0.2;
+// Inner radius of the ledge the board rests on: only its outer edge, the resistor and capacitor
+// next to the LED stay free (mm)
+aq_led_ledge_r = 4.6;
 
 /* [Dupont hub] */
 // Add the two channels that hold the perfboard hub outside the chamber inner wall
@@ -683,7 +686,7 @@ module seat_aq_led() {
     if (aq_led_enabled && size == 100) {
         union() {
             difference() { children(); cyl(aq_led_win_d / 2, aq_led_win_t, face, cx, cy); }
-            translate([cx, cy, 0]) ring(aq_led_body * 0.7071 + 0.6, r_wall + eps, face - eps, z_b - face + eps);
+            translate([cx, cy, 0]) ring(aq_led_ledge_r, r_wall + eps, face - eps, z_b - face + eps);
             translate([cx, cy, 0]) ring(r_wall, r_wall + seat_t, face - eps, z_b + aq_led_pcb_t + 1.5 - face);
             for (a = [90, 210, 330])
                 rib(cx + r_wall * cos(a), cy + r_wall * sin(a), -cos(a), -sin(a), z_b,
