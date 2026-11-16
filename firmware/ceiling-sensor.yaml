@@ -11,6 +11,11 @@ substitutions:
   name: ceiling-sensor-living-room
   friendly_name: Living room sensor
 
+# Fitted the optional SCD40/SCD41 (Ø100 housing)? Uncomment these two lines (scd4x.yaml lives
+# next to this file). Without it the air-quality LED follows the ENS160 alone.
+# packages:
+#   scd4x: !include scd4x.yaml
+
 esphome:
   name: ${name}
   friendly_name: ${friendly_name}
@@ -72,6 +77,11 @@ ld2410:
   uart_id: uart_radar
 
 globals:
+  # Last CO2 reading from the optional SCD4x (scd4x.yaml writes it); NAN without the sensor
+  - id: co2_ppm
+    type: float
+    restore_value: false
+    initial_value: "NAN"
   - id: occ_latched
     type: bool
     restore_value: false
@@ -490,18 +500,24 @@ light:
     channel_colors: GRB
 
 script:
-  # Colour from the ENS160 AQI (1-2 green, 3 orange, 4-5 red); whether it lights depends on the mode
+  # Colour from the worse of the ENS160 AQI (1-2 green, 3 orange, 4-5 red) and, with an SCD4x fitted,
+  # the measured CO2 (under 1000 ppm green, 1000-1499 orange, 1500 and up red).
+  # Whether it lights depends on the mode.
   - id: update_aq_led
     mode: restart
     then:
       - lambda: |-
           const std::string mode = id(aq_led_mode).current_option();
           const float a = id(aqi).state;
-          const bool known = !isnan(a) && a >= 1;
+          const float c = id(co2_ppm);
+          int level = -1;                       // -1 unknown, 0 fine, 1 open a window, 2 bad
+          if (!isnan(a) && a >= 1) level = a < 3 ? 0 : (a < 4 ? 1 : 2);
+          if (!isnan(c) && c > 0) level = std::max(level, c < 1000 ? 0 : (c < 1500 ? 1 : 2));
+          const bool known = level >= 0;
           bool show = false;
           if (mode == "Always") show = known;
           else if (mode == "When occupied") show = known && id(occupancy).state;
-          else if (mode == "Only when air is poor") show = known && a >= 3;
+          else if (mode == "Only when air is poor") show = level >= 1;
           if (!show) {
             auto off = id(aq_led).turn_off();
             off.set_transition_length(1000);
@@ -509,9 +525,9 @@ script:
             return;
           }
           float r, g, b;
-          if (a < 3)       { r = 0.0f; g = 1.0f; b = 0.1f; }
-          else if (a < 4)  { r = 1.0f; g = 0.6f; b = 0.0f; }
-          else             { r = 1.0f; g = 0.0f; b = 0.0f; }
+          if (level == 0)      { r = 0.0f; g = 1.0f; b = 0.1f; }
+          else if (level == 1) { r = 1.0f; g = 0.6f; b = 0.0f; }
+          else                 { r = 1.0f; g = 0.0f; b = 0.0f; }
           auto call = id(aq_led).turn_on();
           call.set_rgb(r, g, b);
           call.set_brightness(id(aq_led_brightness).state / 100.0f);

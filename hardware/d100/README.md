@@ -12,6 +12,7 @@ The modules sit differently than in the Ø80 pictures. Seen from the ceiling sid
 - PIR top left, header pointing down (towards the BH1750)
 - BH1750 on the left
 - ESP32-S3-Zero bottom centre, next to the side vents
+- SCD40/SCD41 CO2 box bottom right, under the chamber, with the air-quality LED below it (v22)
 
 | File | Part |
 |---|---|
@@ -21,6 +22,7 @@ The modules sit differently than in the Ø80 pictures. Seen from the ceiling sid
 | `stl/03_chamber_lid_d100.stl` | ENS160 chamber lid |
 | `stl/11_seat_test_fit_d100.stl` | bottom 9 mm for a test fit |
 | `stl/13_radar_seat_test_d100.stl` | radar seat with the face around it, to check the radar before a full print |
+| `stl/14_scd_led_seat_test_d100.stl` | CO2 box and LED seat with the face under them, to check both fits |
 | `stl/*_d100_ld2412.stl` | the same parts with a seat for the HLK-LD2412 (the v2 radar) instead of the LD2410B, see [firmware](../../docs/firmware.md#trying-the-ld2412-in-the-v1-housing) |
 
 The press-fit calibration print and the radar window samples are the same for both sizes; use the ones in [`../stl/`](../stl/). STEP versions are in [`step/`](step/).
@@ -29,6 +31,6 @@ Generate these files with `python enclosure.py 100` (see [enclosure source](../.
 
 Print settings and assembly are the same as for Ø80, see [printing](../../docs/printing.md) and [assembly](../../docs/assembly.md).
 
-History: v9 of this size was printed in PETG and test-fitted. Everything that print showed (loose ESP, PIR and chamber lid, buck seat slightly loose) was fixed in v10, v12 added the taller chamber (printed, seats fit) v14 the Dupont hub seat on the chamber wall, v15/v16 the 0.8 mm radar window with the radar on posts 6.2 mm above it (the 3.7 mm window made the radar noisy, see [printing](../../docs/printing.md#the-radar-window)), plus a wider ENS160 pass-through, slightly tighter ribs and (v17) snap lips over the radar.
+History: v9 of this size was printed in PETG and test-fitted. Everything that print showed (loose ESP, PIR and chamber lid, buck seat slightly loose) was fixed in v10, v12 added the taller chamber (printed, seats fit) v14 the Dupont hub seat on the chamber wall, v15/v16 the 0.8 mm radar window with the radar on posts 6.2 mm above it (the 3.7 mm window made the radar noisy, see [printing](../../docs/printing.md#the-radar-window)), plus a wider ENS160 pass-through, slightly tighter ribs and (v17) snap lips over the radar. v21 added the air-quality LED, and v22 a box for an SCD40/SCD41 with a grille in the face.
 
 ![Ø100 hub seat](../../docs/images/d100-hub-seat.png)

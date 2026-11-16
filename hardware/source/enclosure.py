@@ -51,6 +51,10 @@ History:
   v21 - Dupont hub seat off by default (HUB_SEAT; the hub lies loose); Ø100: seat and 0.6 mm window
         for an external WS2812B air-quality LED (AQ_LED); the board rests only on its outer 0.4 mm, so
         the resistor and capacitor next to the LED on the common 10 mm modules stay free.
+  v22 - Ø100: seat for an SCD40/SCD41 CO2 module (SCD), sensor facing the face over a grille, in a
+        closed box (four walls, the board as its lid) so warm air from the electronics stays out.
+        The board rests on four corner blocks only. The AQ LED moved to make room (13,-22 -> 14.5,-37.5).
+        New quick print 14_scd_led_seat_test with both seats.
 """
 import math
 import os
@@ -183,8 +187,15 @@ HUB_SEAT = False   # v21: the hub lies loose in the housing in practice; set Tru
 # v21: external air-quality LED, a WS2812B on a round ~10 mm board (Ø100 only), LED facing the room
 # behind a 0.6 mm thin spot. The board rests on a ring around the LED, held by three crush ribs.
 # Data from GPIO8 through 330 ohm; power from 5 V through a 1N4148 so 3.3 V data is a valid high.
-AQ_LED = dict(cx=13.0, cy=-22.0, d=10.0, pcb_t=1.6, led=5.0, led_h=1.6, win_t=0.6, win_d=7.6, gap=0.2,
+AQ_LED = dict(cx=14.5, cy=-37.5, d=10.0, pcb_t=1.6, led=5.0, led_h=1.6, win_t=0.6, win_d=7.6, gap=0.2,
               ledge_r=4.6) if SIZE == 100 else None   # ledge only under the outer 0.4 mm: R1/C1 sit next to the LED
+
+# v22: SCD40/SCD41 CO2 module, 22.06 x 13.08 (caliper), Ø100 only. Sensor (10.1 x 10.1 x 6.5) towards
+# the face. Where the sensor and the header sit on the board doesn't matter: the walls stand outside
+# the board outline and the board rests on four corner blocks (corner mm in from each corner), so the
+# whole underside is free. A grille under the middle of the board lets room air reach the sensor.
+SCD = dict(x=22.06, y=13.08, cx=21.63, cy=-22.0, pcb_t=1.6, sensor=10.1, sensor_h=6.5, gap=1.5,
+           corner=1.2, rib_extra=0.0, slot_w=1.2, slot_pitch=2.4, slots=7, slot_l=9.0) if SIZE == 100 else None
 
 
 # ----------------------------------------------------------------------------
@@ -508,6 +519,32 @@ def seat_hub(c):
     return c
 
 
+def scd_geometry():
+    m = SCD
+    ix, iy = m["x"] + CLR, m["y"] + CLR
+    z_b = FACE + m["sensor_h"] + m["gap"]                    # underside of the board
+    return dict(ix=ix, iy=iy, z_b=z_b, z_top=z_b + m["pcb_t"] + 1.0)
+
+
+def seat_scd(c):
+    """Closed box for the CO2 module: walls outside the board outline from the face to just above
+    the board, corner blocks under the board corners, crush ribs, grille in the face."""
+    m, g = SCD, scd_geometry()
+    ix, iy, z_b = g["ix"], g["iy"], g["z_b"]
+    c = c.union(rect_walls(m["cx"], m["cy"], ix, iy, FACE - 0.01, g["z_top"] - FACE + 0.01))
+    cw = CLR / 2 + m["corner"]
+    for sx in (-1, 1):
+        for sy in (-1, 1):
+            c = c.union(box(m["cx"] + sx * (ix / 2 - cw / 2), m["cy"] + sy * (iy / 2 - cw / 2), FACE - 0.01,
+                            cw + 0.01, cw + 0.01, z_b - FACE + 0.01))
+    c = c.union(ribs_rect(m["cx"], m["cy"], ix, iy, z_b, xs=(-6.0, 6.0), ys=(0.0,), h=m["pcb_t"] + 0.5,
+                          p=CLR / 2 + RIB_INTERF + m["rib_extra"]))
+    for k in range(m["slots"]):
+        dx = (k - (m["slots"] - 1) / 2) * m["slot_pitch"]
+        c = c.cut(box(m["cx"] + dx, m["cy"], -1, m["slot_w"], m["slot_l"], FACE + 2))
+    return c
+
+
 # ----------------------------------------------------------------------------
 # 2. HOUSING
 # ----------------------------------------------------------------------------
@@ -539,6 +576,8 @@ def make_housing():
         c = seat_hub(c)
     if AQ_LED:
         c = seat_aq_led(c)
+    if SCD:
+        c = seat_scd(c)
     c = seat_pir(c)          # last: cuts the hole through the face
 
     # electronics ventilation: side wall opposite the chamber
@@ -650,7 +689,22 @@ def make_radar_seat_test(housing=None):
     t = housing.intersect(box(m["cx"], m["cy"], -1, sx, sy, RADAR_SEAT_Z + POST_H + 2.0))
     if AQ_LED:   # keep the LED seat out of the radar test piece
         t = t.cut(cyl(AQ_LED["d"] / 2 + CLR / 2 + T + 1.0, -2, 40, AQ_LED["cx"], AQ_LED["cy"]))
+    if SCD:      # and the CO2 box
+        g = scd_geometry()
+        t = t.cut(box(SCD["cx"], SCD["cy"], -2, g["ix"] + 2 * T + 2.0, g["iy"] + 2 * T + 2.0, 40))
     return t
+
+
+def make_scd_led_seat_test(housing=None):
+    """Ø100: the CO2 box and the AQ LED seat cut out of the housing with the face under them, to
+    check both fits before the full print."""
+    housing = housing if housing is not None else make_housing()
+    m, g, a = SCD, scd_geometry(), AQ_LED
+    y_hi = m["cy"] + g["iy"] / 2 + T                          # stop at the box wall (the chamber is next to it)
+    keep = box(m["cx"], (y_hi + m["cy"] - g["iy"] / 2 - T - 2.0) / 2, -1,
+               g["ix"] + 2 * T + 3.0, y_hi - (m["cy"] - g["iy"] / 2 - T - 2.0), g["z_top"] + 1.5)
+    keep = keep.union(cyl(a["d"] / 2 + CLR / 2 + T + 1.5, -1, 10.0, a["cx"], a["cy"]))
+    return housing.intersect(keep.intersect(cyl(R_IN - 0.05, -2, 40)))   # face only, no outer wall
 
 
 # ----------------------------------------------------------------------------
@@ -763,6 +817,14 @@ def dummies():
         d["aq_led"] = cyl(a["d"] / 2, z_b, a["pcb_t"], a["cx"], a["cy"])
         d["aq_led_parts"] = box(a["cx"], a["cy"], z_b - a["led_h"], a["led"], a["led"], a["led_h"]).union(
             cyl(1.8, z_b + a["pcb_t"], 3.0, a["cx"], a["cy"]))   # LED body below, wires above
+    if SCD:
+        m, g = SCD, scd_geometry()
+        d["scd4x"] = box(m["cx"], m["cy"], g["z_b"], m["x"], m["y"], m["pcb_t"])
+        # sensor anywhere along the board (centred across it), header solder joints at both ends
+        d["scd4x_parts"] = box(m["cx"], m["cy"], g["z_b"] - m["sensor_h"], m["x"] - 2 * m["corner"] - 0.4,
+                               m["sensor"], m["sensor_h"]).union(
+            box(m["cx"], m["cy"], g["z_b"] - 1.5, m["x"] - 2 * m["corner"] - 0.4, m["y"] - 2 * m["corner"] - 0.4, 1.5))
+        d["scd4x_wires"] = box(m["cx"], m["cy"], g["z_b"] + m["pcb_t"], m["x"] - 4.0, m["y"] - 4.0, 6.0)
     # Dupont plugs standing on the ESP headers (both long edges), for clearance checks
     pr = None
     for sy in (-1, 1):
@@ -783,6 +845,8 @@ if __name__ == "__main__":
              "01_housing": housing, "02_ceiling_base": base, "03_chamber_lid": lid,
              "10_press_fit_calibration": make_rib_test(), "11_seat_test_fit": make_fit_test(housing),
              "12_radar_window_samples": make_radar_test(), "13_radar_seat_test": make_radar_seat_test(housing)}
+    if SCD:
+        parts["14_scd_led_seat_test"] = make_scd_led_seat_test(housing)
     for name, p in parts.items():
         cq.exporters.export(p, os.path.join(OUT_DIR, f"{name}{SUFFIX}.stl"), tolerance=0.02, angularTolerance=0.15)
         cq.exporters.export(p, os.path.join(OUT_DIR, f"{name}{SUFFIX}.step"))

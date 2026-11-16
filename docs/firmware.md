@@ -81,6 +81,12 @@ A still radar target alone can't switch occupancy on. That keeps the usual radar
 - There's no particulate matter (PM2.5) measurement. That needs a separate sensor.
 - The ENS160 needs about 3 minutes of warm-up after each power-up. After the very first power-on it runs an initial start-up of about an hour, and its baseline keeps settling over the first day of continuous operation. Until then eCO2, TVOC and AQI are empty or jumpy.
 
+## Real CO2 with an SCD40 or SCD41
+
+The Ø100 housing (v22) has a closed box for an SCD40/SCD41 module in the bottom right corner, sensor facing a grille in the face. Wire it to 3V3 and the I2C bus ([wiring](wiring.md#optional-parts)), then uncomment the `packages:` lines at the top of your YAML so [`firmware/scd4x.yaml`](../firmware/scd4x.yaml) is included. You get a `CO2` sensor in ppm, plus the module's own temperature and humidity as diagnostic entities (they read high inside the housing). The external air-quality LED then also turns orange at 1000 ppm and red at 1500 ppm.
+
+Automatic self-calibration is on. It assumes the room gets fresh air (around 400 ppm) for a while at least once every few days; in a room that is never aired, turn it off and calibrate by hand.
+
 ## Trying the LD2412 in the v1 housing
 
 The [v2](../v2/) radar, the HLK-LD2412, can be tested in the v1 Ø100 housing before the v2 PCB exists:

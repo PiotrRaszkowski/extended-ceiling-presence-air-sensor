@@ -34,6 +34,7 @@ The last row matters. The seats rely on crush ribs that overlap the board outlin
 | `02_ceiling_base.stl` | Ceiling base: 4 screw holes on a 60 mm spacing, Ø12 hole for the 12 V cable, bayonet ring | ceiling side down |
 | `03_chamber_lid.stl` | Lid for the ENS160 chamber, pressed in from the top | plate down, collar up |
 | `13_radar_seat_test.stl` | The radar seat with the face around it (24 × 43 mm, about 15 minutes), for the radar check below | face down |
+| `14_scd_led_seat_test_d100*.stl` (Ø100 only) | The CO2 sensor box and the air-quality LED seat with the face under them (29 × 32 mm), to check both fits | face down |
 | `12_radar_window_samples.stl` | Three plates 0.8 / 1.6 / 3.7 mm (1/2/3 notches); no longer needed, kept for experiments | flat |
 
 1. Calibration first. Push an ESP32-S3-Zero into each of the four seats of `10_press_fit_calibration`. Pick the one where the board holds firmly but still goes in with a thumb, without shaving the ribs. On the reference printer (QIDI, PETG, 0.16 mm) 0.1 mm held every board but a touch loosely and 0.2 mm would not go in, so the STLs use **0.13 mm**. If yours prefers something else, regenerate the parts with that `RIB_INTERF` (see [enclosure source](enclosure-source.md)).

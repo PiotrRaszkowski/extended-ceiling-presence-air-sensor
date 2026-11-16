@@ -1,5 +1,5 @@
 // Ceiling-mounted enclosure for an ESP32 presence + air-quality sensor.
-// OpenSCAD port of hardware/source/enclosure.py (CadQuery, v21). One file, two sizes (Ø80 / Ø100).
+// OpenSCAD port of hardware/source/enclosure.py (CadQuery, v22). One file, two sizes (Ø80 / Ø100).
 //
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2026 Piotr Raszkowski
@@ -21,6 +21,7 @@
 //   press_fit_calibration - 4 ESP32-S3-Zero seats with rib interference 0.1 / 0.2 / 0.3 / 0.4
 //   radar_window_samples  - 0.8 / 1.6 / 3.7 mm tiles (1 / 2 / 3 notches)
 //   radar_seat_test       - the radar seat cut out of the housing with the face around it
+//   scd_led_seat_test     - Ø100: the CO2 box and the AQ LED seat with the face under them
 //
 // Housing coordinates: z = 0 is the face (room side), z = h is the rim at the ceiling.
 // "Inside view" = looking down from the ceiling onto the face; x/y of the modules are given in it.
@@ -32,7 +33,7 @@
 // Housing diameter (mm): selects the module layout
 size = 80; // [80, 100]
 // Part to render
-part = "housing"; // [housing, ceiling_base, chamber_lid, print_plate, seat_test_fit, press_fit_calibration, radar_window_samples, radar_seat_test]
+part = "housing"; // [housing, ceiling_base, chamber_lid, print_plate, seat_test_fit, press_fit_calibration, radar_window_samples, radar_seat_test, scd_led_seat_test]
 // Facets per full circle (higher = smoother, slower)
 resolution = 128; // [32:8:512]
 
@@ -132,7 +133,7 @@ step_clr = 0.5;
 // Seat + 0.6 mm window for a WS2812B on a round board, LED facing the room
 aq_led_enabled = true;
 // Board centre, Ø100 layout [x, y] (mm)
-aq_led_pos = [13.0, -22.0];
+aq_led_pos = [14.5, -37.5];
 // Round board diameter (mm)
 aq_led_d = 10.0;
 // Board thickness (mm)
@@ -148,6 +149,31 @@ aq_led_gap = 0.2;
 // Inner radius of the ledge the board rests on: only its outer edge, the resistor and capacitor
 // next to the LED stay free (mm)
 aq_led_ledge_r = 4.6;
+
+/* [CO2 sensor SCD40/SCD41 (Ø100 only)] */
+// Closed box for the module, sensor facing the face over a grille; the board rests on four corner
+// blocks, so where the sensor and the header sit on it doesn't matter
+scd_enabled = true;
+// Board centre, Ø100 layout [x, y] (mm)
+scd_pos = [21.63, -22.0];
+// Board size, caliper (mm)
+scd_x = 22.06;
+scd_y = 13.08;
+scd_pcb_t = 1.6;
+// Sensor: square size and height (mm)
+scd_sensor = 10.1;
+scd_sensor_h = 6.5;
+// Air between the sensor and the face (mm)
+scd_gap = 1.5;
+// How far the corner blocks reach in under the board (mm)
+scd_corner = 1.2;
+// Extra rib interference for this seat (mm)
+scd_rib_extra = 0.0;
+// Grille: slot width, pitch, count, length (mm)
+scd_slot_w = 1.2;
+scd_slot_pitch = 2.4;
+scd_slots = 7;
+scd_slot_l = 9.0;
 
 /* [Dupont hub] */
 // Add the two channels that hold the perfboard hub outside the chamber inner wall
@@ -695,6 +721,30 @@ module seat_aq_led() {
     } else children();
 }
 
+scd_ix = scd_x + clr;
+scd_iy = scd_y + clr;
+scd_z_b = face + scd_sensor_h + scd_gap;          // underside of the board
+scd_z_top = scd_z_b + scd_pcb_t + 1.0;
+
+module seat_scd() {
+    cx = scd_pos[0]; cy = scd_pos[1];
+    cw = clr / 2 + scd_corner;
+    if (scd_enabled && size == 100) {
+        difference() {
+            union() {
+                children();
+                rect_walls(cx, cy, scd_ix, scd_iy, face - eps, scd_z_top - face + eps);
+                for (sx = [-1, 1], sy = [-1, 1])
+                    box(cx + sx * (scd_ix / 2 - cw / 2), cy + sy * (scd_iy / 2 - cw / 2), face - eps, cw + eps, cw + eps, scd_z_b - face + eps);
+                ribs_rect(cx, cy, scd_ix, scd_iy, scd_z_b, xs = [-6.0, 6.0], ys = [0.0], hh = scd_pcb_t + 0.5,
+                          p = clr / 2 + rib_interf + scd_rib_extra);
+            }
+            for (k = [0:scd_slots - 1])
+                box(cx + (k - (scd_slots - 1) / 2) * scd_slot_pitch, cy, -1, scd_slot_w, scd_slot_l, face + 2);
+        }
+    } else children();
+}
+
 module seat_hub() {
     assert(!hub_enabled || hub_z0 + hub_h <= h - base_plate_t - 0.5, "hub too tall for the housing");
     union() {
@@ -718,7 +768,7 @@ module housing() {
     difference() {
         union() {
             difference() {
-                seat_pir() seat_aq_led() seat_hub() chamber_body() seat_buck() seat_esp() seat_bh() seat_radar() housing_shell();
+                seat_pir() seat_scd() seat_aq_led() seat_hub() chamber_body() seat_buck() seat_esp() seat_bh() seat_radar() housing_shell();
                 // electronics ventilation: side wall opposite the chamber
                 radial_slots([148:8:212], 3.5, 5.0);    // inlet (low)
                 radial_slots([148:8:212], 12.5, 5.5);   // outlet (high)
@@ -830,10 +880,33 @@ module seat_test_fit() { intersection() { housing(); cyl(r_out + 1, -1, fit_z_cu
 
 // Radar seat + the face around it: holds the radar exactly as the housing does (quick noise check)
 module radar_seat_test() {
+    difference() {
+        intersection() {
+            housing();
+            box(radar_pos[0], radar_pos[1], -1, radar_x + clr + 2 * radar_post_t + 2 * radar_win_margin[0] + 8.0,
+                radar_y + clr + 2 * radar_post_t + 2 * radar_win_margin[1] + 2.0, radar_seat_z + post_h + 2.0);
+        }
+        if (size == 100) {   // keep the LED seat and the CO2 box out of the radar test piece
+            if (aq_led_enabled) cyl(aq_led_d / 2 + clr / 2 + seat_t + 1.0, -2, 40, aq_led_pos[0], aq_led_pos[1]);
+            if (scd_enabled) box(scd_pos[0], scd_pos[1], -2, scd_ix + 2 * seat_t + 2.0, scd_iy + 2 * seat_t + 2.0, 40);
+        }
+    }
+}
+
+// CO2 box + AQ LED seat with the face under them (Ø100)
+module scd_led_seat_test() {
+    cx = scd_pos[0]; cy = scd_pos[1];
+    y_hi = cy + scd_iy / 2 + seat_t;
+    y_lo = cy - scd_iy / 2 - seat_t - 2.0;
     intersection() {
         housing();
-        box(radar_pos[0], radar_pos[1], -1, radar_x + clr + 2 * radar_post_t + 2 * radar_win_margin[0] + 8.0,
-            radar_y + clr + 2 * radar_post_t + 2 * radar_win_margin[1] + 2.0, radar_seat_z + post_h + 2.0);
+        intersection() {
+            union() {
+                box(cx, (y_hi + y_lo) / 2, -1, scd_ix + 2 * seat_t + 3.0, y_hi - y_lo, scd_z_top + 1.5);
+                cyl(aq_led_d / 2 + clr / 2 + seat_t + 1.5, -1, 10.0, aq_led_pos[0], aq_led_pos[1]);
+            }
+            cyl(r_in - 0.05, -2, 40);
+        }
     }
 }
 
@@ -853,3 +926,4 @@ else if (part == "seat_test_fit") seat_test_fit();
 else if (part == "press_fit_calibration") press_fit_calibration();
 else if (part == "radar_window_samples") radar_window_samples();
 else if (part == "radar_seat_test") radar_seat_test();
+else if (part == "scd_led_seat_test") { assert(size == 100, "the CO2 box is in the Ø100 layout only"); scd_led_seat_test(); }

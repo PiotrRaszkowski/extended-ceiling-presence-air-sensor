@@ -35,6 +35,8 @@ Each board sits on ledges and is gripped by small crush ribs. Push it in straigh
 | 6 | ESP32-S3-Zero | Bottom side down, between the four corner posts. |
 | 7 | S09 converter | Bottom side down, between the posts, wires at the corners. The 220 µF capacitor goes next to it. |
 | 8 | Chamber lid | Collar down, the notch in the collar over the pass-through, then press it in. To remove it, pry the edge up with a thin blade; it has no holes on purpose. |
+| 8a | SCD40/SCD41 (Ø100, optional) | Sensor down, towards the grille, wires soldered on and leaving upwards. Press the board into the box until it sits on the four corner blocks. The box walls and the board keep warm air from the electronics away from the sensor, so don't cut openings in them. |
+| 8b | Air-quality LED (Ø100, optional) | LED down onto the thin spot, pressed into its ring. |
 | 9 | Dupont hub | Last, after all jumpers are plugged into the modules. Slide the perfboard down into the two channels on the chamber wall, header pins facing into the housing, solder side towards the wall, until it sits on the channel floors. Then plug in the jumpers. See [wiring](wiring.md#dupont-hub). |
 
 After the lid is on, seal the pass-through around the wires with a bit of plasticine or putty so warm air from the electronics doesn't leak into the chamber.

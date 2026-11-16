@@ -1,0 +1,30 @@
+# Optional SCD40 / SCD41 CO2 module for the v1 housing (Ø100 has a seat for it), I2C address 0x62.
+# Enable it from ceiling-sensor.yaml or ceiling-sensor-ld2412.yaml:
+#   packages:
+#     scd4x: !include scd4x.yaml
+# Wiring: the shared I2C bus (SDA GPIO1, SCL GPIO2) and 3V3, not 5V: the pull-ups on most modules
+# go to VCC, and the ESP32 pins don't take 5 V.
+#
+# The SCD4x measures CO2 directly (photoacoustic), unlike the ENS160 eCO2, which is an
+# estimate from VOCs. Its temperature and humidity read high inside the housing, so they are
+# diagnostic only. Each reading also goes to the co2_ppm global, which the air-quality LED uses.
+sensor:
+  - platform: scd4x
+    id: scd
+    address: 0x62
+    i2c_id: i2c_bus
+    update_interval: 30s
+    measurement_mode: periodic
+    automatic_self_calibration: true   # needs fresh air (~400 ppm) for a while every few days
+    co2:
+      id: co2
+      name: CO2
+      on_value:
+        - lambda: id(co2_ppm) = x;
+        - script.execute: update_aq_led
+    temperature:
+      name: SCD4x temperature
+      entity_category: diagnostic
+    humidity:
+      name: SCD4x humidity
+      entity_category: diagnostic
